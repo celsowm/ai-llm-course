@@ -23,11 +23,12 @@ export interface HeroSection extends SectionBase {
 export interface TextSection extends SectionBase {
   type: 'text';
   body: string;
+  imageUrl?: string;
 }
 
 export interface ListSection extends SectionBase {
   type: 'list';
-  items: string[];
+  items: Array<string | { text: string; isEmphasis?: boolean }>;
 }
 
 export interface CodeSection extends SectionBase {

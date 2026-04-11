@@ -13,14 +13,54 @@ export function getLessonOne(locale: Locale): Lesson {
       : 'We start from the concept of AI, pass through traditional systems, reach Machine Learning and finish with a real neural network training.',
     sections: [
       {
+        id: 'timeline',
+        type: 'timeline',
+        title: isPt ? 'Agenda da Aula (2h 30min)' : 'Lesson Agenda (2h 30min)',
+        items: isPt
+          ? [
+              { label: 'Introdução e Impacto', minutes: '0–30 min', summary: 'O que é IA, IA vs Sistemas Tradicionais e a revolução atual.' },
+              { label: 'Machine Learning & Redes', minutes: '30–75 min', summary: 'Como máquinas aprendem: do neurônio ao backpropagation real.' },
+              { label: 'Era dos Transformers', minutes: '75–105 min', summary: 'A arquitetura que mudou tudo: atenção e processamento de linguagem.' },
+              { label: 'Prática: Seu Primeiro Prompt', minutes: '105–135 min', summary: 'Mão na massa com Transformers v5 e o primeiro código.' },
+              { label: 'Checkpoint e Setup', minutes: '135–150 min', summary: 'Revisão e preparação para o ambiente local da Aula 2.' },
+            ]
+          : [
+              { label: 'Introduction and Impact', minutes: '0–30 min', summary: 'What is AI, AI vs Traditional Systems and the current revolution.' },
+              { label: 'Machine Learning & Networks', minutes: '30–75 min', summary: 'How machines learn: from the neuron to real backpropagation.' },
+              { label: 'The Transformer Era', minutes: '75–105 min', summary: 'The architecture that changed everything: attention and language processing.' },
+              { label: 'Practice: Your First Prompt', minutes: '105–135 min', summary: 'Hands-on with Transformers v5 and the first code.' },
+              { label: 'Checkpoint and Setup', minutes: '135–150 min', summary: 'Review and preparation for Lesson 2\'s local environment.' },
+            ],
+      },
+      {
         id: 'what-is-ai',
         type: 'hero',
-        eyebrow: isPt ? 'Slide 1' : 'Slide 1',
+        eyebrow: isPt ? 'Fundamentos' : 'Fundamentals',
         title: isPt ? 'O que é Inteligência Artificial?' : 'What is Artificial Intelligence?',
         body: isPt
           ? 'IA é a capacidade de um sistema computacional realizar tarefas que normalmente exigiriam inteligência humana — como reconhecer imagens, entender linguagem e tomar decisões. Não é mágica: é matemática, dados e otimização.'
           : 'AI is the ability of a computational system to perform tasks that would normally require human intelligence — like recognizing images, understanding language and making decisions. It is not magic: it is math, data and optimization.',
         chips: isPt ? ['Dados', 'Modelos', 'Decisões'] : ['Data', 'Models', 'Decisions'],
+      },
+      {
+        id: 'evolution',
+        type: 'list',
+        title: isPt ? 'Breve Evolução da IA' : 'Brief Evolution of AI',
+        items: isPt
+          ? [
+              '📜 Anos 50-80: Sistemas baseados em regras (IA Simbólica).',
+              '📈 Anos 90-2010: Machine Learning Estatístico (Regressões, SVM).',
+              '🧠 2012: Deep Learning explode com redes neurais profundas.',
+              { text: '✨ 2017: O artigo "Attention is All You Need" apresenta os Transformers.', isEmphasis: true },
+              '🚀 Hoje: LLMs e IA Generativa transformando todas as indústrias.',
+            ]
+          : [
+              '📜 50s-80s: Rule-based systems (Symbolic AI).',
+              '📈 90s-2010s: Statistical Machine Learning (Regressions, SVM).',
+              '🧠 2012: Deep Learning explodes with deep neural networks.',
+              { text: '✨ 2017: The paper "Attention is All You Need" introduces Transformers.', isEmphasis: true },
+              '🚀 Today: LLMs and Generative AI transforming every industry.',
+            ],
       },
       {
         id: 'ai-vs-traditional',
@@ -46,6 +86,7 @@ export function getLessonOne(locale: Locale): Lesson {
         id: 'machine-learning',
         type: 'text',
         title: isPt ? 'Machine Learning' : 'Machine Learning',
+        imageUrl: 'https://images.unsplash.com/photo-1527474305487-b87b222841cc?auto=format&fit=crop&q=80&w=800',
         body: isPt
           ? 'Machine Learning é o subcampo da IA onde o modelo aprende padrões diretamente dos dados, sem que o programador precise codificar cada regra. O processo é: coletar dados → definir uma função com parâmetros → medir o erro → ajustar os parâmetros para reduzir o erro. Esse ciclo de ajuste é o treino. Quanto mais dados e mais ciclos, melhor o modelo fica em generalizar.'
           : 'Machine Learning is the subfield of AI where the model learns patterns directly from data, without the programmer needing to code each rule. The process is: collect data → define a function with parameters → measure the error → adjust parameters to reduce the error. This adjustment cycle is training. The more data and cycles, the better the model gets at generalizing.',
@@ -75,7 +116,7 @@ export function getLessonOne(locale: Locale): Lesson {
       {
         id: 'first-code',
         type: 'code',
-        title: isPt ? 'Primeiro código: rede treinando de verdade' : 'First code: network training for real',
+        title: isPt ? 'Treino em Python: Backpropagation' : 'Python Training: Backpropagation',
         language: 'python',
         caption: 'tiny_heart_nn.py',
         code: `for epoca in range(1, 31):
@@ -86,6 +127,57 @@ export function getLessonOne(locale: Locale): Lesson {
 
     loss_media = loss_total / len(dados_treino)
     print(f"Época {epoca:02d} | loss = {loss_media:.4f}")`,
+      },
+      {
+        id: 'transformers-intro',
+        type: 'hero',
+        title: isPt ? 'A Revolução dos Transformers' : 'The Transformer Revolution',
+        body: isPt
+          ? 'Em 2017, tudo mudou. Os Transformers abandonaram a ideia de processar texto palavra por palavra em sequência. Em vez disso, eles usam ATENÇÃO: o modelo olha para todas as palavras da frase ao mesmo tempo para entender o contexto.'
+          : 'In 2017, everything changed. Transformers abandoned the idea of processing text word by word in sequence. Instead, they use ATTENTION: the model looks at all words in the sentence at once to understand context.',
+        chips: isPt ? ['Atenção', 'Paralelismo', 'Contexto'] : ['Attention', 'Parallelism', 'Context'],
+      },
+      {
+        id: 'llm-concept',
+        type: 'text',
+        title: isPt ? 'O que é uma LLM?' : 'What is an LLM?',
+        imageUrl: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800',
+        body: isPt
+          ? 'Large Language Models (Grandes Modelos de Linguagem) são Transformers treinados em volumes massivos de dados. O objetivo principal é surpreendentemente simples: prever qual é a próxima palavra (token) mais provável. Mas essa simplicidade, em escala, gera comportamentos que parecem raciocínio humano.'
+          : 'Large Language Models are Transformers trained on massive volumes of data. The primary goal is surprisingly simple: predict the next most likely word (token). But this simplicity, at scale, generates behaviors that resemble human reasoning.',
+      },
+      {
+        id: 'pytorch-intro',
+        type: 'text',
+        title: isPt ? 'PyTorch: O Motor da IA' : 'PyTorch: The AI Engine',
+        imageUrl: 'https://images.unsplash.com/photo-1618401471353-b98aadebc25a?auto=format&fit=crop&q=80&w=800',
+        body: isPt
+          ? 'Antes de rodar um modelo, precisamos de uma biblioteca que entenda de matemática de tensores e redes neurais. O PyTorch é a ferramenta mais usada por pesquisadores e engenheiros no mundo todo para criar e rodar IAs. Ele é flexível, rápido e será nossa base técnica.'
+          : 'Before running a model, we need a library that understands tensor math and neural networks. PyTorch is the most used tool by researchers and engineers worldwide to create and run AI. It is flexible, fast, and will be our technical foundation.',
+      },
+      {
+        id: 'transformers-lib',
+        type: 'text',
+        title: isPt ? 'Hugging Face Transformers' : 'Hugging Face Transformers',
+        imageUrl: 'https://images.unsplash.com/photo-1546776310-eef45dd6d63c?auto=format&fit=crop&q=80&w=800',
+        body: isPt
+          ? 'Se o PyTorch é o motor, a biblioteca "Transformers" da Hugging Face é a garagem cheia de carros prontos para dirigir. Ela nos permite baixar e usar milhares de modelos pré-treinados (como GPT, BERT, Llama) com pouquíssimas linhas de código.'
+          : 'If PyTorch is the engine, the Hugging Face "Transformers" library is the garage full of cars ready to drive. It allows us to download and use thousands of pre-trained models (like GPT, BERT, Llama) with very few lines of code.',
+      },
+      {
+        id: 'grand-finale',
+        type: 'code',
+        title: isPt ? 'O Grand Finale: Transformers v5' : 'The Grand Finale: Transformers v5',
+        language: 'python',
+        caption: 'hello_world_llm.py',
+        code: `from transformers import pipeline
+
+# Em apenas 1 linha você carrega um modelo real
+# 'qual capital da frança'
+model = pipeline("text-generation", model="gpt2")
+res = model("A capital da França é", max_new_tokens=10)
+
+print(res[0]['generated_text'])`,
       },
       {
         id: 'checkpoint',

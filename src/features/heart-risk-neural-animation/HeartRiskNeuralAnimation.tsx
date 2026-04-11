@@ -12,14 +12,12 @@ import {
   evaluateDataset,
   sampleDescription,
   trainSingleSample,
-  type ForwardResult,
-  type NetworkState,
 } from './engine';
 import { InferencePanel } from './InferencePanel';
 import { NetworkGraph } from './NetworkGraph';
 import { TrainingControls } from './TrainingControls';
 import { TrainingStats } from './TrainingStats';
-import type { EpochSummary, InferInput, LabState, Phase } from './types';
+import type { InferInput, LabState, Phase } from './types';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
