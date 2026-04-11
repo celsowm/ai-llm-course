@@ -1,0 +1,107 @@
+import type { Lesson } from '../../core/interfaces/Lesson';
+import type { Locale } from '../../i18n/types';
+
+export function getSetupLesson(locale: Locale): Lesson {
+  const isPt = locale === 'pt-BR';
+
+  return {
+    id: 'setup',
+    title: isPt ? 'Aula 2 · Ambiente sem travar a turma' : 'Lesson 2 · Environment without stalling the class',
+    durationLabel: isPt ? '1h45' : '1h45',
+    summary: isPt
+      ? 'A aula 2 organiza o setup em trilhas previsíveis: CUDA, ROCm, Metal, CPU e Colab. A meta é diagnóstico rápido e continuidade.'
+      : 'Lesson 2 organizes setup into predictable tracks: CUDA, ROCm, Metal, CPU and Colab. The goal is fast diagnosis and continuity.',
+    sections: [
+      {
+        id: 'hero',
+        type: 'hero',
+        eyebrow: 'ai-llm-course',
+        title: isPt ? 'Aula 2 · Python, PyTorch e backends com caminho claro' : 'Lesson 2 · Python, PyTorch and backends with a clear path',
+        body: isPt
+          ? 'Depois da mágica, vem a infraestrutura. O foco é reduzir atrito: cada aluno entende em qual trilha está e como continuar sem parar a aula.'
+          : 'After the magic comes infrastructure. The focus is reducing friction: each learner understands which track they are on and how to continue without stopping the lesson.',
+        chips: ['Python', 'PyTorch', 'CUDA', 'ROCm', 'MPS', 'Colab'],
+      },
+      {
+        id: 'timeline',
+        type: 'timeline',
+        title: isPt ? 'Ordem sugerida da aula 2' : 'Suggested order for lesson 2',
+        items: isPt
+          ? [
+              { label: 'Ambiente base', minutes: '0–20 min', summary: 'Python 3.10+, venv e organização mínima do projeto.' },
+              { label: 'PyTorch correto', minutes: '20–45 min', summary: 'Escolha do backend certo: CUDA, ROCm, Metal ou CPU.' },
+              { label: 'Diagnóstico', minutes: '45–70 min', summary: 'Teste rápido para descobrir se a máquina enxerga GPU ou precisa de fallback.' },
+              { label: 'Transformers e accelerate', minutes: '70–95 min', summary: 'Instalação das dependências que serão usadas nas próximas aulas.' },
+              { label: 'Plano B', minutes: '95–105 min', summary: 'Colab entra como fallback oficial para ninguém ficar para trás.' },
+            ]
+          : [
+              { label: 'Base environment', minutes: '0–20 min', summary: 'Python 3.10+, venv and minimal project organization.' },
+              { label: 'Correct PyTorch', minutes: '20–45 min', summary: 'Choose the right backend: CUDA, ROCm, Metal or CPU.' },
+              { label: 'Diagnosis', minutes: '45–70 min', summary: 'Quick test to discover whether the machine sees a GPU or needs a fallback.' },
+              { label: 'Transformers and accelerate', minutes: '70–95 min', summary: 'Install the dependencies that will be used in the next lessons.' },
+              { label: 'Plan B', minutes: '95–105 min', summary: 'Colab becomes the official fallback so nobody gets left behind.' },
+            ],
+      },
+      {
+        id: 'tracks',
+        type: 'list',
+        title: isPt ? 'Trilhas do setup' : 'Setup tracks',
+        items: isPt
+          ? ['CUDA para NVIDIA como fluxo principal.', 'ROCm para AMD como trilha avançada.', 'Metal (MPS) para Apple Silicon.', 'CPU como fallback universal.', 'Colab como continuidade garantida.']
+          : ['CUDA for NVIDIA as the main flow.', 'ROCm for AMD as an advanced track.', 'Metal (MPS) for Apple Silicon.', 'CPU as the universal fallback.', 'Colab as guaranteed continuity.'],
+      },
+      {
+        id: 'venv',
+        type: 'code',
+        title: isPt ? 'Criando o ambiente virtual' : 'Creating the virtual environment',
+        language: 'bash',
+        caption: 'setup_env.sh',
+        code: `python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+
+# Linux / macOS
+source .venv/bin/activate
+
+# PyTorch com CUDA 12.8
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+
+# Dependências do curso
+pip install -U transformers accelerate`,
+      },
+      {
+        id: 'backend-check',
+        type: 'code',
+        title: isPt ? 'Teste simples do backend' : 'Simple backend check',
+        language: 'python',
+        caption: 'backend_check.py',
+        code: `import torch
+
+print("PyTorch:", torch.__version__)
+print("CUDA disponível:", torch.cuda.is_available())
+print("MPS disponível:", torch.backends.mps.is_available())
+
+if torch.cuda.is_available():
+    print("GPU:", torch.cuda.get_device_name(0))`,
+      },
+      {
+        id: 'warning',
+        type: 'callout',
+        title: isPt ? 'Regra de ouro' : 'Golden rule',
+        tone: 'warning',
+        body: isPt
+          ? 'Setup local é importante, mas ele não pode interromper a aprendizagem. Quando o ambiente local travar, a aula continua em Colab.'
+          : 'Local setup matters, but it cannot interrupt learning. When the local environment fails, the class continues in Colab.',
+      },
+      {
+        id: 'goals',
+        type: 'checkpoint',
+        title: isPt ? 'Saída esperada da aula 2' : 'Expected outcome of lesson 2',
+        items: isPt
+          ? ['Python e ambiente virtual funcionando.', 'PyTorch instalado com o backend mais adequado para a máquina.', 'Transformers e accelerate instalados.', 'Diagnóstico claro de CUDA, MPS ou CPU.']
+          : ['Python and virtual environment working.', 'PyTorch installed with the backend that best fits the machine.', 'Transformers and accelerate installed.', 'Clear diagnosis of CUDA, MPS or CPU.'],
+      },
+    ],
+  };
+}
