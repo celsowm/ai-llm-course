@@ -44,7 +44,7 @@ export function LessonOnePage() {
           </ExportSlide>,
         ];
 
-        if (section.id === 'neural-network') {
+        if (section.id === 'nn-backprop') {
           slides.push(
             <ExportSlide key="stepper" title={t('pdf.slides.llmFlow')}>
               <Box sx={{ p: 2 }}>

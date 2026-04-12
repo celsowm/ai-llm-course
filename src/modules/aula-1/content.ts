@@ -92,25 +92,119 @@ export function getLessonOne(locale: Locale): Lesson {
           : 'Machine Learning is the subfield of AI where the model learns patterns directly from data, without the programmer needing to code each rule. The process is: collect data → define a function with parameters → measure the error → adjust parameters to reduce the error. This adjustment cycle is training. The more data and cycles, the better the model gets at generalizing.',
       },
       {
-        id: 'neural-network',
+        id: 'ml-vs-regression',
         type: 'list',
-        title: isPt ? 'Rede Neural' : 'Neural Network',
+        title: isPt ? 'ML: Regressão Linear vs Redes Neurais' : 'ML: Linear Regression vs Neural Networks',
         items: isPt
           ? [
-              '🧠 Uma rede neural é um modelo de ML inspirado no cérebro: neurônios artificiais conectados em camadas.',
-              '📥 Camada de entrada: recebe os dados brutos (pixels, tokens, números).',
-              '🔀 Camadas ocultas: transformam os dados em representações cada vez mais abstratas.',
-              '📤 Camada de saída: produz a previsão final (classe, número, próximo token).',
-              '⚙️ Cada conexão tem um peso. O treino ajusta esses pesos via backpropagation.',
-              '🔁 Backprop: calcula o gradiente do erro e atualiza os pesos na direção que reduz a loss.',
+              '📈 Regressão Linear: Tenta traçar uma linha reta que melhor cruza os dados. Ótima para problemas simples (ex: preço por m²).',
+              '🧠 Redes Neurais: São como "várias regressões juntas". Elas conseguem aprender curvas, dobras e padrões complexos.',
+              '🔗 Enquanto a regressão é uma única fórmula direta, a rede neural é uma teia de fórmulas interconectadas.',
+              { text: '🚀 Se o problema é "impossível" de resolver com uma linha reta, você precisa de uma Rede Neural.', isEmphasis: true },
             ]
           : [
-              '🧠 A neural network is an ML model inspired by the brain: artificial neurons connected in layers.',
-              '📥 Input layer: receives raw data (pixels, tokens, numbers).',
-              '🔀 Hidden layers: transform data into increasingly abstract representations.',
-              '📤 Output layer: produces the final prediction (class, number, next token).',
-              '⚙️ Each connection has a weight. Training adjusts these weights via backpropagation.',
-              '🔁 Backprop: computes the error gradient and updates weights in the direction that reduces loss.',
+              '📈 Linear Regression: Tries to draw a straight line that best fits the data. Great for simple problems (e.g., price per sqft).',
+              '🧠 Neural Networks: Like "many regressions together." They can learn curves, folds, and complex patterns.',
+              '🔗 While regression is a single direct formula, a neural network is a web of interconnected formulas.',
+              { text: '🚀 If a problem is "impossible" to solve with a straight line, you need a Neural Network.', isEmphasis: true },
+            ],
+      },
+      {
+        id: 'nn-architecture',
+        type: 'list',
+        title: isPt ? 'A Arquitetura: Camadas' : 'Architecture: Layers',
+        items: isPt
+          ? [
+              '📥 Camada de Entrada: Onde os dados começam (ex: pixels de uma foto ou palavras).',
+              '🔀 Camadas Ocultas: O "processamento" interno que extrai padrões complexos.',
+              '📤 Camada de Saída: O resultado final (ex: "é um gato" ou "a próxima palavra é...")',
+              { text: '💡 Cada camada aprende algo mais abstrato que a anterior.', isEmphasis: true },
+            ]
+          : [
+              '📥 Input Layer: Where data starts (e.g., pixels from a photo or words).',
+              '🔀 Hidden Layers: Internal "processing" that extracts complex patterns.',
+              '📤 Output Layer: The final result (e.g., "it is a cat" or "the next word is...")',
+              { text: '💡 Each layer learns something more abstract than the previous one.', isEmphasis: true },
+            ],
+      },
+      {
+        id: 'nn-weights',
+        type: 'text',
+        title: isPt ? 'Pesos: Onde a "Inteligência" reside' : 'Weights: Where "Intelligence" lives',
+        body: isPt
+          ? 'As conexões entre neurônios têm PESOS. Um peso alto significa que uma informação é importante para a decisão; um peso baixo significa que deve ser ignorada. Aprender em IA significa ajustar esses milhões (ou bilhões) de pequenos botões de volume até que o modelo acerte a resposta.'
+          : 'Connections between neurons have WEIGHTS. A high weight means information is important for the decision; a low weight means it should be ignored. Learning in AI means adjusting these millions (or billions) of tiny volume knobs until the model gets the answer right.',
+      },
+      {
+        id: 'nn-forward',
+        type: 'list',
+        title: isPt ? 'O Fluxo: Forward Pass' : 'The Flow: Forward Pass',
+        items: isPt
+          ? [
+              '1. Os dados entram na camada de entrada.',
+              '2. Multiplicamos os dados pelos pesos atuais.',
+              '3. A informação flui camada por camada.',
+              '4. Chegamos a um palpite na saída.',
+              { text: '🔄 No início, os pesos são aleatórios, então o palpite será puro chute.', isEmphasis: true },
+            ]
+          : [
+              '1. Data enters through the input layer.',
+              '2. We multiply the data by current weights.',
+              '3. Information flows layer by layer.',
+              '4. We reach a guess at the output.',
+              { text: '🔄 At first, weights are random, so the guess will be pure chance.', isEmphasis: true },
+            ],
+      },
+      {
+        id: 'nn-activation',
+        type: 'text',
+        title: isPt ? 'Ativação: A Função Sigmoid' : 'Activation: The Sigmoid Function',
+        body: isPt
+          ? 'Para que um neurônio decida se deve "disparar" ou não, usamos uma função de ativação. A Sigmoid "espreme" qualquer número para um intervalo entre 0 e 1. Se o resultado for próximo de 1, o neurônio está ativo; próximo de 0, está inativo.'
+          : 'For a neuron to decide whether to "fire" or not, we use an activation function. The Sigmoid "squeezes" any number into a range between 0 and 1. If the result is close to 1, the neuron is active; close to 0, it is inactive.',
+      },
+      {
+        id: 'nn-non-linearity',
+        type: 'list',
+        title: isPt ? 'Por que o Não-Linear importa?' : 'Why Non-Linearity matters?',
+        items: isPt
+          ? [
+              '📏 Se tudo fosse linear (soma e multiplicação simples), a rede seria apenas uma grande equação de primeiro grau.',
+              '🎢 Funções não-lineares permitem que a rede aprenda padrões curvos e complexos.',
+              '🤯 Sem isso, uma rede neural de 100 camadas não seria mais poderosa que um único neurônio.',
+              { text: '✨ É a não-linearidade que permite à IA entender a complexidade do mundo real.', isEmphasis: true },
+            ]
+          : [
+              '📏 If everything were linear (simple addition and multiplication), the network would just be one big linear equation.',
+              '🎢 Non-linear functions allow the network to learn curved and complex patterns.',
+              '🤯 Without this, a 100-layer neural network would be no more powerful than a single neuron.',
+              { text: '✨ It is non-linearity that allows AI to understand the complexity of the real world.', isEmphasis: true },
+            ],
+      },
+      {
+        id: 'nn-loss',
+        type: 'text',
+        title: isPt ? 'Medindo o Erro: A Função de Perda (Loss)' : 'Measuring Error: The Loss Function',
+        body: isPt
+          ? 'Como sabemos se o modelo errou? Comparamos o "palpite" com a "verdade". A diferença entre eles é a LOSS. Se a loss é alta, o modelo está muito errado. Se a loss é baixa, ele está aprendendo bem. Nosso objetivo é SEMPRE diminuir a loss.'
+          : 'How do we know if the model is wrong? We compare the "guess" with the "truth". The difference between them is the LOSS. If loss is high, the model is very wrong. If loss is low, it is learning well. Our goal is ALWAYS to decrease the loss.',
+      },
+      {
+        id: 'nn-backprop',
+        type: 'list',
+        title: isPt ? 'Aprendendo: Backpropagation' : 'Learning: Backpropagation',
+        items: isPt
+          ? [
+              '🧠 Se o modelo errou, precisamos avisar as camadas anteriores.',
+              '📉 O erro viaja de volta (de trás para frente) pela rede.',
+              '⚙️ Ajustamos cada peso levemente para que, na próxima vez, a loss seja menor.',
+              { text: '🔁 Repetimos isso milhares de vezes até o modelo ficar "inteligente".', isEmphasis: true },
+            ]
+          : [
+              '🧠 If the model made a mistake, we need to tell the previous layers.',
+              '📉 The error travels back (from back to front) through the network.',
+              '⚙️ We adjust each weight slightly so that next time, the loss is smaller.',
+              { text: '🔁 We repeat this thousands of times until the model becomes "intelligent".', isEmphasis: true },
             ],
       },
       {
