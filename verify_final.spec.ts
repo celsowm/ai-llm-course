@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('verify lesson 1 changes', async ({ page }) => {
-  await page.goto('http://localhost:3000/aula-1');
+  await page.goto('http://localhost:3000/ai-llm-course/lesson-1');
 
   // Wait for the slide deck to load
   await page.waitForSelector('text=Agenda');
