@@ -203,7 +203,7 @@ export function HeartRiskNeuralAnimation() {
 
           {/* Controls */}
           <TrainingControls
-            labels={labels} isPlaying={isPlaying} speed={speed}
+            isPlaying={isPlaying} speed={speed}
             progressInEpoch={progressInEpoch} canUndo={history.length > 0}
             onPlay={() => setIsPlaying((v) => !v)} onStep={runStep}
             onUndo={handleUndo} onReset={handleReset} onSpeedChange={setSpeed}

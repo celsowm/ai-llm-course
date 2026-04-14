@@ -265,11 +265,23 @@ export function NeuralNetworkStepper() {
               </Box>
 
               <Stack direction="row" spacing={1.2} justifyContent="space-between">
-                <Button variant="outlined" startIcon={<ChevronLeftRoundedIcon />} onClick={previousStep} disabled={stepIndex === 0}>
-                  {'<'}
+                <Button
+                  variant="outlined"
+                  startIcon={<ChevronLeftRoundedIcon />}
+                  onClick={previousStep}
+                  disabled={stepIndex === 0}
+                  aria-label={t('common.previous')}
+                >
+                  {t('common.previous')}
                 </Button>
-                <Button variant="contained" endIcon={<ChevronRightRoundedIcon />} onClick={nextStep} disabled={stepIndex === steps.length - 1}>
-                  {'>'}
+                <Button
+                  variant="contained"
+                  endIcon={<ChevronRightRoundedIcon />}
+                  onClick={nextStep}
+                  disabled={stepIndex === steps.length - 1}
+                  aria-label={t('common.next')}
+                >
+                  {t('common.next')}
                 </Button>
               </Stack>
             </Stack>

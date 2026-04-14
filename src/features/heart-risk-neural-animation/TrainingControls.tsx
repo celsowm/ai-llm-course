@@ -4,10 +4,9 @@ import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded';
 import { Box, Button, Chip, IconButton, LinearProgress, Slider, Stack, Tooltip } from '@mui/material';
-import type { LabLabels } from './types';
+import { useI18n } from '../../i18n/I18nProvider';
 
 interface Props {
-  labels: LabLabels;
   isPlaying: boolean;
   speed: number;
   progressInEpoch: number;
@@ -19,17 +18,40 @@ interface Props {
   onSpeedChange: (v: number) => void;
 }
 
-export function TrainingControls({ labels, isPlaying, speed, progressInEpoch, canUndo, onPlay, onStep, onUndo, onReset, onSpeedChange }: Props) {
+export function TrainingControls({ isPlaying, speed, progressInEpoch, canUndo, onPlay, onStep, onUndo, onReset, onSpeedChange }: Props) {
+  const { t } = useI18n();
+
   return (
     <Box sx={{ p: 1.5, borderRadius: 2, border: '1px solid rgba(255,255,255,0.08)', bgcolor: 'rgba(2,6,23,0.4)' }}>
         <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
         <Button size="small" variant={isPlaying ? 'contained' : 'outlined'} color={isPlaying ? 'error' : 'primary'}
           startIcon={isPlaying ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />} onClick={onPlay}>
-          {isPlaying ? labels.pause : labels.autoplay}
+          {isPlaying ? t('common.pause') : t('common.autoplay')}
         </Button>
-        <Tooltip title="Próximo passo"><IconButton size="small" onClick={onStep} disabled={isPlaying}><ChevronRightRoundedIcon fontSize="small" /></IconButton></Tooltip>
-        <Tooltip title={labels.undo}><IconButton size="small" onClick={onUndo} disabled={!canUndo || isPlaying}><ChevronLeftRoundedIcon fontSize="small" /></IconButton></Tooltip>
-        <Tooltip title={labels.reset}><IconButton size="small" onClick={onReset}><RestartAltRoundedIcon fontSize="small" /></IconButton></Tooltip>
+
+        <Tooltip title={t('common.step')}>
+          <span>
+            <IconButton size="small" onClick={onStep} disabled={isPlaying} aria-label={t('common.step')}>
+              <ChevronRightRoundedIcon fontSize="small" />
+            </IconButton>
+          </span>
+        </Tooltip>
+
+        <Tooltip title={t('common.undo')}>
+          <span>
+            <IconButton size="small" onClick={onUndo} disabled={!canUndo || isPlaying} aria-label={t('common.undo')}>
+              <ChevronLeftRoundedIcon fontSize="small" />
+            </IconButton>
+          </span>
+        </Tooltip>
+
+        <Tooltip title={t('common.reset')}>
+          <span>
+            <IconButton size="small" onClick={onReset} aria-label={t('common.reset')}>
+              <RestartAltRoundedIcon fontSize="small" />
+            </IconButton>
+          </span>
+        </Tooltip>
 
         <Stack direction="row" spacing={1} alignItems="center" sx={{ width: 220, flexShrink: 0 }}>
           <Chip label={`${speed.toFixed(1)}x`} size="small" color="secondary" sx={{ minWidth: 44 }} />
