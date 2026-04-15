@@ -14,6 +14,8 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'aguardando…',
+      previousSlide: 'Slide anterior',
+      nextSlide: 'Próximo slide',
     },
     pdf: {
       downloadCurrent: 'Baixar PDF',
@@ -152,6 +154,8 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'waiting…',
+      previousSlide: 'Previous slide',
+      nextSlide: 'Next slide',
     },
     pdf: {
       downloadCurrent: 'Download PDF',
