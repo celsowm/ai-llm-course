@@ -824,6 +824,33 @@ function MiniConsole({
   );
 }
 
+function formatTrainingLog(epoch: number, loss: number, acc: number) {
+  return `epoch ${epoch.toString().padStart(3, '0')} | loss=${loss.toFixed(4)} | acc=${acc.toFixed(3)}`;
+}
+
+function formatLinearSummary(model: LinearRegressionModel) {
+  return [
+    '',
+    'Resumo final',
+    `epochs  = ${model.epoch}`,
+    `loss    = ${formatValue(model.loss, 4)}`,
+    `acc     = ${model.acc.toFixed(3)}`,
+    `equação = y = ${model.w1.toFixed(2)}x1 + ${model.w2.toFixed(2)}x2 + ${model.b.toFixed(2)}`,
+  ];
+}
+
+function formatSigmoidSummary(model: LogisticCircleClassifier) {
+  return [
+    '',
+    'Resumo final',
+    `epochs  = ${model.epoch}`,
+    `loss    = ${formatValue(model.loss, 4)}`,
+    `acc     = ${model.acc.toFixed(3)}`,
+    `output  = ${model.predict(0.5, -0.2).toFixed(4)}`,
+    `equação = sigmoid(${model.w.toFixed(2)} * r² + ${model.b.toFixed(2)})`,
+  ];
+}
+
 function ModelCanvas({
   variant,
   model,
@@ -875,14 +902,11 @@ function ComparisonPanel({
   model,
   snapshot,
   dataset,
-  datasetLabel,
   consoleTitle,
   code,
   labels,
   localeCopy,
-  codeHint,
-  graphHint,
-  running,
+  consoleLines,
   renderTick,
 }: {
   variant: Variant;
@@ -893,41 +917,16 @@ function ComparisonPanel({
   model: LinearRegressionModel | LogisticCircleClassifier;
   snapshot: LinearSnapshot | SigmoidSnapshot;
   dataset: Point[];
-  datasetLabel: string;
   consoleTitle: string;
   code: string;
   labels: { graph: string; code: string };
   localeCopy: (typeof COPY)['pt-BR'] | (typeof COPY)['en'];
-  codeHint: string;
-  graphHint: string;
-  running: boolean;
+  consoleLines: string[];
   renderTick: number;
 }) {
   const [tab, setTab] = useState<PanelTab>('graph');
   const isLinear = variant === 'linear';
-  const epochLimit = isLinear ? LINEAR_TRAINING_EPOCHS : SIGMOID_TRAINING_EPOCHS;
-  const sigmoidSnapshot = isLinear ? null : (snapshot as SigmoidSnapshot);
-  const equationText = isLinear
-    ? formatLinearEquation((snapshot as LinearSnapshot).w1, (snapshot as LinearSnapshot).w2, (snapshot as LinearSnapshot).b)
-    : formatRadialEquation(sigmoidSnapshot!.w, sigmoidSnapshot!.b);
-  const previewOutput = isLinear ? null : formatValue(model.predict(0.5, -0.2), 4);
-  const isComplete = snapshot.epoch >= epochLimit;
-  const status = running
-    ? localeCopy.console.running
-    : isComplete
-      ? localeCopy.console.completed
-      : localeCopy.console.paused;
-
-  const consoleText = [
-    `> dataset: ${datasetLabel}`,
-    `> status: ${status}`,
-    `> epoch: ${snapshot.epoch} / ${epochLimit}`,
-    `> ${isLinear ? 'MSE' : 'loss'}: ${formatValue(snapshot.loss, 4)}`,
-    `> acc: ${Number.isFinite(snapshot.acc) ? `${(snapshot.acc * 100).toFixed(1)}%` : '—'}`,
-    `> ${isLinear ? localeCopy.linear.equation : localeCopy.sigmoid.equation}: ${equationText}`,
-    ...(isLinear ? [] : [`> output: ${previewOutput}`]),
-    `> ${tab === 'graph' ? graphHint : codeHint}`,
-  ].join('\n');
+  const consoleText = consoleLines.join('\n');
 
   return (
     <Box
@@ -1143,6 +1142,13 @@ export function RegressionVsSigmoidSlide() {
   const [running, setRunning] = useState(false);
   const [speed, setSpeed] = useState(4);
   const [renderTick, setRenderTick] = useState(0);
+  const [consoleTranscripts, setConsoleTranscripts] = useState<{
+    linear: string[];
+    sigmoid: string[];
+  }>({
+    linear: [],
+    sigmoid: [],
+  });
   const [snapshots, setSnapshots] = useState<{
     linear: LinearSnapshot;
     sigmoid: SigmoidSnapshot;
@@ -1158,12 +1164,14 @@ export function RegressionVsSigmoidSlide() {
     const nextSeed = datasetSeed + 1;
     setDatasetSeed(nextSeed);
     setDataset(generateDataset('circles', nextSeed));
+    setConsoleTranscripts({ linear: [], sigmoid: [] });
     setRenderTick((value) => value + 1);
   };
 
   const resetModels = () => {
     linearRef.current.reset();
     sigmoidRef.current.reset();
+    setConsoleTranscripts({ linear: [], sigmoid: [] });
     setSnapshots({
       linear: linearRef.current.snapshot(),
       sigmoid: sigmoidRef.current.snapshot(),
@@ -1186,17 +1194,33 @@ export function RegressionVsSigmoidSlide() {
         return;
       }
 
+      const nextConsoleLines: { linear: string[]; sigmoid: string[] } = { linear: [], sigmoid: [] };
+
       if (linearRef.current.epoch < LINEAR_TRAINING_EPOCHS) {
         linearRef.current.step(dataset);
+        nextConsoleLines.linear = [formatTrainingLog(linearRef.current.epoch, linearRef.current.loss, linearRef.current.acc)];
       }
       if (sigmoidRef.current.epoch < SIGMOID_TRAINING_EPOCHS) {
         sigmoidRef.current.step(dataset);
+        nextConsoleLines.sigmoid = [formatTrainingLog(sigmoidRef.current.epoch, sigmoidRef.current.loss, sigmoidRef.current.acc)];
       }
 
       setSnapshots({
         linear: linearRef.current.snapshot(),
         sigmoid: sigmoidRef.current.snapshot(),
       });
+      setConsoleTranscripts((prev) => ({
+        linear: [
+          ...prev.linear,
+          ...nextConsoleLines.linear,
+          ...(linearRef.current.epoch >= LINEAR_TRAINING_EPOCHS && prev.linear.length + nextConsoleLines.linear.length === LINEAR_TRAINING_EPOCHS ? formatLinearSummary(linearRef.current) : []),
+        ],
+        sigmoid: [
+          ...prev.sigmoid,
+          ...nextConsoleLines.sigmoid,
+          ...(sigmoidRef.current.epoch >= SIGMOID_TRAINING_EPOCHS && prev.sigmoid.length + nextConsoleLines.sigmoid.length === SIGMOID_TRAINING_EPOCHS ? formatSigmoidSummary(sigmoidRef.current) : []),
+        ],
+      }));
       setRenderTick((value) => value + 1);
 
       if (
@@ -1220,6 +1244,8 @@ export function RegressionVsSigmoidSlide() {
 
   const linearSnapshot = snapshots.linear;
   const sigmoidSnapshot = snapshots.sigmoid;
+  const linearConsoleLines = consoleTranscripts.linear;
+  const sigmoidConsoleLines = consoleTranscripts.sigmoid;
 
   const linearConsoleTitle = `${copy.graph.console} · ${copy.panels.linear.title}`;
   const sigmoidConsoleTitle = `${copy.graph.console} · ${copy.panels.sigmoid.title}`;
@@ -1249,54 +1275,50 @@ export function RegressionVsSigmoidSlide() {
               color: '#e2e8f0',
             }}
           >
-            <Stack spacing={1.2}>
-              <Box>
-                <Typography
-                  variant="overline"
-                  sx={{ letterSpacing: '0.22em', fontWeight: 900, color: '#8b5cf6', lineHeight: 1.1, display: 'block' }}
-                >
-                  {copy.title}
-                </Typography>
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', lg: 'minmax(0, 1.1fr) minmax(0, 0.9fr)' },
+                gap: 1.5,
+                alignItems: 'start',
+              }}
+            >
+              <Box sx={{ minWidth: 0 }}>
                 <Typography
                   variant="h2"
                   sx={{
-                    mt: 0.4,
-                    fontSize: { xs: '1.9rem', md: '2.45rem' },
+                    fontSize: { xs: '1.85rem', md: '2.35rem' },
                     lineHeight: 1.02,
                     fontWeight: 950,
                     color: '#f8fafc',
+                    maxWidth: 760,
                   }}
                 >
-                  <Box component="span" sx={{ color: '#2563eb' }}>
-                    {copy.panels.linear.title}
-                  </Box>{' '}
-                  vs{' '}
-                  <Box component="span" sx={{ color: '#7c3aed' }}>
-                    {copy.panels.sigmoid.title}
-                  </Box>
+                  {copy.title}
                 </Typography>
-                <Typography variant="body1" sx={{ mt: 0.75, maxWidth: 880, color: 'rgba(226,232,240,0.72)' }}>
+                <Typography variant="body1" sx={{ mt: 0.6, maxWidth: 740, color: 'rgba(226,232,240,0.72)' }}>
                   {copy.subtitle}
                 </Typography>
               </Box>
 
-              <Stack
-                direction={{ xs: 'column', lg: 'row' }}
-                spacing={1}
+              <Box
                 sx={{
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))' },
+                  gap: 1,
                   p: 1,
                   borderRadius: 3,
                   border: '1px solid rgba(255,255,255,0.08)',
                   bgcolor: 'rgba(255,255,255,0.04)',
+                  minWidth: 0,
                 }}
-                alignItems={{ xs: 'stretch', lg: 'center' }}
               >
                 <Button
                   size="small"
                   variant="outlined"
                   onClick={regenerateDataset}
                   data-testid="generate-data"
-                  sx={{ minHeight: 36, px: 1.4, fontSize: 12.5, whiteSpace: 'nowrap', flex: '0 0 auto' }}
+                  sx={{ minHeight: 36, px: 1.2, fontSize: 12.5, whiteSpace: 'nowrap' }}
                 >
                   {copy.controls.generate}
                 </Button>
@@ -1305,7 +1327,7 @@ export function RegressionVsSigmoidSlide() {
                   variant="contained"
                   onClick={() => setRunning(true)}
                   data-testid="start-training"
-                  sx={{ minHeight: 36, px: 1.4, fontSize: 12.5, whiteSpace: 'nowrap', flex: '0 0 auto' }}
+                  sx={{ minHeight: 36, px: 1.2, fontSize: 12.5, whiteSpace: 'nowrap' }}
                 >
                   {copy.controls.start}
                 </Button>
@@ -1314,7 +1336,7 @@ export function RegressionVsSigmoidSlide() {
                   variant="outlined"
                   onClick={() => setRunning(false)}
                   data-testid="pause-training"
-                  sx={{ minHeight: 36, px: 1.4, fontSize: 12.5, whiteSpace: 'nowrap', flex: '0 0 auto' }}
+                  sx={{ minHeight: 36, px: 1.2, fontSize: 12.5, whiteSpace: 'nowrap' }}
                 >
                   {copy.controls.pause}
                 </Button>
@@ -1324,28 +1346,27 @@ export function RegressionVsSigmoidSlide() {
                   color="warning"
                   onClick={resetModels}
                   data-testid="reset-models"
-                  sx={{ minHeight: 36, px: 1.4, fontSize: 12.5, whiteSpace: 'nowrap', flex: '0 0 auto' }}
+                  sx={{ minHeight: 36, px: 1.2, fontSize: 12.5, whiteSpace: 'nowrap' }}
                 >
                   {copy.controls.reset}
                 </Button>
-
                 <Stack
                   direction="row"
                   spacing={1}
                   alignItems="center"
                   sx={{
-                    ml: { xs: 0, lg: 'auto' },
+                    gridColumn: '1 / -1',
                     p: 0.8,
                     borderRadius: 2.5,
                     border: '1px solid rgba(255,255,255,0.08)',
                     bgcolor: 'rgba(255,255,255,0.04)',
-                    width: { xs: '100%', lg: 'auto' },
+                    minWidth: 0,
                   }}
                 >
-                  <Typography variant="body2" fontWeight={800} sx={{ color: '#e2e8f0' }}>
+                  <Typography variant="body2" fontWeight={800} sx={{ color: '#e2e8f0', whiteSpace: 'nowrap' }}>
                     {copy.controls.speed}
                   </Typography>
-                  <Box sx={{ minWidth: { xs: 'auto', lg: 240 }, px: 0.5 }}>
+                  <Box sx={{ flex: 1, minWidth: 0, px: 0.5 }}>
                     <input
                       type="range"
                       min={1}
@@ -1357,12 +1378,12 @@ export function RegressionVsSigmoidSlide() {
                       style={{ width: '100%' }}
                     />
                   </Box>
-                  <Typography variant="body2" fontWeight={900} sx={{ minWidth: 42, textAlign: 'right', color: '#e2e8f0' }}>
+                  <Typography variant="body2" fontWeight={900} sx={{ minWidth: 34, textAlign: 'right', color: '#e2e8f0' }}>
                     {speed}×
                   </Typography>
                 </Stack>
-              </Stack>
-            </Stack>
+              </Box>
+            </Box>
           </Box>
 
         <Box
@@ -1384,14 +1405,11 @@ export function RegressionVsSigmoidSlide() {
               model={linearRef.current}
               snapshot={linearSnapshot}
               dataset={dataset}
-              datasetLabel={locale === 'pt-BR' ? 'Círculos concêntricos' : 'Concentric circles'}
               consoleTitle={linearConsoleTitle}
               code={LINEAR_CODE}
               labels={copy.tabs}
               localeCopy={copy}
-              codeHint={copy.console.codeHint}
-              graphHint={copy.console.graphHint}
-              running={running}
+              consoleLines={linearConsoleLines}
               renderTick={renderTick}
             />
 
@@ -1404,14 +1422,11 @@ export function RegressionVsSigmoidSlide() {
               model={sigmoidRef.current}
               snapshot={sigmoidSnapshot}
               dataset={dataset}
-              datasetLabel={locale === 'pt-BR' ? 'Círculos concêntricos' : 'Concentric circles'}
               consoleTitle={sigmoidConsoleTitle}
               code={SIGMOID_CODE}
               labels={copy.tabs}
               localeCopy={copy}
-              codeHint={copy.console.codeHint}
-              graphHint={copy.console.graphHint}
-              running={running}
+              consoleLines={sigmoidConsoleLines}
               renderTick={renderTick}
             />
           </Box>
