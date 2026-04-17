@@ -17,8 +17,6 @@ export function TopicPage() {
     return <Navigate to={topics[0].path} replace />;
   }
 
-  const currentTopic = topics[currentIndex];
-
   return (
     <SlideDeck
       activeStep={currentIndex}

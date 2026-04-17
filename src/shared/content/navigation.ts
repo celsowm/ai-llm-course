@@ -9,6 +9,7 @@ export function getNavigationItems(locale: Locale): NavItem[] {
     id: topic.id,
     label: topic.title,
     path: topic.path,
-    helper: topic.helper,
+    helper: topic.helper || '',
+    progress: 0,
   }));
 }

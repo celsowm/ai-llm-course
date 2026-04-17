@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { type ReactNode } from 'react';
 
 export type Tone = 'primary' | 'secondary' | 'success' | 'warning';

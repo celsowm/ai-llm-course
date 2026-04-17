@@ -1,13 +1,14 @@
-import { Box, Chip, List, ListItem, ListItemText, Stack, Typography } from '@mui/material';
+import { Box, Chip, Stack, Typography } from '@mui/material';
 import { CodeBlock } from '../../../features/code-block/CodeBlock';
 import type { CalloutSection, CheckpointSection, CodeSection, HeroSection, ListSection, TextSection, TimelineSection } from '../../../core/interfaces/Lesson';
-import { splitItems } from './slide-primitives';
 import { SlideScaffold } from './SlideScaffold';
 import { FormattedText } from './FormattedText';
 
 // DRY Helper for 2-column list layouts
-function TwoColumnLayout({ items, renderItem, id }: { items: string[]; renderItem: (item: string, index: number) => React.ReactNode; id: string }) {
-  const { primary, secondary } = splitItems(items);
+function TwoColumnLayout<T>({ items, renderItem, id }: { items: T[]; renderItem: (item: T, index: number) => React.ReactNode; id: string }) {
+  const midpoint = Math.ceil(items.length / 2);
+  const primary = items.slice(0, midpoint);
+  const secondary = items.slice(midpoint);
   const columns = [primary, secondary].filter(c => c.length > 0);
 
   return (
@@ -45,38 +46,43 @@ export function SlideList({ s }: { s: ListSection }) {
       <TwoColumnLayout 
         id={s.id}
         items={s.items}
-        renderItem={(item, idx) => (
-          <Box
-            key={item}
-            sx={{
-              p: 1.5,
-              borderRadius: 3,
-              border: '1px solid rgba(255,255,255,0.08)',
-              bgcolor: 'rgba(2,6,23,0.34)',
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: 1.5
-            }}
-          >
+        renderItem={(item, idx) => {
+          const text = typeof item === 'string' ? item : item.text;
+          const isEmphasis = typeof item === 'string' ? false : !!item.isEmphasis;
+          
+          return (
             <Box
+              key={idx}
               sx={{
-                minWidth: 30,
-                height: 30,
-                borderRadius: '50%',
-                bgcolor: 'rgba(139,92,246,0.16)',
-                border: '1px solid rgba(139,92,246,0.34)',
-                display: 'grid',
-                placeItems: 'center',
-                fontSize: '0.75rem',
-                fontWeight: 800,
-                color: 'primary.light',
+                p: 1.5,
+                borderRadius: 3,
+                border: isEmphasis ? '1px solid rgba(139,92,246,0.34)' : '1px solid rgba(255,255,255,0.08)',
+                bgcolor: isEmphasis ? 'rgba(139,92,246,0.08)' : 'rgba(2,6,23,0.34)',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: 1.5
               }}
             >
-              {idx + 1}
+              <Box
+                sx={{
+                  minWidth: 30,
+                  height: 30,
+                  borderRadius: '50%',
+                  bgcolor: 'rgba(139,92,246,0.16)',
+                  border: '1px solid rgba(139,92,246,0.34)',
+                  display: 'grid',
+                  placeItems: 'center',
+                  fontSize: '0.75rem',
+                  fontWeight: 800,
+                  color: 'primary.light',
+                }}
+              >
+                {idx + 1}
+              </Box>
+              <FormattedText text={text} color="text.primary" sx={{ fontSize: { xs: '0.98rem', md: '1.06rem' }, mt: 0.3 }} />
             </Box>
-            <FormattedText text={item} color="text.primary" sx={{ fontSize: { xs: '0.98rem', md: '1.06rem' }, mt: 0.3 }} />
-          </Box>
-        )}
+          );
+        }}
       />
     </SlideScaffold>
   );
@@ -99,9 +105,9 @@ export function SlideCheckpoint({ s }: { s: CheckpointSection }) {
       <TwoColumnLayout 
         id={s.id}
         items={s.items}
-        renderItem={(item) => (
+        renderItem={(item, idx) => (
           <Box
-            key={item}
+            key={idx}
             sx={{
               p: 1.25,
               borderRadius: 2.75,
