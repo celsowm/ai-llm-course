@@ -63,6 +63,12 @@ function getSteps(copy: Array<{ id: string; eyebrow: string; title: string; desc
   return [
     {
       ...copy[0],
+      activeColumns: [],
+      emphasisNodeIds: [],
+      highlightEdges: [],
+    },
+    {
+      ...copy[1],
       activeColumns: [0],
       emphasisNodeIds: ['input-1', 'input-2'],
       highlightEdges: [
@@ -71,7 +77,7 @@ function getSteps(copy: Array<{ id: string; eyebrow: string; title: string; desc
       ],
     },
     {
-      ...copy[1],
+      ...copy[2],
       activeColumns: [0, 1],
       emphasisNodeIds: ['input-3', 'embed-1', 'embed-2'],
       highlightEdges: [
@@ -80,7 +86,7 @@ function getSteps(copy: Array<{ id: string; eyebrow: string; title: string; desc
       ],
     },
     {
-      ...copy[2],
+      ...copy[3],
       activeColumns: [1, 2],
       emphasisNodeIds: ['attn-1', 'attn-2', 'attn-3'],
       highlightEdges: [
@@ -90,7 +96,7 @@ function getSteps(copy: Array<{ id: string; eyebrow: string; title: string; desc
       ],
     },
     {
-      ...copy[3],
+      ...copy[4],
       activeColumns: [2, 3],
       emphasisNodeIds: ['layer-1', 'layer-2'],
       highlightEdges: [
@@ -101,7 +107,7 @@ function getSteps(copy: Array<{ id: string; eyebrow: string; title: string; desc
       ],
     },
     {
-      ...copy[4],
+      ...copy[5],
       activeColumns: [3, 4],
       emphasisNodeIds: ['output-1'],
       highlightEdges: [

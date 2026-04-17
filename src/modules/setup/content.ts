@@ -23,6 +23,24 @@ export function getSetupLesson(locale: Locale): Lesson {
         chips: ['Python', 'PyTorch', 'CUDA', 'ROCm', 'MPS', 'Colab'],
       },
       {
+        id: 'installing-python',
+        type: 'list',
+        title: isPt ? 'Passo 0: Instalando o Python' : 'Step 0: Installing Python',
+        items: isPt
+          ? [
+              '🪟 Windows: Baixe o instalador em python.org. Marque a caixa "Add Python to PATH" antes de clicar em Install.',
+              '🍎 macOS: Use o comando "brew install python" ou baixe o instalador universal no site oficial.',
+              '🐧 Linux: Geralmente já vem instalado. Use "sudo apt install python3-venv" para garantir que as ferramentas de ambiente virtual estejam lá.',
+              '🔍 Verificação: Abra o terminal/prompt e digite "python --version". Deve aparecer 3.10 ou superior.',
+            ]
+          : [
+              '🪟 Windows: Download the installer from python.org. Check the "Add Python to PATH" box before clicking Install.',
+              '🍎 macOS: Use "brew install python" or download the universal installer from the official website.',
+              '🐧 Linux: Usually pre-installed. Use "sudo apt install python3-venv" to ensure virtual environment tools are present.',
+              '🔍 Verification: Open terminal/prompt and type "python --version". It should show 3.10 or higher.',
+            ],
+      },
+      {
         id: 'timeline',
         type: 'timeline',
         title: isPt ? 'Ordem sugerida do Módulo 2' : 'Suggested order for Module 2',

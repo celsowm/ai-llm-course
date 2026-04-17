@@ -82,6 +82,11 @@ export const messages = {
       },
       steps: [
         {
+          id: 'start', eyebrow: 'Início', title: 'O programa começa vazio',
+          description: 'Antes de qualquer coisa, temos apenas a estrutura. O aluno entende que uma rede neural começa como um "tabuleiro" pronto para receber dados.',
+          helper: 'Ótimo momento para mostrar que a IA não é mágica, mas uma estrutura que espera entrada.',
+        },
+        {
           id: 'prompt', eyebrow: 'Etapa 1', title: 'O aluno escreve um prompt',
           description: 'A rede começa com linguagem humana. O papel do módulo é mostrar que a conversa nasce de um prompt claro, não de mágica abstrata.',
           helper: 'Use o botão **>** para avançar junto com a explicação ao vivo.',
@@ -214,6 +219,11 @@ export const messages = {
         'output-1': 'Answer',
       },
       steps: [
+        {
+          id: 'start', eyebrow: 'Start', title: 'The program starts empty',
+          description: 'Before anything else, we have just the structure. The learner understands that a neural network starts as a "board" ready to receive data.',
+          helper: 'Great moment to show that AI is not magic, but a structure waiting for input.',
+        },
         {
           id: 'prompt', eyebrow: 'Step 1', title: 'The learner writes a prompt',
           description: 'The network begins with human language. The role of the module is to show that the conversation starts from a clear prompt, not abstract magic.',
