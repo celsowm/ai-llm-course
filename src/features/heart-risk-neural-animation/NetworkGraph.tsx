@@ -35,8 +35,8 @@ export function NetworkGraph({ labels, nodeLabelMap, network, activations, phase
         </Stack>
       </Box>
 
-      <Box sx={{ flex: 1, width: '100%', overflowX: 'auto' }}>
-        <svg width="100%" viewBox="0 0 640 430" style={{ display: 'block', minWidth: 320 }} role="img" aria-label={labels.aria}>
+      <Box sx={{ flex: 1, width: '100%', overflow: 'hidden' }}>
+        <svg width="100%" viewBox="0 0 640 430" style={{ display: 'block' }} role="img" aria-label={labels.aria}>
           <defs>
             <filter id="glow">
               <feGaussianBlur stdDeviation="4" result="blur" />

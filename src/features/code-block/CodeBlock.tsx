@@ -241,11 +241,9 @@ export function CodeBlock({ language, caption, code, activeLines = [], annotatio
         sx={{
           m: 0,
           p: 1,
-          overflowX: 'auto',
-          overflowY: 'auto',
+          overflow: 'hidden',
           fontSize: 12,
-          lineHeight: 1.5,
-          maxHeight: 440,
+          lineHeight: 1.45,
         }}
       >
         {lines.map((line, index) => renderLine(line, index, activeLineSet, annotations))}

@@ -1,24 +1,14 @@
 import type { Locale } from '../../i18n/types';
 import type { NavItem } from '../../core/models/NavItem';
-import { getMessages } from '../../i18n/messages';
+import { getTopics } from './topics';
 
 export function getNavigationItems(locale: Locale): NavItem[] {
-  const m = getMessages(locale);
+  const topics = getTopics(locale);
 
-  return [
-    {
-      id: 'lesson-1',
-      label: m.navigation.lesson1.label,
-      path: '/lesson-1',
-      helper: m.navigation.lesson1.helper,
-      progress: 25,
-    },
-    {
-      id: 'setup',
-      label: m.navigation.setup.label,
-      path: '/setup',
-      helper: m.navigation.setup.helper,
-      progress: 10,
-    },
-  ];
+  return topics.map((topic) => ({
+    id: topic.id,
+    label: topic.title,
+    path: topic.path,
+    helper: topic.helper,
+  }));
 }

@@ -2,6 +2,8 @@ import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import SmartToyRoundedIcon from '@mui/icons-material/SmartToyRounded';
+import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
+import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
 import {
   AppBar,
   Box,
@@ -26,6 +28,7 @@ import { APP_NAME } from '../../app/meta';
 import { ExportPdfButton } from '../../features/pdf-export/ExportPdfButton';
 import { useI18n } from '../../i18n/I18nProvider';
 import { getNavigationItems } from '../content/navigation';
+import { SlideNavProvider, useSlideNav } from '../components/SlideNavContext';
 
 const drawerWidth = 260;
 
@@ -89,6 +92,25 @@ function NavigationPanel({ onCollapse }: { onCollapse: () => void }) {
   );
 }
 
+function SlideNavControls() {
+  const { nav } = useSlideNav();
+  if (!nav) return null;
+
+  return (
+    <Stack direction="row" spacing={0.5} alignItems="center">
+      <IconButton size="small" onClick={nav.onPrev} disabled={nav.activeStep === 0} color="primary">
+        <KeyboardArrowLeftRoundedIcon fontSize="small" />
+      </IconButton>
+      <Typography variant="body2" color="text.secondary" fontWeight={600} sx={{ minWidth: 48, textAlign: 'center' }}>
+        {nav.activeStep + 1} / {nav.maxSteps}
+      </Typography>
+      <IconButton size="small" onClick={nav.onNext} disabled={nav.activeStep === nav.maxSteps - 1} color="primary">
+        <KeyboardArrowRightRoundedIcon fontSize="small" />
+      </IconButton>
+    </Stack>
+  );
+}
+
 const drawerPaperSx = {
   boxSizing: 'border-box',
   borderRight: '1px solid rgba(255,255,255,0.08)',
@@ -105,6 +127,7 @@ export function CourseLayout() {
   const sidebarWidth = collapsed ? 0 : drawerWidth;
 
   return (
+    <SlideNavProvider>
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
       <AppBar
         position="fixed"
@@ -119,26 +142,32 @@ export function CourseLayout() {
         }}
       >
         <Toolbar sx={{ gap: 1, minHeight: '52px !important' }}>
-          {!isDesktop ? (
-            <IconButton size="small" color="inherit" onClick={() => setMobileOpen(true)}>
-              <MenuRoundedIcon fontSize="small" />
-            </IconButton>
-          ) : collapsed ? (
-            <Tooltip title="Expandir menu">
-              <IconButton size="small" color="inherit" onClick={() => setCollapsed(false)}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
+            {!isDesktop ? (
+              <IconButton size="small" color="inherit" onClick={() => setMobileOpen(true)}>
                 <MenuRoundedIcon fontSize="small" />
               </IconButton>
-            </Tooltip>
-          ) : null}
+            ) : collapsed ? (
+              <Tooltip title="Expandir menu">
+                <IconButton size="small" color="inherit" onClick={() => setCollapsed(false)}>
+                  <MenuRoundedIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            ) : null}
 
-          <Stack direction="row" spacing={1} alignItems="center" sx={{ flexGrow: 1 }}>
-            <SmartToyRoundedIcon color="primary" fontSize="small" />
-            <Typography variant="body1" fontWeight={700}>
-              {APP_NAME}
-            </Typography>
-          </Stack>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <SmartToyRoundedIcon color="primary" fontSize="small" />
+              <Typography variant="body1" fontWeight={700}>
+                {APP_NAME}
+              </Typography>
+            </Stack>
+          </Box>
 
-          <ExportPdfButton />
+          <SlideNavControls />
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1, justifyContent: 'flex-end' }}>
+            <ExportPdfButton />
+          </Box>
         </Toolbar>
       </AppBar>
 
@@ -190,10 +219,11 @@ export function CourseLayout() {
         }}
       >
         <Toolbar sx={{ minHeight: '52px !important' }} />
-        <Container maxWidth="xl" sx={{ py: 3 }} data-export-root="true">
+        <Container maxWidth={false} sx={{ py: 1.5 }} data-export-root="true">
           <Outlet />
         </Container>
       </Box>
     </Box>
+    </SlideNavProvider>
   );
 }

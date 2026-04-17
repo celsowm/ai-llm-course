@@ -15,11 +15,11 @@ export const appTheme = createTheme({
     },
     text: {
       primary: '#f8fafc',
-      secondary: 'rgba(248,250,252,0.74)',
+      secondary: 'rgba(248,250,252,0.82)',
     },
   },
   shape: {
-    borderRadius: 8,
+    borderRadius: 12,
   },
   typography: {
     fontFamily: [
@@ -31,7 +31,7 @@ export const appTheme = createTheme({
       'sans-serif',
     ].join(','),
     h1: {
-      fontSize: '2.35rem',
+      fontSize: '2.5rem',
       lineHeight: 1.1,
       fontWeight: 800,
     },
@@ -41,12 +41,18 @@ export const appTheme = createTheme({
       fontWeight: 800,
     },
     h3: {
-      fontSize: '1.15rem',
+      fontSize: '1.25rem',
       lineHeight: 1.3,
       fontWeight: 700,
     },
     body1: {
       lineHeight: 1.7,
+    },
+    overline: {
+      fontSize: '0.82rem',
+      fontWeight: 700,
+      letterSpacing: '0.16em',
+      color: '#a78bfa',
     },
   },
   components: {
@@ -54,7 +60,7 @@ export const appTheme = createTheme({
       styleOverrides: {
         root: {
           border: '1px solid rgba(255,255,255,0.08)',
-          boxShadow: '0 14px 32px rgba(0, 0, 0, 0.22)',
+          boxShadow: '0 16px 48px rgba(0, 0, 0, 0.32), 0 4px 12px rgba(0, 0, 0, 0.18)',
           backgroundImage: 'linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00))',
         },
       },
@@ -70,6 +76,18 @@ export const appTheme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 700,
+        },
+      },
+    },
+    MuiLinearProgress: {
+      styleOverrides: {
+        root: {
+          height: 3,
+          borderRadius: 2,
+          backgroundColor: 'rgba(255,255,255,0.06)',
+        },
+        bar: {
+          borderRadius: 2,
         },
       },
     },

@@ -6,17 +6,17 @@ export function getSetupLesson(locale: Locale): Lesson {
 
   return {
     id: 'setup',
-    title: isPt ? 'Aula 2 · Ambiente sem travar a turma' : 'Lesson 2 · Environment without stalling the class',
+    title: isPt ? 'Módulo 2 · Ambiente sem travar a turma' : 'Module 2 · Environment without stalling the class',
     durationLabel: isPt ? '1h45' : '1h45',
     summary: isPt
-      ? 'A aula 2 organiza o setup em trilhas previsíveis: CUDA, ROCm, Metal, CPU e Colab. A meta é diagnóstico rápido e continuidade.'
-      : 'Lesson 2 organizes setup into predictable tracks: CUDA, ROCm, Metal, CPU and Colab. The goal is fast diagnosis and continuity.',
+      ? 'O Módulo 2 organiza o setup em trilhas previsíveis: CUDA, ROCm, Metal, CPU e Colab. A meta é diagnóstico rápido e continuidade.'
+      : 'Module 2 organizes setup into predictable tracks: CUDA, ROCm, Metal, CPU and Colab. The goal is fast diagnosis and continuity.',
     sections: [
       {
         id: 'hero',
         type: 'hero',
         eyebrow: 'ai-llm-course',
-        title: isPt ? 'Aula 2 · Python, PyTorch e backends com caminho claro' : 'Lesson 2 · Python, PyTorch and backends with a clear path',
+        title: isPt ? 'Módulo 2 · Python, PyTorch e backends com caminho claro' : 'Module 2 · Python, PyTorch and backends with a clear path',
         body: isPt
           ? 'Depois da mágica, vem a infraestrutura. O foco é reduzir atrito: cada aluno entende em qual trilha está e como continuar sem parar a aula.'
           : 'After the magic comes infrastructure. The focus is reducing friction: each learner understands which track they are on and how to continue without stopping the lesson.',
@@ -25,7 +25,7 @@ export function getSetupLesson(locale: Locale): Lesson {
       {
         id: 'timeline',
         type: 'timeline',
-        title: isPt ? 'Ordem sugerida da aula 2' : 'Suggested order for lesson 2',
+        title: isPt ? 'Ordem sugerida do Módulo 2' : 'Suggested order for Module 2',
         items: isPt
           ? [
               { label: 'Ambiente base', minutes: '0–20 min', summary: 'Python 3.10+, venv e organização mínima do projeto.' },
@@ -47,8 +47,8 @@ export function getSetupLesson(locale: Locale): Lesson {
         type: 'list',
         title: isPt ? 'Trilhas do setup' : 'Setup tracks',
         items: isPt
-          ? ['CUDA para NVIDIA como fluxo principal.', 'ROCm para AMD como trilha avançada.', 'Metal (MPS) para Apple Silicon.', 'CPU como fallback universal.', 'Colab como continuidade garantida.']
-          : ['CUDA for NVIDIA as the main flow.', 'ROCm for AMD as an advanced track.', 'Metal (MPS) for Apple Silicon.', 'CPU as the universal fallback.', 'Colab as guaranteed continuity.'],
+          ? ['**CUDA** para NVIDIA como fluxo principal.', '**ROCm** para AMD como trilha avançada.', '**Metal (MPS)** para Apple Silicon.', '**CPU** como fallback universal.', '**Colab** como continuidade garantida.']
+          : ['**CUDA** for NVIDIA as the main flow.', '**ROCm** for AMD as an advanced track.', '**Metal (MPS)** for Apple Silicon.', '**CPU** as the universal fallback.', '**Colab** as guaranteed continuity.'],
       },
       {
         id: 'venv',
@@ -91,8 +91,8 @@ if torch.cuda.is_available():
         title: isPt ? 'Regra de ouro' : 'Golden rule',
         tone: 'warning',
         body: isPt
-          ? 'Setup local é importante, mas ele não pode interromper a aprendizagem. Quando o ambiente local travar, a aula continua em Colab.'
-          : 'Local setup matters, but it cannot interrupt learning. When the local environment fails, the class continues in Colab.',
+          ? 'Setup local é importante, mas ele não pode interromper a aprendizagem. Quando o ambiente local travar, a aula continua em **Colab**.'
+          : 'Local setup matters, but it cannot interrupt learning. When the local environment fails, the class continues in **Colab**.',
       },
       {
         id: 'goals',

@@ -2,7 +2,6 @@ import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded';
 import { Box, Button, Chip, IconButton, LinearProgress, Slider, Stack, Tooltip } from '@mui/material';
 import type { LabLabels } from './types';

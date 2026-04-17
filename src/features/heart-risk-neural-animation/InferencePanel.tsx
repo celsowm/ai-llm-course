@@ -1,5 +1,6 @@
 import { Box, Divider, Slider, Stack, TextField, Typography } from '@mui/material';
 import { useMemo } from 'react';
+import { FormattedText } from '../../shared/components/slides/FormattedText';
 import { forwardPass, formatSigned, prepararEntrada } from './engine';
 import type { NetworkState } from './engine';
 import type { InferInput, LabLabels, Phase } from './types';
@@ -72,11 +73,9 @@ export function InferencePanel({ labels, network, inferInput, phase, error, delt
         <Typography variant="subtitle2" fontWeight={700}>{labels.didacticRead}</Typography>
         <Divider sx={{ my: 1 }} />
         <Stack spacing={0.75}>
-          <Typography variant="body2" color="text.secondary">
-            {phase === 'idle' && labels.idleRead}
-            {phase === 'forward' && labels.forwardRead}
-            {phase === 'backward' && labels.backwardRead}
-          </Typography>
+          {phase === 'idle' && <FormattedText text={labels.idleRead} />}
+          {phase === 'forward' && <FormattedText text={labels.forwardRead} />}
+          {phase === 'backward' && <FormattedText text={labels.backwardRead} />}
           <Typography variant="body2">{labels.error}: <strong>{error.toFixed(4)}</strong></Typography>
           <Typography variant="body2">{labels.deltaOutput}: <strong>{formatSigned(deltaO)}</strong></Typography>
           <Typography variant="body2">{labels.deltaHidden}: <strong>[{deltaH.map((v) => formatSigned(v)).join(', ')}]</strong></Typography>
