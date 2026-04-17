@@ -59,7 +59,7 @@ export function SlideDeck({ children, activeStep: controlledActiveStep, onPrev, 
     <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 52px)', minHeight: 500, overflow: 'hidden' }}>
       <LinearProgress variant="determinate" value={progress} sx={{ height: 3, flexShrink: 0 }} />
 
-      <Box sx={{ flexGrow: 1, minHeight: 0, overflow: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center', py: 2, px: 2 }}>
+      <Box sx={{ flexGrow: 1, minHeight: 0, overflow: 'auto', display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', py: 2, px: 2 }}>
         <Box
           key={activeStep}
           sx={{

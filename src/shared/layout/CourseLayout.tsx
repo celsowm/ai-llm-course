@@ -29,6 +29,7 @@ import { ExportPdfButton } from '../../features/pdf-export/ExportPdfButton';
 import { useI18n } from '../../i18n/I18nProvider';
 import { getNavigationItems } from '../content/navigation';
 import { SlideNavProvider, useSlideNav } from '../components/SlideNavContext';
+import { BrazilFlag, USAFlag } from '../components/FlagIcon';
 
 const drawerWidth = 260;
 
@@ -63,6 +64,8 @@ function NavigationPanel({ onCollapse }: { onCollapse: () => void }) {
                 variant={locale === value ? 'contained' : 'outlined'}
                 size="small"
                 onClick={() => setLocale(value)}
+                startIcon={value === 'pt-BR' ? <BrazilFlag /> : <USAFlag />}
+                sx={{ flex: 1, textTransform: 'none', fontWeight: 700 }}
               >
                 {value === 'pt-BR' ? 'PT' : 'EN'}
               </Button>

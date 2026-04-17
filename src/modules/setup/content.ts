@@ -1,12 +1,12 @@
 import type { Lesson } from '../../core/interfaces/Lesson';
 import type { Locale } from '../../i18n/types';
 
-export function getSetupLesson(locale: Locale): Lesson {
+export function getSetupModule(locale: Locale): Lesson {
   const isPt = locale === 'pt-BR';
 
   return {
     id: 'setup',
-    title: isPt ? 'Módulo 2 · Ambiente sem travar a turma' : 'Module 2 · Environment without stalling the class',
+    title: isPt ? 'Módulo 2 · Ambiente Local e Infraestrutura' : 'Module 2 · Local Environment and Infrastructure',
     durationLabel: isPt ? '1h45' : '1h45',
     summary: isPt
       ? 'O Módulo 2 organiza o setup em trilhas previsíveis: CUDA, ROCm, Metal, CPU e Colab. A meta é diagnóstico rápido e continuidade.'
@@ -18,8 +18,8 @@ export function getSetupLesson(locale: Locale): Lesson {
         eyebrow: 'ai-llm-course',
         title: isPt ? 'Módulo 2 · Python, PyTorch e backends com caminho claro' : 'Module 2 · Python, PyTorch and backends with a clear path',
         body: isPt
-          ? 'Depois da mágica, vem a infraestrutura. O foco é reduzir atrito: cada aluno entende em qual trilha está e como continuar sem parar a aula.'
-          : 'After the magic comes infrastructure. The focus is reducing friction: each learner understands which track they are on and how to continue without stopping the lesson.',
+          ? 'Depois da exploração teórica, preparamos a infraestrutura. O foco é reduzir atrito: você entende em qual trilha está e como continuar seu estudo sem barreiras.'
+          : 'After the theoretical exploration, we prepare the infrastructure. The focus is reducing friction: you understand which track you are on and how to continue your study without barriers.',
         chips: ['Python', 'PyTorch', 'CUDA', 'ROCm', 'MPS', 'Colab'],
       },
       {
@@ -49,14 +49,14 @@ export function getSetupLesson(locale: Locale): Lesson {
               { label: 'Ambiente base', minutes: '0–20 min', summary: 'Python 3.10+, venv e organização mínima do projeto.' },
               { label: 'PyTorch correto', minutes: '20–45 min', summary: 'Escolha do backend certo: CUDA, ROCm, Metal ou CPU.' },
               { label: 'Diagnóstico', minutes: '45–70 min', summary: 'Teste rápido para descobrir se a máquina enxerga GPU ou precisa de fallback.' },
-              { label: 'Transformers e accelerate', minutes: '70–95 min', summary: 'Instalação das dependências que serão usadas nas próximas aulas.' },
+              { label: 'Transformers e accelerate', minutes: '70–95 min', summary: 'Instalação das dependências que serão usadas nos próximos módulos.' },
               { label: 'Plano B', minutes: '95–105 min', summary: 'Colab entra como fallback oficial para ninguém ficar para trás.' },
             ]
           : [
               { label: 'Base environment', minutes: '0–20 min', summary: 'Python 3.10+, venv and minimal project organization.' },
               { label: 'Correct PyTorch', minutes: '20–45 min', summary: 'Choose the right backend: CUDA, ROCm, Metal or CPU.' },
               { label: 'Diagnosis', minutes: '45–70 min', summary: 'Quick test to discover whether the machine sees a GPU or needs a fallback.' },
-              { label: 'Transformers and accelerate', minutes: '70–95 min', summary: 'Install the dependencies that will be used in the next lessons.' },
+              { label: 'Transformers and accelerate', minutes: '70–95 min', summary: 'Install the dependencies that will be used in the next modules.' },
               { label: 'Plan B', minutes: '95–105 min', summary: 'Colab becomes the official fallback so nobody gets left behind.' },
             ],
       },
@@ -109,13 +109,13 @@ if torch.cuda.is_available():
         title: isPt ? 'Regra de ouro' : 'Golden rule',
         tone: 'warning',
         body: isPt
-          ? 'Setup local é importante, mas ele não pode interromper a aprendizagem. Quando o ambiente local travar, a aula continua em **Colab**.'
-          : 'Local setup matters, but it cannot interrupt learning. When the local environment fails, the class continues in **Colab**.',
+          ? 'O setup local é importante, mas ele não pode interromper o progresso. Quando o ambiente local travar, o estudo continua em **Colab**.'
+          : 'Local setup matters, but it cannot interrupt progress. When the local environment fails, study continues in **Colab**.',
       },
       {
         id: 'goals',
         type: 'checkpoint',
-        title: isPt ? 'Saída esperada da aula 2' : 'Expected outcome of lesson 2',
+        title: isPt ? 'Pronto para os próximos módulos' : 'Ready for next modules',
         items: isPt
           ? ['Python e ambiente virtual funcionando.', 'PyTorch instalado com o backend mais adequado para a máquina.', 'Transformers e accelerate instalados.', 'Diagnóstico claro de CUDA, MPS ou CPU.']
           : ['Python and virtual environment working.', 'PyTorch installed with the backend that best fits the machine.', 'Transformers and accelerate installed.', 'Clear diagnosis of CUDA, MPS or CPU.'],

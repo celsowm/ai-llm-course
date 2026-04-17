@@ -5,6 +5,7 @@ import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import { Box, Button, Card, CardContent, Chip, Divider, Stack, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
+import { MarkdownRenderer } from '../../shared/components/MarkdownRenderer';
 
 interface StepNode {
   id: string;
@@ -151,9 +152,7 @@ export function NeuralNetworkStepper() {
                 <HubRoundedIcon color="primary" />
                 <Typography variant="h3">{t('stepper.title')}</Typography>
               </Stack>
-              <Typography variant="body2" color="text.secondary">
-                {t('stepper.subtitle')}
-              </Typography>
+              <MarkdownRenderer content={t('stepper.subtitle')} variant="body2" color="text.secondary" />
             </Stack>
 
             <Stack direction="row" spacing={1} alignItems="center">
@@ -251,9 +250,7 @@ export function NeuralNetworkStepper() {
                 <Typography variant="h3" sx={{ mt: 0.5 }}>
                   {step.title}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 1.2 }}>
-                  {step.description}
-                </Typography>
+                <MarkdownRenderer content={step.description} variant="body2" color="text.secondary" sx={{ mt: 1.2 }} />
               </Box>
 
               <Box sx={{ p: 2.25, borderRadius: 3, border: '1px solid rgba(255,255,255,0.08)', bgcolor: 'rgba(2,6,23,0.42)' }}>
@@ -261,7 +258,7 @@ export function NeuralNetworkStepper() {
                   {t('stepper.liveTipTitle')}
                 </Typography>
                 <Divider sx={{ my: 1.4 }} />
-                <Typography variant="body2">{step.helper}</Typography>
+                <MarkdownRenderer content={step.helper} variant="body2" />
               </Box>
 
               <Stack direction="row" spacing={1.2} justifyContent="space-between">

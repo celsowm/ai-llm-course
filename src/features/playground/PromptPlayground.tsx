@@ -3,6 +3,8 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { Alert, Box, Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
+import { Trans } from '../../i18n/Trans';
+import { MarkdownRenderer } from '../../shared/components/MarkdownRenderer';
 
 function pickResponse(prompt: string, responses: Record<string, string>): string {
   const normalized = prompt.trim().toLowerCase();
@@ -31,13 +33,13 @@ export function PromptPlayground() {
             <AutoAwesomeRoundedIcon color="primary" />
             <Box>
               <Typography variant="h3">{t('playground.title')}</Typography>
-              <Typography variant="body2" color="text.secondary">
-                {t('playground.subtitle')}
-              </Typography>
+              <Trans i18nKey="playground.subtitle" variant="body2" color="text.secondary" />
             </Box>
           </Stack>
 
-          <Alert severity="info">{t('playground.alert')}</Alert>
+          <Alert severity="info">
+            <Trans i18nKey="playground.alert" variant="body2" />
+          </Alert>
 
           <TextField
             label={t('playground.inputLabel')}
@@ -59,7 +61,7 @@ export function PromptPlayground() {
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
               {t('playground.responseTitle')}
             </Typography>
-            <Typography variant="body1">{response}</Typography>
+            <MarkdownRenderer content={response} variant="body1" />
           </Box>
         </Stack>
       </CardContent>

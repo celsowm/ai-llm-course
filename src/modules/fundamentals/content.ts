@@ -1,26 +1,66 @@
 import type { Lesson } from '../../core/interfaces/Lesson';
 import type { Locale } from '../../i18n/types';
 
-export function getLessonOne(locale: Locale): Lesson {
+export function getFundamentalsModule(locale: Locale): Lesson {
   const isPt = locale === 'pt-BR';
 
   return {
-    id: 'lesson-1',
-    title: isPt ? 'Módulo 1 · Do zero à rede neural' : 'Module 1 · From zero to neural network',
+    id: 'fundamentals',
+    title: isPt ? 'Fundamentos · Do zero à rede neural' : 'Fundamentals · From zero to neural network',
     durationLabel: '2h30',
     summary: isPt
-      ? 'Partimos do conceito de IA, passamos por sistemas tradicionais, chegamos ao Machine Learning e terminamos com uma rede neural treinando de verdade.'
-      : 'We start from the concept of AI, pass through traditional systems, reach Machine Learning and finish with a real neural network training.',
+      ? 'Exploramos o conceito de IA, passamos por sistemas tradicionais, chegamos ao Machine Learning e terminamos com uma rede neural treinando de verdade.'
+      : 'We explore the concept of AI, pass through traditional systems, reach Machine Learning and finish with a real neural network training.',
     sections: [
+      {
+        id: 'timeline',
+        type: 'timeline',
+        title: isPt ? 'O que vamos explorar' : 'What we will explore',
+        items: isPt
+          ? [
+              { label: 'Introdução e Impacto', minutes: '0–30 min', summary: 'O que é IA, IA vs Sistemas Tradicionais e a revolução atual.' },
+              { label: 'Machine Learning & Redes', minutes: '30–75 min', summary: 'Como máquinas aprendem: do neurônio ao backpropagation real.' },
+              { label: 'Era dos Transformers', minutes: '75–105 min', summary: 'A arquitetura que mudou tudo: atenção e processamento de linguagem.' },
+              { label: 'Prática: Seu Primeiro Prompt', minutes: '105–135 min', summary: 'Mão na massa com Transformers v5 e o primeiro código.' },
+              { label: 'Checkpoint e Setup', minutes: '135–150 min', summary: 'Revisão e preparação para o ambiente local.' },
+            ]
+          : [
+              { label: 'Introduction and Impact', minutes: '0–30 min', summary: 'What is AI, AI vs Traditional Systems and the current revolution.' },
+              { label: 'Machine Learning & Networks', minutes: '30–75 min', summary: 'How machines learn: from the neuron to real backpropagation.' },
+              { label: 'The Transformer Era', minutes: '75–105 min', summary: 'The architecture that changed everything: attention and language processing.' },
+              { label: 'Practice: Your First Prompt', minutes: '105–135 min', summary: 'Hands-on with Transformers v5 and the first code.' },
+              { label: 'Checkpoint and Setup', minutes: '135–150 min', summary: 'Review and preparation for the local environment.' },
+            ],
+      },
       {
         id: 'what-is-ai',
         type: 'hero',
-        eyebrow: isPt ? 'Slide 1' : 'Slide 1',
+        eyebrow: isPt ? 'Fundamentos' : 'Fundamentals',
         title: isPt ? 'O que é Inteligência Artificial?' : 'What is Artificial Intelligence?',
         body: isPt
-          ? 'IA é a capacidade de um sistema computacional executar tarefas que normalmente associamos à inteligência humana, como perceber padrões, interpretar linguagem, recomendar ações e tomar decisões sob incerteza. Ela não pensa como um ser humano: calcula, compara, estima probabilidades e otimiza parâmetros a partir de dados. Exemplos concretos incluem filtro de spam, reconhecimento de voz, visão computacional e assistentes de texto. O limite importante é este: sem dados, objetivo e métrica de erro, não existe “mágica”, só software sem direção.'
-          : 'AI is the ability of a computational system to perform tasks we usually associate with human intelligence, such as perceiving patterns, interpreting language, recommending actions and making decisions under uncertainty. It does not think like a human: it computes, compares, estimates probabilities and optimizes parameters from data. Concrete examples include spam filtering, speech recognition, computer vision and text assistants. The important limit is this: without data, an objective and an error metric, there is no “magic”, only software without direction.',
-        chips: isPt ? ['Dados', 'Modelos', 'Probabilidade', 'Otimização'] : ['Data', 'Models', 'Probability', 'Optimization'],
+          ? 'Inteligência Artificial é o campo da ciência da computação dedicado a criar sistemas capazes de realizar tarefas que, até então, exigiam cognição humana. Diferente do software tradicional, a IA não segue uma lista estática de instruções; ela opera através da **extração de padrões complexos** e **inferência estatística**.\n\nPara que um sistema de IA funcione, precisamos de três pilares fundamentais:\n\n1.  **Dados de Qualidade:** A matéria-prima que contém as regularidades do mundo.\n2.  **Arquitetura Matemática:** O modelo (como uma Rede Neural) que servirá como função aproximadora.\n3.  **Objetivo de Otimização:** Uma métrica de erro que guia o ajuste do sistema até que ele "aprenda".\n\n**A realidade técnica:** IA não é consciência; é uma ferramenta de **otimização em larga escala** que transforma entradas massivas em predições úteis sob incerteza.'
+          : 'Artificial Intelligence is the field of computer science dedicated to creating systems capable of performing tasks that previously required human cognition. Unlike traditional software, AI does not follow a static list of instructions; it operates through **complex pattern extraction** and **statistical inference**.\n\nFor an AI system to work, we need three fundamental pillars:\n\n1.  **Quality Data:** The raw material containing the regularities of the world.\n2.  **Mathematical Architecture:** The model (like a Neural Network) that serves as an approximating function.\n3.  **Optimization Objective:** An error metric that guides the system\'s adjustment until it "learns".\n\n**The technical reality:** AI is not consciousness; it is a **large-scale optimization** tool that transforms massive inputs into useful predictions under uncertainty.',
+        chips: isPt ? ['Dados', 'Padrões', 'Inferência', 'Otimização'] : ['Data', 'Patterns', 'Inference', 'Optimization'],
+      },
+      {
+        id: 'evolution',
+        type: 'list',
+        title: isPt ? 'Breve Evolução da IA' : 'Brief Evolution of AI',
+        items: isPt
+          ? [
+              '📜 **Anos 50-80**: Sistemas baseados em regras (IA Simbólica).',
+              '📈 **Anos 90-2010**: Machine Learning Estatístico (Regressões, SVM).',
+              '🧠 **2012**: Deep Learning explode com redes neurais profundas.',
+              { text: '✨ **2017**: O artigo "Attention is All You Need" apresenta os Transformers.', isEmphasis: true },
+              '🚀 **Hoje**: LLMs e IA Generativa transformando todas as indústrias.',
+            ]
+          : [
+              '📜 **50s-80s**: Rule-based systems (Symbolic AI).',
+              '📈 **90s-2010s**: Statistical Machine Learning (Regressions, SVM).',
+              '🧠 **2012**: Deep Learning explodes with deep neural networks.',
+              { text: '✨ **2017**: The paper "Attention is All You Need" introduces Transformers.', isEmphasis: true },
+              '🚀 **Today**: LLMs and Generative AI transforming every industry.',
+            ],
       },
       {
         id: 'ai-vs-traditional',
@@ -28,29 +68,27 @@ export function getLessonOne(locale: Locale): Lesson {
         title: isPt ? 'IA vs Sistemas Tradicionais' : 'AI vs Traditional Systems',
         items: isPt
           ? [
-              '🔧 **Sistema tradicional**: o programador descreve as regras explicitamente. $$Entrada + Regras \rightarrow Saída$$.',
-              '🤖 **IA/ML**: o programador define arquitetura, dados e objetivo; as regras internas são aprendidas durante o treino.',
-              '📋 Tradicional funciona bem quando o domínio cabe em lógica escrita à mão, como cálculo de imposto ou validação de formulário.',
-              '🧩 IA entra quando os padrões são numerosos, ambíguos ou difíceis de formalizar, como voz, imagem, fraude e linguagem natural.',
-              '📊 Tradicional tende a ser determinístico e explicável passo a passo; IA é estatística e trabalha com confiança, não certeza absoluta.',
-              '⚠️ Em troca da flexibilidade, IA depende de dados de qualidade e pode errar por viés, ruído ou distribuição diferente da vista no treino.',
+              '🔧 **Sistema tradicional**: o programador descreve as regras explicitamente. $$Entrada + Regras \\rightarrow Saída$$.',
+              '🤖 **IA/ML**: o sistema aprende as regras a partir de exemplos — os dados ensinam o modelo.',
+              '📋 **Tradicional**: frágil a casos não previstos. **IA**: generaliza para situações novas.',
+              '📊 **Tradicional**: lógica determinística. **IA**: trabalha com probabilidades e confiança.',
+              '🚀 **Quando usar**: quando os padrões são numerosos ou difíceis de formalizar (voz, imagem, linguagem).',
             ]
           : [
-              '🔧 **Traditional software**: the programmer writes the rules explicitly. $$Input + Rules \rightarrow Output$$.',
-              '🤖 **AI/ML**: the programmer defines architecture, data and objective; internal rules are learned during training.',
-              '📋 Traditional systems work well when the domain fits hand-written logic, such as tax calculation or form validation.',
-              '🧩 AI becomes useful when patterns are numerous, ambiguous or hard to formalize, such as voice, images, fraud and natural language.',
-              '📊 Traditional logic tends to be deterministic and explainable step by step; AI is statistical and works with confidence, not absolute certainty.',
-              '⚠️ In exchange for flexibility, AI depends on data quality and can fail because of bias, noise or a distribution shift from training.',
+              '🔧 **Traditional software**: the programmer writes the rules explicitly. $$Input + Rules \\rightarrow Output$$.',
+              '🤖 **AI/ML**: the system learns rules from examples — data teaches the model.',
+              '📋 **Traditional**: fragile to unseen cases. **AI**: generalizes to new situations.',
+              '📊 **Traditional**: deterministic logic. **AI**: works with probabilities and confidence.',
+              '🚀 **When to use**: when patterns are numerous or hard to formalize (voice, image, language).',
             ],
       },
       {
         id: 'machine-learning',
         type: 'text',
-        title: isPt ? 'Machine Learning: o pipeline completo' : 'Machine Learning: the full pipeline',
+        title: isPt ? 'Machine Learning: O Pipeline' : 'Machine Learning: The Pipeline',
         body: isPt
-          ? 'Machine Learning é o subcampo da IA em que o sistema melhora desempenho ajustando parâmetros a partir de exemplos. O pipeline essencial é: coletar dados representativos, transformar cada exemplo em entradas numéricas, escolher um modelo com parâmetros treináveis, produzir uma predição, medir o erro com uma loss, ajustar os parâmetros para reduzir esse erro e repetir esse ciclo por muitas épocas. O objetivo não é decorar os exemplos vistos, mas generalizar para novos casos. Quando esse ciclo funciona, o modelo extrai regularidades úteis sem que cada regra tenha sido programada manualmente.'
-          : 'Machine Learning is the AI subfield in which a system improves performance by adjusting parameters from examples. The essential pipeline is: collect representative data, convert each example into numeric inputs, choose a model with trainable parameters, produce a prediction, measure the error with a loss, adjust the parameters to reduce that error and repeat this cycle for many epochs. The goal is not to memorize seen examples, but to generalize to new cases. When this cycle works, the model extracts useful regularities without every rule being manually programmed.',
+          ? 'Machine Learning é o subcampo da IA em que o sistema melhora seu desempenho ajustando parâmetros a partir de exemplos.\n\nO ciclo essencial é:\n1. **Coletar** dados representativos.\n2. **Definir** um modelo com parâmetros treináveis.\n3. **Medir** o erro (Loss).\n4. **Ajustar** os parâmetros para reduzir esse erro.\n\nO objetivo não é decorar o treino, mas **generalizar** para novos casos.'
+          : 'Machine Learning is the AI subfield in which a system improves performance by adjusting parameters from examples.\n\nThe essential cycle is:\n1. **Collect** representative data.\n2. **Define** a model with trainable parameters.\n3. **Measure** the error (Loss).\n4. **Adjust** the parameters to reduce that error.\n\nThe goal is not to memorize training, but to **generalize** to new cases.',
       },
       {
         id: 'nn-why-exists',
@@ -129,7 +167,7 @@ export function getLessonOne(locale: Locale): Lesson {
               '🔊 Think of the weight as an individual **volume control** for each input.',
               '📈 High positive weight: the input is very important to confirm the prediction.',
               '📉 Negative weight: the input serves to invalidate or decrease the chance of that prediction.',
-              '🔄 Learning in AI means, most of the time, finding the ideal values for these weights.',
+              '🔄 Learning in IA means, most of the time, finding the ideal values for these weights.',
             ],
       },
       {
@@ -342,7 +380,7 @@ print(f"Neuron output: {y.item():.4f}")`,
       {
         id: 'checkpoint',
         type: 'checkpoint',
-        title: isPt ? 'O que ninguém deve perder' : 'What nobody should miss',
+        title: isPt ? 'Resumo de Aprendizado' : 'Learning Summary',
         items: isPt
           ? [
               'Saber diferenciar IA, software tradicional e Machine Learning.',

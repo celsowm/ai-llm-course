@@ -12,6 +12,23 @@ export interface SlideVisualConfig {
 
 export function getSlideVisuals(isPt: boolean): Record<string, SlideVisualConfig> {
   return {
+    // Fundamentals
+    timeline: {
+      kicker: isPt ? 'Mapa' : 'Map',
+      figureTitle: isPt ? 'Jornada de aprendizado' : 'Learning journey',
+      figureCaption: isPt
+        ? 'Uma visão geral dos tópicos que vamos explorar nesta sessão.'
+        : 'An overview of the topics we will explore in this session.',
+      callouts: isPt ? ['teoria e prática', 'do zero ao código'] : ['theory and practice', 'from zero to code'],
+    },
+    evolution: {
+      kicker: isPt ? 'Histórico' : 'History',
+      figureTitle: isPt ? 'Eras da inteligência' : 'Eras of intelligence',
+      figureCaption: isPt
+        ? 'De regras fixas ao poder massivo dos Transformers e LLMs.'
+        : 'From fixed rules to the massive power of Transformers and LLMs.',
+      callouts: isPt ? ['IA simbólica', 'transformers'] : ['symbolic AI', 'transformers'],
+    },
     'what-is-ai': {
       kicker: isPt ? 'Panorama' : 'Overview',
       figureTitle: isPt ? 'Sistema orientado por dados' : 'Data-driven system',
@@ -150,11 +167,54 @@ export function getSlideVisuals(isPt: boolean): Record<string, SlideVisualConfig
     },
     checkpoint: {
       kicker: isPt ? 'Fechamento' : 'Closing',
-      figureTitle: isPt ? 'Mapa mental da aula' : 'Lesson mind map',
+      figureTitle: isPt ? 'Resumo de conceitos' : 'Concept summary',
       figureCaption: isPt
         ? 'No fim, os conceitos se conectam como partes do mesmo ciclo.'
         : 'In the end, concepts connect as parts of the same cycle.',
       callouts: isPt ? ['vocabulário técnico', 'ponte até LLMs'] : ['technical vocabulary', 'bridge to LLMs'],
+    },
+    // Setup Module
+    hero: {
+      kicker: isPt ? 'Ambiente' : 'Environment',
+      figureTitle: isPt ? 'Infraestrutura de IA' : 'AI Infrastructure',
+      figureCaption: isPt ? 'Configuração básica para rodar modelos locais.' : 'Basic configuration to run local models.',
+      callouts: isPt ? ['Python', 'PyTorch'] : ['Python', 'PyTorch'],
+    },
+    'installing-python': {
+      kicker: isPt ? 'Requisito' : 'Requirement',
+      figureTitle: isPt ? 'Linguagem base' : 'Base language',
+      figureCaption: isPt ? 'Python como o ecossistema padrão da indústria.' : 'Python as the industry standard ecosystem.',
+      callouts: isPt ? ['v3.10+', 'ecossistema'] : ['v3.10+', 'ecosystem'],
+    },
+    tracks: {
+      kicker: isPt ? 'Hardware' : 'Hardware',
+      figureTitle: isPt ? 'Backends de execução' : 'Execution backends',
+      figureCaption: isPt ? 'Diferentes formas de acelerar o treino.' : 'Different ways to accelerate training.',
+      callouts: isPt ? ['GPU NVIDIA', 'Apple Silicon'] : ['NVIDIA GPU', 'Apple Silicon'],
+    },
+    venv: {
+      kicker: isPt ? 'Isolamento' : 'Isolation',
+      figureTitle: isPt ? 'Ambiente virtual' : 'Virtual environment',
+      figureCaption: isPt ? 'Evitando conflitos entre pacotes e projetos.' : 'Avoiding conflicts between packages and projects.',
+      callouts: isPt ? ['venv', 'pip install'] : ['venv', 'pip install'],
+    },
+    'backend-check': {
+      kicker: isPt ? 'Teste' : 'Test',
+      figureTitle: isPt ? 'Verificação de GPU' : 'GPU Verification',
+      figureCaption: isPt ? 'Confirmando se o hardware é visto pelo código.' : 'Confirming if the hardware is seen by the code.',
+      callouts: isPt ? ['is_available()', 'diagnóstico'] : ['is_available()', 'diagnosis'],
+    },
+    warning: {
+      kicker: isPt ? 'Dica' : 'Tip',
+      figureTitle: isPt ? 'Fluxo de contingência' : 'Contingency flow',
+      figureCaption: isPt ? 'Não deixe o setup travar seu progresso.' : 'Don’t let setup stall your progress.',
+      callouts: isPt ? ['Colab', 'Plano B'] : ['Colab', 'Plan B'],
+    },
+    goals: {
+      kicker: isPt ? 'Pronto' : 'Ready',
+      figureTitle: isPt ? 'Setup completo' : 'Setup complete',
+      figureCaption: isPt ? 'Base sólida para rodar os próximos exemplos.' : 'Solid base to run the next examples.',
+      callouts: isPt ? ['pronto para uso', 'infra ok'] : ['ready to use', 'infra ok'],
     },
   };
 }

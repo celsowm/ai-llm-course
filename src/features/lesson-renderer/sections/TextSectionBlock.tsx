@@ -1,6 +1,7 @@
 import { Box, Stack, Typography, Card, CardContent } from '@mui/material';
 import type { TextSection } from '../../../core/interfaces/Lesson';
 import type { SectionProps } from './types';
+import { MarkdownRenderer } from '../../../shared/components/MarkdownRenderer';
 
 export function TextSectionBlock({ section, variant }: SectionProps<TextSection>) {
   if (variant === 'slide') {
@@ -27,7 +28,9 @@ export function TextSectionBlock({ section, variant }: SectionProps<TextSection>
             />
           )}
 
-          <Typography
+          <MarkdownRenderer
+            content={section.body}
+            variant="body1"
             color="text.secondary"
             sx={{
               fontSize: { xs: '1.2rem', md: '1.5rem' },
@@ -35,9 +38,7 @@ export function TextSectionBlock({ section, variant }: SectionProps<TextSection>
               maxWidth: section.imageUrl ? 600 : 900,
               flex: 1,
             }}
-          >
-            {section.body}
-          </Typography>
+          />
         </Stack>
       </Stack>
     );
@@ -62,9 +63,7 @@ export function TextSectionBlock({ section, variant }: SectionProps<TextSection>
                 }}
               />
             )}
-            <Typography variant="body1" color="text.secondary" sx={{ flex: 1 }}>
-              {section.body}
-            </Typography>
+            <MarkdownRenderer content={section.body} variant="body1" color="text.secondary" sx={{ flex: 1 }} />
           </Stack>
         </Stack>
       </CardContent>

@@ -21,11 +21,11 @@ export const messages = {
       slides: {
         llmFlow: 'Fluxo da LLM',
         realBackprop: 'Backprop real',
+        linearVsSigmoid: 'Regressão linear vs classificador logístico radial',
       },
     },
     layout: {
-      sidebarTitle: 'Módulos base',
-      sidebarSubtitle: 'O app nasce com uma missão clara: ninguém sai do Módulo 1 sem ver uma LLM responder.',
+      sidebarTitle: 'Curso IA & LLMs',
       progress: 'Progresso visível do módulo atual',
       versionLine: `v${APP_VERSION} · i18n centralizado · treino neural real`,
     },
@@ -34,7 +34,7 @@ export const messages = {
       setup: { label: 'Módulo 2', helper: 'Ambiente, backends e fallback.' },
     },
     lessonOnePage: {
-      quickReadTitle: 'Leitura rápida do módulo',
+      quickReadTitle: 'Leitura rápida do conteúdo',
       plannedDuration: 'Duração planejada:',
       principleTitle: 'Princípio do módulo',
       principleSubtitle: 'A infraestrutura aparece, mas não sequestra o momento de valor.',
@@ -45,7 +45,7 @@ export const messages = {
       technicalGoalBody: 'Dar um caminho único para a turma identificar o backend correto sem transformar o encontro em caça a driver.',
       focusLine: 'Módulo focado em ambiente previsível e manutenção simples.',
       platformTracksTitle: 'Trilhas de plataforma',
-      platformTracksSubtitle: 'O aluno enxerga onde se encaixa sem precisar interpretar um emaranhado de opções.',
+      platformTracksSubtitle: 'O estudante enxerga onde se encaixa sem precisar interpretar um emaranhado de opções.',
     },
     playground: {
       title: 'Playground de prompt',
@@ -159,11 +159,11 @@ export const messages = {
       slides: {
         llmFlow: 'LLM flow',
         realBackprop: 'Real backprop',
+        linearVsSigmoid: 'Linear regression vs radial logistic classifier',
       },
     },
     layout: {
-      sidebarTitle: 'Core Modules',
-      sidebarSubtitle: 'The app starts with a clear mission: nobody leaves Module 1 without seeing an LLM respond.',
+      sidebarTitle: 'AI & LLMs Course',
       progress: 'Visible progress for the current module',
       versionLine: `v${APP_VERSION} · centralized i18n · real neural training`,
     },

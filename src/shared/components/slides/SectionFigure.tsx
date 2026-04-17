@@ -1,10 +1,60 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Box, Dialog, Stack, Typography } from '@mui/material';
 import { useI18n } from '../../../i18n/I18nProvider';
 import { Connector, FigureNode, MiniBadge } from './slide-primitives';
 
 export function SectionFigure({ sectionId }: { sectionId: string }) {
   const { locale } = useI18n();
   const isPt = locale === 'pt-BR';
+  const aiEvolutionImageSrc = `${import.meta.env.BASE_URL}ai-evolution.jpg`;
+  const [evolutionPreviewOpen, setEvolutionPreviewOpen] = useState(false);
+
+  if (sectionId === 'timeline') {
+    return (
+      <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', px: 2 }}>
+        <Stack spacing={2.5}>
+          {[
+            { label: 'Start', icon: '🚀', active: true },
+            { label: isPt ? 'Conceitos' : 'Concepts', icon: '🧠', active: false },
+            { label: isPt ? 'Prática' : 'Practice', icon: '💻', active: false },
+            { label: 'Code', icon: '⚡', active: false },
+            { label: 'Finish', icon: '🏁', active: false }
+          ].map((step, idx, arr) => (
+            <Box key={step.label} sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Box 
+                  sx={{ 
+                    width: 42, 
+                    height: 42, 
+                    borderRadius: '50%', 
+                    bgcolor: step.active ? 'primary.main' : 'rgba(255,255,255,0.05)',
+                    border: step.active ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                    display: 'grid',
+                    placeItems: 'center',
+                    fontSize: '1.2rem',
+                    boxShadow: step.active ? '0 0 20px rgba(59,130,246,0.4)' : 'none'
+                  }}
+                >
+                  {step.icon}
+                </Box>
+                {idx < arr.length - 1 && (
+                  <Box sx={{ width: 2, height: 20, bgcolor: 'rgba(255,255,255,0.1)', my: 0.5 }} />
+                )}
+              </Box>
+              <Typography 
+                variant="body1" 
+                fontWeight={800} 
+                color={step.active ? 'text.primary' : 'text.secondary'}
+                sx={{ letterSpacing: '0.05em' }}
+              >
+                {step.label.toUpperCase()}
+              </Typography>
+            </Box>
+          ))}
+        </Stack>
+      </Box>
+    );
+  }
 
   if (sectionId === 'ai-vs-traditional') {
     return (
@@ -230,16 +280,142 @@ export function SectionFigure({ sectionId }: { sectionId: string }) {
     );
   }
 
+  if (sectionId === 'evolution') {
+    return (
+      <Box 
+        sx={{ 
+          width: '100%', 
+          height: '100%', 
+          display: 'flex', 
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Box
+          role="button"
+          tabIndex={0}
+          aria-label={isPt ? 'Abrir imagem em tamanho maior' : 'Open image in larger view'}
+          onClick={() => setEvolutionPreviewOpen(true)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              setEvolutionPreviewOpen(true);
+            }
+          }}
+          sx={{
+            width: '100%',
+            position: 'relative',
+            borderRadius: 4,
+            overflow: 'hidden',
+            border: '1px solid rgba(255,255,255,0.12)',
+            boxShadow: '0 24px 48px rgba(0,0,0,0.5)',
+            bgcolor: '#000',
+            aspectRatio: '16/10',
+            cursor: 'zoom-in',
+            outline: 'none',
+          }}
+        >
+          <Box
+            component="img"
+            src={aiEvolutionImageSrc}
+            alt="AI Evolution Timeline"
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            }}
+          />
+        </Box>
+        <Dialog
+          open={evolutionPreviewOpen}
+          onClose={() => setEvolutionPreviewOpen(false)}
+          maxWidth="lg"
+          fullWidth
+          PaperProps={{
+            sx: {
+              bgcolor: 'rgba(6, 10, 20, 0.96)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              borderRadius: 4,
+              overflow: 'hidden',
+            },
+          }}
+        >
+          <Box sx={{ p: { xs: 1, md: 2 }, display: 'grid', gap: 1 }}>
+            <Box
+              component="img"
+              src={aiEvolutionImageSrc}
+              alt="AI Evolution Timeline enlarged"
+              sx={{
+                width: '100%',
+                height: 'auto',
+                maxHeight: '80vh',
+                objectFit: 'contain',
+                display: 'block',
+                bgcolor: '#000',
+                borderRadius: 3,
+              }}
+            />
+            <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center' }}>
+              {isPt ? 'Clique fora da imagem para fechar' : 'Click outside the image to close'}
+            </Typography>
+          </Box>
+        </Dialog>
+      </Box>
+    );
+  }
+
   if (sectionId === 'what-is-ai' || sectionId === 'checkpoint') {
     return (
-      <Stack spacing={2}>
-        <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap" useFlexGap>
-          {[isPt ? 'Dados' : 'Data', isPt ? 'Modelo' : 'Model', isPt ? 'Erro' : 'Error', isPt ? 'Ajuste' : 'Adjust'].map((item) => <MiniBadge key={item} text={item} />)}
-        </Stack>
-        <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1.2 }}>
-          {[isPt ? 'Visão' : 'Vision', isPt ? 'Texto' : 'Text', isPt ? 'Voz' : 'Voice', isPt ? 'Decisão' : 'Decision'].map((item, index) => (
-            <Box key={item} sx={{ p: 1.6, borderRadius: 2.5, border: '1px solid rgba(148,163,184,0.2)', bgcolor: 'rgba(255,255,255,0.03)', textAlign: 'center', fontWeight: 700, color: index % 2 === 0 ? 'primary.light' : 'secondary.light' }}>
-              {item}
+      <Stack spacing={3} alignItems="center" sx={{ width: '100%' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%', justifyContent: 'center' }}>
+          <Stack spacing={1} alignItems="center">
+            <Box sx={{ p: 1.5, borderRadius: '50%', bgcolor: 'rgba(96,165,250,0.15)', border: '2px solid #60a5fa', display: 'grid', placeItems: 'center' }}>
+              <Typography sx={{ fontSize: '1.2rem' }}>📊</Typography>
+            </Box>
+            <Typography variant="caption" fontWeight={700}>{isPt ? 'Dados' : 'Data'}</Typography>
+          </Stack>
+          
+          <Connector />
+
+          <Stack spacing={1} alignItems="center">
+            <Box sx={{ p: 1.5, borderRadius: '50%', bgcolor: 'rgba(167,139,250,0.15)', border: '2px solid #a78bfa', display: 'grid', placeItems: 'center' }}>
+              <Typography sx={{ fontSize: '1.2rem' }}>🧠</Typography>
+            </Box>
+            <Typography variant="caption" fontWeight={700}>{isPt ? 'Modelo' : 'Model'}</Typography>
+          </Stack>
+
+          <Connector />
+
+          <Stack spacing={1} alignItems="center">
+            <Box sx={{ p: 1.5, borderRadius: '50%', bgcolor: 'rgba(52,211,153,0.15)', border: '2px solid #34d399', display: 'grid', placeItems: 'center' }}>
+              <Typography sx={{ fontSize: '1.2rem' }}>✨</Typography>
+            </Box>
+            <Typography variant="caption" fontWeight={700}>{isPt ? 'IA' : 'AI'}</Typography>
+          </Stack>
+        </Box>
+
+        <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1.5, width: '100%' }}>
+          {[
+            { label: isPt ? 'Visão' : 'Vision', icon: '👁️', color: '#60a5fa' },
+            { label: isPt ? 'Texto' : 'Text', icon: '📝', color: '#a78bfa' },
+            { label: isPt ? 'Voz' : 'Voice', icon: '🎙️', color: '#f59e0b' },
+            { label: isPt ? 'Decisão' : 'Decision', icon: '🎯', color: '#34d399' }
+          ].map((item) => (
+            <Box 
+              key={item.label} 
+              sx={{ 
+                p: 1.8, 
+                borderRadius: 3, 
+                border: `1px solid ${item.color}44`, 
+                bgcolor: `${item.color}11`,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1.5
+              }}
+            >
+              <Typography sx={{ fontSize: '1.2rem' }}>{item.icon}</Typography>
+              <Typography variant="body2" fontWeight={800} color="text.primary">{item.label}</Typography>
             </Box>
           ))}
         </Box>

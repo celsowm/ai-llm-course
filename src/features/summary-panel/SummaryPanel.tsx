@@ -1,4 +1,5 @@
 import { Card, CardContent, Chip, Stack, Typography } from '@mui/material';
+import { MarkdownRenderer } from '../../shared/components/MarkdownRenderer';
 
 interface SummaryPanelProps {
   title: string;
@@ -13,9 +14,7 @@ export function SummaryPanel({ title, subtitle, bullets }: SummaryPanelProps) {
         <Stack spacing={2}>
           <div>
             <Typography variant="h3">{title}</Typography>
-            <Typography variant="body2" color="text.secondary">
-              {subtitle}
-            </Typography>
+            <MarkdownRenderer content={subtitle} variant="body2" color="text.secondary" />
           </div>
 
           <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>

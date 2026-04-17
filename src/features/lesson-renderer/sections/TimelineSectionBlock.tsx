@@ -1,6 +1,7 @@
 import { Card, CardContent, Chip, Stack, Typography } from '@mui/material';
 import type { TimelineSection } from '../../../core/interfaces/Lesson';
 import type { SectionProps } from './types';
+import { MarkdownRenderer } from '../../../shared/components/MarkdownRenderer';
 
 export function TimelineSectionBlock({ section, variant }: SectionProps<TimelineSection>) {
   if (variant === 'slide') {
@@ -19,9 +20,7 @@ export function TimelineSectionBlock({ section, variant }: SectionProps<Timeline
                   </Typography>
                   <Chip label={item.minutes} size="small" variant="outlined" color="secondary" />
                 </Stack>
-                <Typography variant="body1" color="text.secondary" sx={{ mt: 0.5 }}>
-                  {item.summary}
-                </Typography>
+                <MarkdownRenderer content={item.summary} variant="body1" color="text.secondary" sx={{ mt: 0.5 }} />
               </CardContent>
             </Card>
           ))}
@@ -50,9 +49,7 @@ export function TimelineSectionBlock({ section, variant }: SectionProps<Timeline
                     </Typography>
                     <Chip label={item.minutes} size="small" color="secondary" />
                   </Stack>
-                  <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                    {item.summary}
-                  </Typography>
+                  <MarkdownRenderer content={item.summary} variant="body2" color="text.secondary" sx={{ mt: 1 }} />
                 </CardContent>
               </Card>
             ))}

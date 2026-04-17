@@ -1,6 +1,7 @@
-import { List, ListItem, ListItemText, Stack, Typography, Card, CardContent } from '@mui/material';
+import { List, ListItem, Stack, Typography, Card, CardContent } from '@mui/material';
 import type { ListSection } from '../../../core/interfaces/Lesson';
 import type { SectionProps } from './types';
+import { MarkdownRenderer } from '../../../shared/components/MarkdownRenderer';
 
 export function ListSectionBlock({ section, variant }: SectionProps<ListSection>) {
   if (variant === 'slide') {
@@ -15,16 +16,18 @@ export function ListSectionBlock({ section, variant }: SectionProps<ListSection>
             const isEmphasis = typeof item === 'string' ? false : !!item.isEmphasis;
 
             return (
-              <ListItem key={idx} disableGutters sx={{ py: 1 }}>
-                <ListItemText
-                  primary={text}
-                  primaryTypographyProps={{
-                    sx: {
+              <ListItem key={idx} disableGutters sx={{ py: 1, display: 'block' }}>
+                <MarkdownRenderer
+                  content={text}
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{
+                    '& p': {
                       fontSize: { xs: '1.1rem', md: '1.35rem' },
                       lineHeight: 1.6,
                       fontWeight: isEmphasis ? 800 : 400,
-                      color: isEmphasis ? 'primary.light' : 'inherit',
-                    },
+                      color: isEmphasis ? 'primary.light' : 'text.secondary',
+                    }
                   }}
                 />
               </ListItem>
@@ -48,12 +51,16 @@ export function ListSectionBlock({ section, variant }: SectionProps<ListSection>
             const isEmphasis = typeof item === 'string' ? false : !!item.isEmphasis;
 
             return (
-              <ListItem key={idx} disableGutters sx={{ py: 0.65 }}>
-                <ListItemText
-                  primary={text}
-                  primaryTypographyProps={{
-                    fontWeight: isEmphasis ? 800 : 400,
-                    color: isEmphasis ? 'primary.main' : 'inherit',
+              <ListItem key={idx} disableGutters sx={{ py: 0.65, display: 'block' }}>
+                <MarkdownRenderer
+                  content={text}
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{
+                    '& p': {
+                      fontWeight: isEmphasis ? 800 : 400,
+                      color: isEmphasis ? 'primary.main' : 'text.secondary',
+                    }
                   }}
                 />
               </ListItem>

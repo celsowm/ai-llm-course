@@ -1,6 +1,7 @@
 import { Alert, Stack, Typography } from '@mui/material';
 import type { CalloutSection } from '../../../core/interfaces/Lesson';
 import type { SectionProps } from './types';
+import { MarkdownRenderer } from '../../../shared/components/MarkdownRenderer';
 
 export function CalloutSectionBlock({ section, variant }: SectionProps<CalloutSection>) {
   const severityMap = {
@@ -16,7 +17,7 @@ export function CalloutSectionBlock({ section, variant }: SectionProps<CalloutSe
           <Typography variant="h5" fontWeight={700} gutterBottom>
             {section.title}
           </Typography>
-          <Typography variant="body1">{section.body}</Typography>
+          <MarkdownRenderer content={section.body} variant="body1" />
         </Alert>
       </Stack>
     );
@@ -24,7 +25,9 @@ export function CalloutSectionBlock({ section, variant }: SectionProps<CalloutSe
 
   return (
     <Alert severity={severityMap[section.tone]}>
-      <strong>{section.title}:</strong> {section.body}
+      <Typography variant="body2" sx={{ display: 'inline' }}>
+        <strong>{section.title}:</strong> <MarkdownRenderer content={section.body} variant="body2" sx={{ display: 'inline' }} />
+      </Typography>
     </Alert>
   );
 }

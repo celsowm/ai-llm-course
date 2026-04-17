@@ -1,6 +1,7 @@
-import { List, ListItem, ListItemText, Stack, Typography, Card, CardContent } from '@mui/material';
+import { List, ListItem, Stack, Typography, Card, CardContent } from '@mui/material';
 import type { CheckpointSection } from '../../../core/interfaces/Lesson';
 import type { SectionProps } from './types';
+import { MarkdownRenderer } from '../../../shared/components/MarkdownRenderer';
 
 export function CheckpointSectionBlock({ section, variant }: SectionProps<CheckpointSection>) {
   if (variant === 'slide') {
@@ -10,9 +11,13 @@ export function CheckpointSectionBlock({ section, variant }: SectionProps<Checkp
           {section.title}
         </Typography>
         <List disablePadding>
-          {section.items.map((item) => (
-            <ListItem key={item} disableGutters sx={{ py: 1 }}>
-              <ListItemText primary={`✅ ${item}`} primaryTypographyProps={{ sx: { fontSize: { xs: '1.1rem', md: '1.35rem' }, lineHeight: 1.6 } }} />
+          {section.items.map((item, idx) => (
+            <ListItem key={idx} disableGutters sx={{ py: 1, display: 'block' }}>
+              <MarkdownRenderer 
+                content={`✅ ${item}`} 
+                variant="body1"
+                sx={{ '& p': { fontSize: { xs: '1.1rem', md: '1.35rem' }, lineHeight: 1.6 } }}
+              />
             </ListItem>
           ))}
         </List>
@@ -28,9 +33,9 @@ export function CheckpointSectionBlock({ section, variant }: SectionProps<Checkp
         </Typography>
 
         <List disablePadding>
-          {section.items.map((item) => (
-            <ListItem key={item} disableGutters sx={{ py: 0.65 }}>
-              <ListItemText primary={item} />
+          {section.items.map((item, idx) => (
+            <ListItem key={idx} disableGutters sx={{ py: 0.65, display: 'block' }}>
+              <MarkdownRenderer content={item} variant="body1" />
             </ListItem>
           ))}
         </List>

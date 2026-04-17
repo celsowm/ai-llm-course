@@ -1,6 +1,7 @@
 import { Chip, Stack, Typography, Card, CardContent } from '@mui/material';
 import type { HeroSection } from '../../../core/interfaces/Lesson';
 import type { SectionProps } from './types';
+import { MarkdownRenderer } from '../../../shared/components/MarkdownRenderer';
 
 export function HeroSectionBlock({ section, variant }: SectionProps<HeroSection>) {
   if (variant === 'slide') {
@@ -14,9 +15,12 @@ export function HeroSectionBlock({ section, variant }: SectionProps<HeroSection>
         <Typography variant="h1" sx={{ fontSize: { xs: '2.5rem', md: '3.5rem' }, lineHeight: 1.1 }}>
           {section.title}
         </Typography>
-        <Typography color="text.secondary" sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' }, lineHeight: 1.8, maxWidth: 800 }}>
-          {section.body}
-        </Typography>
+        <MarkdownRenderer
+          content={section.body}
+          variant="body1"
+          color="text.secondary"
+          sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' }, lineHeight: 1.8, maxWidth: 800 }}
+        />
         {section.chips && (
           <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
             {section.chips.map((c) => <Chip key={c} label={c} color="primary" variant="outlined" />)}
@@ -36,9 +40,7 @@ export function HeroSectionBlock({ section, variant }: SectionProps<HeroSection>
             </Typography>
           ) : null}
           <Typography variant="h1">{section.title}</Typography>
-          <Typography variant="body1" color="text.secondary">
-            {section.body}
-          </Typography>
+          <MarkdownRenderer content={section.body} variant="body1" color="text.secondary" />
           <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
             {section.chips?.map((chip) => (
               <Chip key={chip} label={chip} color="primary" variant="outlined" />

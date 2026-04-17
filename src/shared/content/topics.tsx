@@ -4,15 +4,17 @@ import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
 import { type ReactNode } from 'react';
 import { HeartRiskNeuralAnimation } from '../../features/heart-risk-neural-animation/HeartRiskNeuralAnimation';
 import { NeuralNetworkStepper } from '../../features/neural-network-stepper/NeuralNetworkStepper';
+import { RegressionVsSigmoidSlide } from '../../features/regression-vs-sigmoid-slide/RegressionVsSigmoidSlide';
 import { PromptPlayground } from '../../features/playground/PromptPlayground';
 import { SummaryPanel } from '../../features/summary-panel/SummaryPanel';
 import type { LessonSection } from '../../core/interfaces/Lesson';
 import type { Topic } from '../../core/interfaces/Topic';
 import type { Locale } from '../../i18n/types';
 import { getMessages } from '../../i18n/messages';
-import { getLessonOne } from '../../modules/lesson-1/content';
-import { getSetupLesson } from '../../modules/setup/content';
+import { getFundamentalsModule } from '../../modules/fundamentals/content';
+import { getSetupModule } from '../../modules/setup/content';
 import { SlideCallout, SlideCheckpoint, SlideCode, SlideHero, SlideList, SlideText, SlideTimeline } from '../components/slides/SlideTypes';
+import { MarkdownRenderer } from '../components/MarkdownRenderer';
 
 function renderTopicSection(section: LessonSection): ReactNode {
   switch (section.type) {
@@ -47,14 +49,16 @@ export function getTopics(locale: Locale): Topic[] {
     return result || key;
   };
 
-  const lesson1 = getLessonOne(locale);
-  const setup = getSetupLesson(locale);
+  const fundamentals = getFundamentalsModule(locale);
+  const setup = getSetupModule(locale);
 
   const topics: Topic[] = [];
 
-  // 1. Lesson 1 sections (part 1: before interactive slides)
-  const coreSectionIds = [
+  // 1. Fundamentals sections
+  const coreSectionIdsBeforeComparison = [
+    'timeline',
     'what-is-ai',
+    'evolution',
     'ai-vs-traditional',
     'machine-learning',
     'nn-why-exists',
@@ -63,6 +67,9 @@ export function getTopics(locale: Locale): Topic[] {
     'nn-weights',
     'nn-bias',
     'nn-activation',
+  ];
+
+  const coreSectionIdsAfterComparison = [
     'nn-formula',
     'nn-pytorch-neuron',
     'nn-layers',
@@ -73,11 +80,11 @@ export function getTopics(locale: Locale): Topic[] {
     'first-code',
   ];
 
-  coreSectionIds.forEach((id) => {
-    const section = lesson1.sections.find((s) => s.id === id);
+  coreSectionIdsBeforeComparison.forEach((id) => {
+    const section = fundamentals.sections.find((s) => s.id === id);
     if (section) {
       topics.push({
-        id: `l1-${section.id}`,
+        id: `fund-${section.id}`,
         title: section.title,
         path: `/${section.id}`,
         render: () => renderTopicSection(section),
@@ -85,9 +92,28 @@ export function getTopics(locale: Locale): Topic[] {
     }
   });
 
-  // 2. Interactive topics from Lesson 1
   topics.push({
-    id: 'l1-interactive-nn-flow',
+    id: 'fund-linear-vs-sigmoid',
+    title: m.pdf.slides.linearVsSigmoid,
+    path: '/linear-vs-sigmoid',
+    render: () => <RegressionVsSigmoidSlide />,
+  });
+
+  coreSectionIdsAfterComparison.forEach((id) => {
+    const section = fundamentals.sections.find((s) => s.id === id);
+    if (section) {
+      topics.push({
+        id: `fund-${section.id}`,
+        title: section.title,
+        path: `/${section.id}`,
+        render: () => renderTopicSection(section),
+      });
+    }
+  });
+
+  // 2. Interactive topics from Fundamentals
+  topics.push({
+    id: 'fund-interactive-nn-flow',
     title: m.pdf.slides.llmFlow,
     path: '/nn-flow',
     render: () => (
@@ -98,7 +124,7 @@ export function getTopics(locale: Locale): Topic[] {
   });
 
   topics.push({
-    id: 'l1-interactive-backprop',
+    id: 'fund-interactive-backprop',
     title: m.pdf.slides.realBackprop,
     path: '/real-backprop',
     render: () => (
@@ -109,7 +135,7 @@ export function getTopics(locale: Locale): Topic[] {
   });
 
   topics.push({
-    id: 'l1-interactive-playground',
+    id: 'fund-interactive-playground',
     title: m.playground.title,
     path: '/playground',
     render: () => (
@@ -119,11 +145,11 @@ export function getTopics(locale: Locale): Topic[] {
     ),
   });
 
-  // 3. Lesson 1 checkpoint
-  const checkpoint = lesson1.sections.find((s) => s.id === 'checkpoint');
+  // 3. Fundamentals checkpoint
+  const checkpoint = fundamentals.sections.find((s) => s.id === 'checkpoint');
   if (checkpoint) {
     topics.push({
-      id: `l1-${checkpoint.id}`,
+      id: `fund-${checkpoint.id}`,
       title: checkpoint.title,
       path: `/${checkpoint.id}`,
       render: () => renderTopicSection(checkpoint),
@@ -143,9 +169,7 @@ export function getTopics(locale: Locale): Topic[] {
               <BuildRoundedIcon color="primary" />
               <Typography variant="h3">{t('setupPage.technicalGoalTitle')}</Typography>
             </Stack>
-            <Typography variant="body2" color="text.secondary">
-              {t('setupPage.technicalGoalBody')}
-            </Typography>
+            <MarkdownRenderer content={t('setupPage.technicalGoalBody')} variant="body2" color="text.secondary" />
             <Stack direction="row" spacing={1.2} alignItems="center">
               <MemoryRoundedIcon color="secondary" />
               <Typography variant="body2">{t('setupPage.focusLine')}</Typography>

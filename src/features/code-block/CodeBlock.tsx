@@ -211,10 +211,14 @@ export function CodeBlock({ language, caption, code, activeLines = [], annotatio
   return (
     <Box
       sx={{
+        display: 'flex',
+        flexDirection: 'column',
         bgcolor: '#08111f',
         border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: 2,
         overflow: 'hidden',
+        maxHeight: { xs: 320, md: 360, lg: 390 },
+        color: '#e2e8f0',
       }}
     >
       <Stack
@@ -223,15 +227,16 @@ export function CodeBlock({ language, caption, code, activeLines = [], annotatio
         alignItems="center"
         sx={{
           px: 2,
-          py: 1.2,
+          py: 0.85,
           borderBottom: '1px solid rgba(255,255,255,0.08)',
           backgroundColor: 'rgba(255,255,255,0.02)',
+          flexShrink: 0,
         }}
       >
         <Typography variant="subtitle2" fontWeight={800}>
           {caption}
         </Typography>
-        <Typography variant="caption" color="text.secondary">
+        <Typography variant="caption" sx={{ color: 'rgba(226,232,240,0.72)' }}>
           {language}
         </Typography>
       </Stack>
@@ -241,9 +246,12 @@ export function CodeBlock({ language, caption, code, activeLines = [], annotatio
         sx={{
           m: 0,
           p: 1,
-          overflow: 'hidden',
+          overflow: 'auto',
+          minHeight: 0,
+          flex: 1,
           fontSize: 12,
           lineHeight: 1.45,
+          scrollbarGutter: 'stable',
         }}
       >
         {lines.map((line, index) => renderLine(line, index, activeLineSet, annotations))}
