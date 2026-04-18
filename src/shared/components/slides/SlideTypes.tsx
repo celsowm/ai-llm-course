@@ -24,11 +24,11 @@ function TwoColumnLayout<T>({ items, renderItem, id }: { items: T[]; renderItem:
 
 export function SlideHero({ s }: { s: HeroSection }) {
   return (
-    <SlideScaffold sectionId={s.id} title={s.title} eyebrow={s.eyebrow}>
+    <SlideScaffold sectionId={s.id} title={s.title} eyebrow={s.eyebrow} visual={s.visual}>
       <Stack spacing={2.25}>
         <FormattedText 
           text={s.body} 
-          sx={{ fontSize: { xs: '1rem', md: '1.12rem' }, lineHeight: 1.7, maxWidth: 820 }} 
+          sx={{ fontSize: { xs: '0.98rem', md: '1.06rem' }, lineHeight: 1.62, maxWidth: 800 }} 
         />
         {s.chips && (
           <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
@@ -42,7 +42,7 @@ export function SlideHero({ s }: { s: HeroSection }) {
 
 export function SlideList({ s }: { s: ListSection }) {
   return (
-    <SlideScaffold sectionId={s.id} title={s.title}>
+    <SlideScaffold sectionId={s.id} title={s.title} visual={s.visual}>
       <TwoColumnLayout 
         id={s.id}
         items={s.items}
@@ -90,10 +90,10 @@ export function SlideList({ s }: { s: ListSection }) {
 
 export function SlideText({ s }: { s: TextSection }) {
   return (
-    <SlideScaffold sectionId={s.id} title={s.title}>
+    <SlideScaffold sectionId={s.id} title={s.title} visual={s.visual}>
       <FormattedText 
         text={s.body} 
-        sx={{ fontSize: { xs: '0.98rem', md: '1.08rem' }, lineHeight: 1.7, maxWidth: 860 }} 
+        sx={{ fontSize: { xs: '0.96rem', md: '1.03rem' }, lineHeight: 1.62, maxWidth: 820 }} 
       />
     </SlideScaffold>
   );
@@ -101,7 +101,7 @@ export function SlideText({ s }: { s: TextSection }) {
 
 export function SlideCheckpoint({ s }: { s: CheckpointSection }) {
   return (
-    <SlideScaffold sectionId={s.id} title={s.title}>
+    <SlideScaffold sectionId={s.id} title={s.title} visual={s.visual}>
       <TwoColumnLayout 
         id={s.id}
         items={s.items}
@@ -127,7 +127,7 @@ export function SlideCheckpoint({ s }: { s: CheckpointSection }) {
 
 export function SlideCode({ s }: { s: CodeSection }) {
   return (
-    <SlideScaffold sectionId={s.id} title={s.title}>
+    <SlideScaffold sectionId={s.id} title={s.title} visual={s.visual}>
       <CodeBlock language={s.language} caption={s.caption} code={s.code} />
     </SlideScaffold>
   );
@@ -135,7 +135,7 @@ export function SlideCode({ s }: { s: CodeSection }) {
 
 export function SlideTimeline({ s }: { s: TimelineSection }) {
   return (
-    <SlideScaffold sectionId={s.id} title={s.title}>
+    <SlideScaffold sectionId={s.id} title={s.title} visual={s.visual}>
       <Stack spacing={1.5}>
         {s.items.map((item) => (
           <Box
@@ -172,7 +172,7 @@ export function SlideCallout({ s }: { s: CalloutSection }) {
   const colors = toneColors[s.tone];
 
   return (
-    <SlideScaffold sectionId={s.id} title={s.title}>
+    <SlideScaffold sectionId={s.id} title={s.title} visual={s.visual}>
       <Box
         sx={{
           p: 2,

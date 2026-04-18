@@ -23,6 +23,7 @@ export const appTheme = createTheme({
   },
   typography: {
     fontFamily: [
+      'Sora',
       'Inter',
       'system-ui',
       '-apple-system',
@@ -31,26 +32,28 @@ export const appTheme = createTheme({
       'sans-serif',
     ].join(','),
     h1: {
-      fontSize: '2.5rem',
-      lineHeight: 1.1,
-      fontWeight: 800,
+      fontSize: '2.45rem',
+      lineHeight: 1.02,
+      fontWeight: 900,
+      letterSpacing: '-0.04em',
     },
     h2: {
       fontSize: '1.75rem',
-      lineHeight: 1.2,
+      lineHeight: 1.12,
       fontWeight: 800,
+      letterSpacing: '-0.03em',
     },
     h3: {
-      fontSize: '1.25rem',
-      lineHeight: 1.3,
+      fontSize: '1.2rem',
+      lineHeight: 1.22,
       fontWeight: 700,
     },
     body1: {
-      lineHeight: 1.7,
+      lineHeight: 1.62,
     },
     overline: {
-      fontSize: '0.82rem',
-      fontWeight: 700,
+      fontSize: '0.76rem',
+      fontWeight: 800,
       letterSpacing: '0.16em',
       color: '#a78bfa',
     },
