@@ -133,107 +133,151 @@ export function NeuronArchitectureDiagram() {
         ],
   };
 
+  const INPUT_X = 120;
+  const CORE_X = 460;
+  const OUTPUT_X = 758;
+  const BIAS_X = 460;
+  const TOP_Y = 184;
+  const MIDDLE_Y = 286;
+  const BOTTOM_Y = 388;
+  const FORMULA_Y = 500;
+
+  const TITLE_Y = 50;
+  const SUBTITLE_Y = 74;
+  const FLOW_STROKE = 3.2;
+  const ARROW_MARKER = 9;
+  const NODE_R = 31;
+
+  const CORE_W = 332;
+  const CORE_H = 164;
+  const CORE_LEFT = CORE_X - CORE_W / 2;
+  const CORE_RIGHT = CORE_X + CORE_W / 2;
+  const CORE_TOP = MIDDLE_Y - CORE_H / 2;
+  const CORE_BOTTOM = MIDDLE_Y + CORE_H / 2;
+  const CORE_DIVIDER_X = CORE_X + 5;
+
+  const INPUT_LABEL_Y = 112;
+  const WEIGHTS_LABEL_Y = 112;
+  const WEIGHT_TEXT_X = 232;
+  const EXAMPLES_Y = 442;
+  const CENTER_NOTE_Y = CORE_BOTTOM + 30;
+
+  const BIAS_CIRCLE_Y = 122;
+  const BIAS_ARROW_START_Y = 152;
+  const BIAS_ARROW_END_Y = CORE_TOP - 12;
+  const BIAS_NOTE_X = BIAS_X + 52;
+  const BIAS_NOTE_Y = 174;
+
+  const OUTPUT_ARROW_START_X = CORE_RIGHT + 2;
+  const OUTPUT_ARROW_END_X = OUTPUT_X - NODE_R - 23;
+  const OUTPUT_LABEL_X = (OUTPUT_ARROW_START_X + OUTPUT_ARROW_END_X) / 2;
+  const OUTPUT_LABEL_Y = 236;
+
+  const inputNodes = [
+    { symbol: 'x₁', weight: 'w₁', y: TOP_Y, weightY: TOP_Y + 22, curveY: MIDDLE_Y - 66 },
+    { symbol: 'x₂', weight: 'w₂', y: MIDDLE_Y, weightY: MIDDLE_Y + 2, curveY: MIDDLE_Y },
+    { symbol: 'xₙ', weight: 'wₙ', y: BOTTOM_Y, weightY: BOTTOM_Y - 18, curveY: MIDDLE_Y + 66 },
+  ] as const;
+
   return (
-    <Box sx={{ width: '100%', height: '100%', minHeight: 420, display: 'flex', flexDirection: 'column', gap: 1.1 }}>
+    <Box sx={{ width: '100%', height: '100%', minHeight: 440, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
       <Box sx={{ flex: 1, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <svg viewBox="0 0 900 560" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" aria-label={isPt ? 'Diagrama do neurônio artificial com animação' : 'Animated artificial neuron diagram'}>
-        <style>{styles}</style>
-        <defs>
-          <linearGradient id="nadGlassGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#ff007f" stopOpacity="0.09" />
-            <stop offset="100%" stopColor="#00f3ff" stopOpacity="0.13" />
-          </linearGradient>
+          <style>{styles}</style>
+          <defs>
+            <linearGradient id="nadGlassGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#ff007f" stopOpacity="0.09" />
+              <stop offset="100%" stopColor="#00f3ff" stopOpacity="0.13" />
+            </linearGradient>
 
-          <marker id="nadArrowCyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#00f3ff" />
-          </marker>
+            <marker id="nadArrowCyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth={ARROW_MARKER} markerHeight={ARROW_MARKER} orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#00f3ff" />
+            </marker>
 
-          <marker id="nadArrowPink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff007f" />
-          </marker>
-        </defs>
+            <marker id="nadArrowPink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth={ARROW_MARKER} markerHeight={ARROW_MARKER} orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff007f" />
+            </marker>
+          </defs>
 
-        <rect x="16" y="16" width="868" height="528" rx="34" fill="rgba(10,14,26,0.56)" stroke="rgba(255,255,255,0.08)" />
+          <rect x="16" y="16" width="868" height="528" rx="34" fill="rgba(10,14,26,0.56)" stroke="rgba(255,255,255,0.08)" />
 
-        <text x="450" y="50" textAnchor="middle" className="nad-title" fill="#ffffff" fontSize="30">
-          {copy.title.split(' ')[0]} <tspan fill="#ff007f" className="nad-glow-pink">{copy.title.split(' ').slice(1).join(' ')}</tspan>
-        </text>
-        <text x="450" y="74" textAnchor="middle" fill="#a7bbca" fontSize="13">
-          {copy.subtitle}
-        </text>
+          <text x="450" y={TITLE_Y} textAnchor="middle" className="nad-title" fill="#ffffff" fontSize="30">
+            {copy.title.split(' ')[0]} <tspan fill="#ff007f" className="nad-glow-pink">{copy.title.split(' ').slice(1).join(' ')}</tspan>
+          </text>
+          <text x="450" y={SUBTITLE_Y} textAnchor="middle" fill="#a7bbca" fontSize="13">
+            {copy.subtitle}
+          </text>
 
-        <g transform="translate(46, 0)">
-          <text x="50" y="112" fill="#b5c7d5" fontSize="16">{copy.inputs}</text>
-          <text x="242" y="112" fill="#89dce5" fontSize="15">{copy.weights}</text>
+          <text x={INPUT_X - 56} y={INPUT_LABEL_Y} fill="#b5c7d5" fontSize="16">{copy.inputs}</text>
+          <text x={WEIGHT_TEXT_X - 6} y={WEIGHTS_LABEL_Y} fill="#89dce5" fontSize="15">{copy.weights}</text>
 
           <g className="nad-fade nad-d1">
-            <circle cx="108" cy="184" r="31" fill="#140b28" stroke="#00f3ff" strokeWidth="2.3" className="nad-pulse-cyan nad-glow-cyan" />
-            <circle cx="108" cy="286" r="31" fill="#140b28" stroke="#00f3ff" strokeWidth="2.3" className="nad-pulse-cyan nad-glow-cyan" />
-            <circle cx="108" cy="388" r="31" fill="#140b28" stroke="#00f3ff" strokeWidth="2.3" className="nad-pulse-cyan nad-glow-cyan" />
-            <text x="108" y="190" textAnchor="middle" fill="#eef6ff" fontSize="28" fontWeight="700" className="nad-math">x₁</text>
-            <text x="108" y="292" textAnchor="middle" fill="#eef6ff" fontSize="28" fontWeight="700" className="nad-math">x₂</text>
-            <text x="108" y="394" textAnchor="middle" fill="#eef6ff" fontSize="28" fontWeight="700" className="nad-math">xₙ</text>
-
-            <path d="M 146 184 C 214 184, 230 198, 270 220" stroke="#00f3ff" strokeWidth="3.4" fill="none" markerEnd="url(#nadArrowCyan)" className="nad-draw-1 nad-glow-cyan" />
-            <path d="M 146 286 C 216 286, 230 286, 270 286" stroke="#00f3ff" strokeWidth="3.4" fill="none" markerEnd="url(#nadArrowCyan)" className="nad-draw-2 nad-glow-cyan" />
-            <path d="M 146 388 C 214 388, 230 374, 270 352" stroke="#00f3ff" strokeWidth="3.4" fill="none" markerEnd="url(#nadArrowCyan)" className="nad-draw-3 nad-glow-cyan" />
-
-            <text x="220" y="206" fill="#00f3ff" fontSize="17" fontWeight="700" className="nad-math nad-glow-cyan">w₁</text>
-            <text x="220" y="288" fill="#00f3ff" fontSize="17" fontWeight="700" className="nad-math nad-glow-cyan">w₂</text>
-            <text x="220" y="370" fill="#00f3ff" fontSize="17" fontWeight="700" className="nad-math nad-glow-cyan">wₙ</text>
-            <text x="60" y="442" fill="#8fb3c1" fontSize="11.5">{copy.examples}</text>
-          </g>
-
-          <g className="nad-fade nad-d2" transform="translate(0, 14)">
-            <path d="M 472 140 L 472 188" stroke="#ff007f" strokeWidth="3.4" fill="none" markerEnd="url(#nadArrowPink)" className="nad-draw-4 nad-glow-pink" />
-            <circle cx="472" cy="110" r="29" fill="#210c21" stroke="#ff007f" strokeWidth="2.3" className="nad-pulse-pink nad-glow-pink" />
-            <text x="472" y="119" textAnchor="middle" fill="#ffe7f3" fontSize="28" fontWeight="700" className="nad-math">b</text>
-            <text x="510" y="114" fill="#ff9dcf" fontSize="15">{copy.bias}</text>
-            <text x="498" y="162" fill="#ffb6d9" fontSize="12.5" textAnchor="start">{copy.biasNote}</text>
-          </g>
-
-          <g className="nad-float">
-            <rect x="300" y="204" width="330" height="160" rx="82" fill="url(#nadGlassGrad)" stroke="#00f3ff" strokeWidth="2.2" className="nad-glow-cyan" />
-            <line x1="465" y1="204" x2="465" y2="364" stroke="#00f3ff" strokeWidth="1.4" strokeDasharray="6 8" opacity="0.5" />
-
-            <text x="380" y="274" textAnchor="middle" fill="#00f3ff" fontSize="56" fontWeight="700" className="nad-math nad-glow-cyan">∑</text>
-            <text x="380" y="300" textAnchor="middle" fill="#b8d9f7" fontSize="15" fontWeight="700">{copy.weightedSum}</text>
-            <text x="380" y="324" textAnchor="middle" fill="#d7e6f5" fontSize="18" className="nad-math">z = ∑(xᵢ · wᵢ) + b</text>
-
-            <text x="548" y="272" textAnchor="middle" fill="#ff88c5" fontSize="40" fontWeight="700" className="nad-math nad-glow-pink">f(z)</text>
-            <text x="548" y="300" textAnchor="middle" fill="#ffc3df" fontSize="15" fontWeight="700">{copy.activation}</text>
-            <text x="548" y="324" textAnchor="middle" fill="#ffd8eb" fontSize="14" className="nad-math">ReLU, sigmoid, tanh</text>
+            {inputNodes.map((node, index) => (
+              <g key={node.symbol}>
+                <circle cx={INPUT_X} cy={node.y} r={NODE_R} fill="#140b28" stroke="#00f3ff" strokeWidth="2.3" className="nad-pulse-cyan nad-glow-cyan" />
+                <text x={INPUT_X} y={node.y + 7} textAnchor="middle" fill="#eef6ff" fontSize="28" fontWeight="700" className="nad-math">{node.symbol}</text>
+                <path
+                  d={`M ${INPUT_X + NODE_R + 8} ${node.y} C ${INPUT_X + 108} ${node.y}, ${INPUT_X + 126} ${node.curveY}, ${CORE_LEFT - 18} ${node.curveY}`}
+                  stroke="#00f3ff"
+                  strokeWidth={FLOW_STROKE}
+                  fill="none"
+                  markerEnd="url(#nadArrowCyan)"
+                  className={`nad-draw-${index + 1} nad-glow-cyan`}
+                />
+                <text x={WEIGHT_TEXT_X} y={node.weightY} fill="#00f3ff" fontSize="17" fontWeight="700" className="nad-math nad-glow-cyan">{node.weight}</text>
+              </g>
+            ))}
+            <text x={INPUT_X - 60} y={EXAMPLES_Y} fill="#8fb3c1" fontSize="11.5">{copy.examples}</text>
           </g>
 
           <g className="nad-fade nad-d2">
-            <path d="M 626 284 C 648 284, 662 284, 684 284" stroke="#00f3ff" strokeWidth="3.4" fill="none" markerEnd="url(#nadArrowCyan)" className="nad-draw-5 nad-glow-cyan" />
-            <circle cx="738" cy="284" r="31" fill="#140b28" stroke="#00f3ff" strokeWidth="2.3" className="nad-pulse-cyan nad-glow-cyan" />
-            <text x="738" y="292" textAnchor="middle" fill="#eef6ff" fontSize="28" fontWeight="700" className="nad-math">y</text>
-            <text x="738" y="324" textAnchor="middle" fill="#9beef5" fontSize="12.5">{copy.outputFinal}</text>
-            <text x="655" y="246" textAnchor="middle" fill="#9beef5" fontSize="11.5">
+            <path d={`M ${BIAS_X} ${BIAS_ARROW_START_Y} L ${BIAS_X} ${BIAS_ARROW_END_Y}`} stroke="#ff007f" strokeWidth={FLOW_STROKE} fill="none" markerEnd="url(#nadArrowPink)" className="nad-draw-4 nad-glow-pink" />
+            <circle cx={BIAS_X} cy={BIAS_CIRCLE_Y} r="29" fill="#210c21" stroke="#ff007f" strokeWidth="2.3" className="nad-pulse-pink nad-glow-pink" />
+            <text x={BIAS_X} y={BIAS_CIRCLE_Y + 9} textAnchor="middle" fill="#ffe7f3" fontSize="28" fontWeight="700" className="nad-math">b</text>
+            <text x={BIAS_X + 38} y={BIAS_CIRCLE_Y + 4} fill="#ff9dcf" fontSize="15">{copy.bias}</text>
+            <text x={BIAS_NOTE_X} y={BIAS_NOTE_Y} fill="#ffb6d9" fontSize="12.5">{copy.biasNote}</text>
+          </g>
+
+          <g className="nad-float">
+            <rect x={CORE_LEFT} y={CORE_TOP} width={CORE_W} height={CORE_H} rx="82" fill="url(#nadGlassGrad)" stroke="#00f3ff" strokeWidth="2.2" className="nad-glow-cyan" />
+            <line x1={CORE_DIVIDER_X} y1={CORE_TOP} x2={CORE_DIVIDER_X} y2={CORE_BOTTOM} stroke="#00f3ff" strokeWidth="1.4" strokeDasharray="6 8" opacity="0.5" />
+
+            <text x={CORE_X - 80} y={MIDDLE_Y - 12} textAnchor="middle" fill="#00f3ff" fontSize="56" fontWeight="700" className="nad-math nad-glow-cyan">∑</text>
+            <text x={CORE_X - 80} y={MIDDLE_Y + 14} textAnchor="middle" fill="#b8d9f7" fontSize="15" fontWeight="700">{copy.weightedSum}</text>
+            <text x={CORE_X - 80} y={MIDDLE_Y + 38} textAnchor="middle" fill="#d7e6f5" fontSize="18" className="nad-math">z = ∑(xᵢ · wᵢ) + b</text>
+
+            <text x={CORE_X + 88} y={MIDDLE_Y - 14} textAnchor="middle" fill="#ff88c5" fontSize="40" fontWeight="700" className="nad-math nad-glow-pink">f(z)</text>
+            <text x={CORE_X + 88} y={MIDDLE_Y + 14} textAnchor="middle" fill="#ffc3df" fontSize="15" fontWeight="700">{copy.activation}</text>
+            <text x={CORE_X + 88} y={MIDDLE_Y + 38} textAnchor="middle" fill="#ffd8eb" fontSize="14" className="nad-math">ReLU, sigmoid, tanh</text>
+          </g>
+
+          <g className="nad-fade nad-d2">
+            <path d={`M ${OUTPUT_ARROW_START_X} ${MIDDLE_Y - 2} C ${OUTPUT_ARROW_START_X + 22} ${MIDDLE_Y - 2}, ${OUTPUT_ARROW_END_X - 16} ${MIDDLE_Y - 2}, ${OUTPUT_ARROW_END_X} ${MIDDLE_Y - 2}`} stroke="#00f3ff" strokeWidth={FLOW_STROKE} fill="none" markerEnd="url(#nadArrowCyan)" className="nad-draw-5 nad-glow-cyan" />
+            <circle cx={OUTPUT_X} cy={MIDDLE_Y - 2} r={NODE_R} fill="#140b28" stroke="#00f3ff" strokeWidth="2.3" className="nad-pulse-cyan nad-glow-cyan" />
+            <text x={OUTPUT_X} y={MIDDLE_Y + 6} textAnchor="middle" fill="#eef6ff" fontSize="28" fontWeight="700" className="nad-math">y</text>
+            <text x={OUTPUT_X} y={MIDDLE_Y + 38} textAnchor="middle" fill="#9beef5" fontSize="12.5">{copy.outputFinal}</text>
+            <text x={OUTPUT_LABEL_X} y={OUTPUT_LABEL_Y} textAnchor="middle" fill="#9beef5" fontSize="11.5">
               {copy.outputAfterActivation.map((line, index) => (
-                <tspan key={line} x="655" dy={index === 0 ? 0 : 11}>{line}</tspan>
+                <tspan key={line} x={OUTPUT_LABEL_X} dy={index === 0 ? 0 : 11}>{line}</tspan>
               ))}
             </text>
           </g>
 
-          <text x="300" y="392" fill="#bac8d8" fontSize="12.5" className="nad-fade nad-d3">{copy.centerNote}</text>
-        </g>
+          <text x={CORE_LEFT} y={CENTER_NOTE_Y} fill="#bac8d8" fontSize="12.5" className="nad-fade nad-d3">{copy.centerNote}</text>
 
-        <g className="nad-fade nad-d3">
-          <rect x="198" y="452" width="504" height="56" rx="18" fill="rgba(17,16,35,0.94)" stroke="#00f3ff" strokeWidth="1.2" />
-          <text x="450" y="487" textAnchor="middle" fill="#eef8ff" fontSize="28" className="nad-math nad-glow-cyan">
-            y = <tspan fill="#ff9acb">f</tspan>(∑(xᵢ · wᵢ) + <tspan fill="#ff9acb">b</tspan>)
-          </text>
-        </g>
-
+          <g className="nad-fade nad-d3">
+            <rect x="198" y={FORMULA_Y - 32} width="504" height="56" rx="18" fill="rgba(17,16,35,0.94)" stroke="#00f3ff" strokeWidth="1.2" />
+            <text x="450" y={FORMULA_Y + 3} textAnchor="middle" fill="#eef8ff" fontSize="28" className="nad-math nad-glow-cyan">
+              y = <tspan fill="#ff9acb">f</tspan>(∑(xᵢ · wᵢ) + <tspan fill="#ff9acb">b</tspan>)
+            </text>
+          </g>
         </svg>
       </Box>
 
       <Box
         sx={{
-          px: 1.2,
-          py: 1,
+          px: 1.35,
+          py: 1.05,
           borderRadius: 3,
           border: '1px solid rgba(255,255,255,0.08)',
           background: 'rgba(12,16,29,0.72)',
@@ -247,7 +291,7 @@ export function NeuronArchitectureDiagram() {
           sx={{
             display: 'grid',
             gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', md: 'repeat(6, minmax(0, 1fr))' },
-            gap: 0.8,
+            gap: 0.95,
           }}
         >
           {copy.legend.map((item) => (
@@ -263,6 +307,7 @@ export function NeuronArchitectureDiagram() {
                 background: 'rgba(255,255,255,0.03)',
                 border: '1px solid rgba(255,255,255,0.08)',
                 minWidth: 0,
+                minHeight: 46,
               }}
             >
               <Box
