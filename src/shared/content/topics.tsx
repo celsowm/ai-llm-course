@@ -1,6 +1,7 @@
 import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
 import MemoryRoundedIcon from '@mui/icons-material/MemoryRounded';
 import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
+import { BiologicalComputationalNeuronSlide } from '../../features/biological-computational-neuron-slide/BiologicalComputationalNeuronSlide';
 import { type ReactNode } from 'react';
 import { HeartRiskNeuralAnimation } from '../../features/heart-risk-neural-animation/HeartRiskNeuralAnimation';
 import { NeuralNetworkStepper } from '../../features/neural-network-stepper/NeuralNetworkStepper';
@@ -90,6 +91,13 @@ export function getTopics(locale: Locale): Topic[] {
         render: () => renderTopicSection(section),
       });
     }
+  });
+
+  topics.push({
+    id: 'fund-biological-vs-computational-neuron',
+    title: m.pdf.slides.biologicalVsComputationalNeuron,
+    path: '/biological-vs-computational-neuron',
+    render: () => <BiologicalComputationalNeuronSlide />,
   });
 
   topics.push({
