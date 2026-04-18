@@ -56,6 +56,9 @@ export type FigureSpec =
       footer: string;
     }
   | {
+      kind: 'neuron-architecture';
+    }
+  | {
       kind: 'layer-stack';
       columns: Array<{
         label: string;

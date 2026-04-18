@@ -230,11 +230,9 @@ export function getFundamentalsModule(locale: Locale): Lesson {
           kicker: isPt ? 'Unidade básica' : 'Basic unit',
           figureTitle: isPt ? 'Fluxo interno do neurônio' : 'Neuron inner flow',
           figureCaption: isPt ? 'Entrada, soma ponderada, bias e ativação formam o bloco mínimo da rede.' : 'Input, weighted sum, bias, and activation define the network’s smallest block.',
-          callouts: isPt ? ['bloco matemático', 'parâmetros treináveis'] : ['mathematical block', 'trainable parameters'],
+          callouts: [],
           figure: {
-            kind: 'neuron-focus',
-            emphasis: 'overview',
-            footer: isPt ? 'o neurônio sozinho é simples; o poder aparece quando eles são empilhados' : 'a neuron alone is simple; power appears when they are stacked',
+            kind: 'neuron-architecture',
           },
         },
       },

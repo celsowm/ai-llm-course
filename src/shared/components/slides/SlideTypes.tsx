@@ -41,6 +41,8 @@ export function SlideHero({ s }: { s: HeroSection }) {
 }
 
 export function SlideList({ s }: { s: ListSection }) {
+  const isNeuronOverview = s.visual?.figure.kind === 'neuron-architecture';
+
   return (
     <SlideScaffold sectionId={s.id} title={s.title} visual={s.visual}>
       <TwoColumnLayout 
@@ -49,37 +51,45 @@ export function SlideList({ s }: { s: ListSection }) {
         renderItem={(item, idx) => {
           const text = typeof item === 'string' ? item : item.text;
           const isEmphasis = typeof item === 'string' ? false : !!item.isEmphasis;
-          
+
           return (
             <Box
               key={idx}
               sx={{
-                p: 1.5,
+                p: isNeuronOverview ? 1.15 : 1.5,
                 borderRadius: 3,
                 border: isEmphasis ? '1px solid rgba(139,92,246,0.34)' : '1px solid rgba(255,255,255,0.08)',
                 bgcolor: isEmphasis ? 'rgba(139,92,246,0.08)' : 'rgba(2,6,23,0.34)',
                 display: 'flex',
                 alignItems: 'flex-start',
-                gap: 1.5
+                gap: isNeuronOverview ? 1.1 : 1.5
               }}
             >
               <Box
                 sx={{
-                  minWidth: 30,
-                  height: 30,
+                  minWidth: isNeuronOverview ? 26 : 30,
+                  height: isNeuronOverview ? 26 : 30,
                   borderRadius: '50%',
                   bgcolor: 'rgba(139,92,246,0.16)',
                   border: '1px solid rgba(139,92,246,0.34)',
                   display: 'grid',
                   placeItems: 'center',
-                  fontSize: '0.75rem',
+                  fontSize: isNeuronOverview ? '0.68rem' : '0.75rem',
                   fontWeight: 800,
                   color: 'primary.light',
                 }}
               >
                 {idx + 1}
               </Box>
-              <FormattedText text={text} color="text.primary" sx={{ fontSize: { xs: '0.98rem', md: '1.06rem' }, mt: 0.3 }} />
+              <FormattedText
+                text={text}
+                color="text.primary"
+                sx={{
+                  fontSize: isNeuronOverview ? { xs: '0.92rem', md: '0.98rem' } : { xs: '0.98rem', md: '1.06rem' },
+                  lineHeight: isNeuronOverview ? 1.55 : 1.62,
+                  mt: 0.2,
+                }}
+              />
             </Box>
           );
         }}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Box, Dialog } from '@mui/material';
 import type { FigureSpec, VisualTone } from '../../../core/interfaces/Lesson';
+import { NeuronArchitectureDiagram } from './NeuronArchitectureDiagram';
 
 const toneColor = {
   primary: '#60a5fa',
@@ -511,6 +512,8 @@ export function SectionFigure({ figure }: { figure: FigureSpec }) {
       return <PillarsGridFigure figure={figure} />;
     case 'image':
       return <ImageFigure figure={figure} />;
+    case 'neuron-architecture':
+      return <NeuronArchitectureDiagram />;
     case 'neuron-focus':
       return <NeuronFocusFigure figure={figure} />;
     case 'layer-stack':

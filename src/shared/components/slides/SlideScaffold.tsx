@@ -17,6 +17,7 @@ export function SlideScaffold({
   children: ReactNode;
 }) {
   return (
+    // The neuron overview needs a tighter text column so the SVG gets more room.
     <Box
       sx={{
         p: { xs: 1.75, md: 2.5 },
@@ -32,16 +33,24 @@ export function SlideScaffold({
     >
       <Box
         sx={{
-          display: 'grid',
-          gridTemplateColumns: { xs: '1fr', lg: 'minmax(0, 1.3fr) minmax(380px, 1fr)' },
-          gap: 2.25,
+        display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            lg: visual?.figure.kind === 'neuron-architecture'
+              ? 'minmax(0, 0.92fr) minmax(470px, 1.18fr)'
+              : 'minmax(0, 1.3fr) minmax(380px, 1fr)',
+          },
+          gap: visual?.figure.kind === 'neuron-architecture' ? 1.4 : 2.25,
           flexGrow: 1,
           alignItems: 'stretch',
         }}
       >
         <Box
           sx={{
-            p: { xs: 2.75, md: 4.25 },
+            p: {
+              xs: 2.75,
+              md: visual?.figure.kind === 'neuron-architecture' ? 2.75 : 4.25,
+            },
             borderRadius: 3.5,
             border: '1px solid rgba(255,255,255,0.06)',
             bgcolor: 'rgba(255,255,255,0.025)',
@@ -57,10 +66,23 @@ export function SlideScaffold({
               {eyebrow}
             </Typography>
           ) : null}
-          <Typography variant="h1" sx={{ mt: eyebrow ? 1.2 : 0, fontSize: { xs: '2.05rem', md: '3.05rem' }, lineHeight: 1.02, fontWeight: 900, letterSpacing: '-0.03em' }}>
+          <Typography
+            variant="h1"
+            sx={{
+              mt: eyebrow ? 1.2 : 0,
+              fontSize: {
+                xs: '2.05rem',
+                md: visual?.figure.kind === 'neuron-architecture' ? '2.3rem' : '3.05rem',
+              },
+              lineHeight: 1.0,
+              fontWeight: 900,
+              letterSpacing: '-0.03em',
+              maxWidth: visual?.figure.kind === 'neuron-architecture' ? 620 : 860,
+            }}
+          >
             {title}
           </Typography>
-          <Box sx={{ mt: 3.2 }}>
+          <Box sx={{ mt: visual?.figure.kind === 'neuron-architecture' ? 2.15 : 3.2 }}>
             {children}
           </Box>
         </Box>
