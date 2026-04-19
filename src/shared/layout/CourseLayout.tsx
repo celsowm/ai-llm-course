@@ -50,8 +50,13 @@ function NavigationPanel({ onCollapse }: { onCollapse: () => void }) {
                 {t('layout.sidebarTitle')}
               </Typography>
             </Stack>
-            <Tooltip title="Recolher">
-              <IconButton size="small" onClick={onCollapse} sx={{ color: 'text.secondary' }}>
+            <Tooltip title={t('common.collapse')}>
+              <IconButton
+                size="small"
+                onClick={onCollapse}
+                sx={{ color: 'text.secondary' }}
+                aria-label={t('common.collapse')}
+              >
                 <ChevronLeftRoundedIcon fontSize="small" />
               </IconButton>
             </Tooltip>
@@ -97,19 +102,40 @@ function NavigationPanel({ onCollapse }: { onCollapse: () => void }) {
 
 function SlideNavControls() {
   const { nav } = useSlideNav();
+  const { t } = useI18n();
   if (!nav) return null;
 
   return (
     <Stack direction="row" spacing={0.5} alignItems="center">
-      <IconButton size="small" onClick={nav.onPrev} disabled={nav.activeStep === 0} color="primary">
-        <KeyboardArrowLeftRoundedIcon fontSize="small" />
-      </IconButton>
+      <Tooltip title={t('common.previous')}>
+        <span>
+          <IconButton
+            size="small"
+            onClick={nav.onPrev}
+            disabled={nav.activeStep === 0}
+            color="primary"
+            aria-label={t('common.previous')}
+          >
+            <KeyboardArrowLeftRoundedIcon fontSize="small" />
+          </IconButton>
+        </span>
+      </Tooltip>
       <Typography variant="body2" color="text.secondary" fontWeight={600} sx={{ minWidth: 48, textAlign: 'center' }}>
         {nav.activeStep + 1} / {nav.maxSteps}
       </Typography>
-      <IconButton size="small" onClick={nav.onNext} disabled={nav.activeStep === nav.maxSteps - 1} color="primary">
-        <KeyboardArrowRightRoundedIcon fontSize="small" />
-      </IconButton>
+      <Tooltip title={t('common.next')}>
+        <span>
+          <IconButton
+            size="small"
+            onClick={nav.onNext}
+            disabled={nav.activeStep === nav.maxSteps - 1}
+            color="primary"
+            aria-label={t('common.next')}
+          >
+            <KeyboardArrowRightRoundedIcon fontSize="small" />
+          </IconButton>
+        </span>
+      </Tooltip>
     </Stack>
   );
 }
@@ -126,6 +152,7 @@ export function CourseLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+  const { t } = useI18n();
 
   const sidebarWidth = collapsed ? 0 : drawerWidth;
 
@@ -147,12 +174,22 @@ export function CourseLayout() {
         <Toolbar sx={{ gap: 1, minHeight: '52px !important' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
             {!isDesktop ? (
-              <IconButton size="small" color="inherit" onClick={() => setMobileOpen(true)}>
+              <IconButton
+                size="small"
+                color="inherit"
+                onClick={() => setMobileOpen(true)}
+                aria-label={t('common.openNavigation')}
+              >
                 <MenuRoundedIcon fontSize="small" />
               </IconButton>
             ) : collapsed ? (
-              <Tooltip title="Expandir menu">
-                <IconButton size="small" color="inherit" onClick={() => setCollapsed(false)}>
+              <Tooltip title={t('common.expand')}>
+                <IconButton
+                  size="small"
+                  color="inherit"
+                  onClick={() => setCollapsed(false)}
+                  aria-label={t('common.expand')}
+                >
                   <MenuRoundedIcon fontSize="small" />
                 </IconButton>
               </Tooltip>

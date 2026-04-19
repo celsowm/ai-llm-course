@@ -2,7 +2,7 @@ import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import HubRoundedIcon from '@mui/icons-material/HubRounded';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-import { Box, Button, Card, CardContent, Chip, Divider, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, Chip, Divider, Stack, Tooltip, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
 import { MarkdownRenderer } from '../../shared/components/MarkdownRenderer';
@@ -262,12 +262,32 @@ export function NeuralNetworkStepper() {
               </Box>
 
               <Stack direction="row" spacing={1.2} justifyContent="space-between">
-                <Button variant="outlined" startIcon={<ChevronLeftRoundedIcon />} onClick={previousStep} disabled={stepIndex === 0}>
-                  {'<'}
-                </Button>
-                <Button variant="contained" endIcon={<ChevronRightRoundedIcon />} onClick={nextStep} disabled={stepIndex === steps.length - 1}>
-                  {'>'}
-                </Button>
+                <Tooltip title={t('common.previous')}>
+                  <span>
+                    <Button
+                      variant="outlined"
+                      startIcon={<ChevronLeftRoundedIcon />}
+                      onClick={previousStep}
+                      disabled={stepIndex === 0}
+                      aria-label={t('common.previous')}
+                    >
+                      {'<'}
+                    </Button>
+                  </span>
+                </Tooltip>
+                <Tooltip title={t('common.next')}>
+                  <span>
+                    <Button
+                      variant="contained"
+                      endIcon={<ChevronRightRoundedIcon />}
+                      onClick={nextStep}
+                      disabled={stepIndex === steps.length - 1}
+                      aria-label={t('common.next')}
+                    >
+                      {'>'}
+                    </Button>
+                  </span>
+                </Tooltip>
               </Stack>
             </Stack>
           </Box>
