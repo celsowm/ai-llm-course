@@ -133,11 +133,19 @@ export interface ListSection extends SectionBase {
   items: Array<string | { text: string; isEmphasis?: boolean }>;
 }
 
+export interface CodeAnnotation {
+  line?: number;
+  lines?: [number, number];
+  substring?: string;
+  explanation: string;
+}
+
 export interface CodeSection extends SectionBase {
   type: 'code';
   language: 'python' | 'bash' | 'tsx';
   caption: string;
   code: string;
+  annotations?: CodeAnnotation[];
 }
 
 export interface CheckpointSection extends SectionBase {

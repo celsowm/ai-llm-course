@@ -11,7 +11,12 @@ export function CodeSectionBlock({ section, variant }: SectionProps<CodeSection>
           {section.title}
         </Typography>
         <Box sx={{ maxWidth: 1000 }}>
-          <CodeBlock language={section.language} caption={section.caption} code={section.code} />
+          <CodeBlock
+            language={section.language}
+            caption={section.caption}
+            code={section.code}
+            annotations={section.annotations}
+          />
         </Box>
       </Stack>
     );
@@ -20,7 +25,12 @@ export function CodeSectionBlock({ section, variant }: SectionProps<CodeSection>
   return (
     <Stack spacing={1.25}>
       <Typography variant="h3">{section.title}</Typography>
-      <CodeBlock language={section.language} caption={section.caption} code={section.code} />
+      <CodeBlock
+        language={section.language}
+        caption={section.caption}
+        code={section.code}
+        annotations={section.annotations}
+      />
     </Stack>
   );
 }

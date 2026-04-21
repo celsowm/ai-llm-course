@@ -1,142 +1,168 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography, Tooltip, tooltipClasses, TooltipProps } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import type { ReactNode } from 'react';
+import type { CodeAnnotation } from '../../core/interfaces/Lesson';
+import { Token, tokenColorMap, escapeHtml, tokenizeLine } from './tokenizer';
 
 interface CodeBlockProps {
   language: string;
   caption: string;
   code: string;
   activeLines?: number[];
-  annotations?: Record<number, string>;
+  annotations?: CodeAnnotation[] | Record<number, string>;
 }
 
-type TokenType =
-  | 'keyword'
-  | 'string'
-  | 'comment'
-  | 'number'
-  | 'function'
-  | 'builtin'
-  | 'decorator'
-  | 'operator'
-  | 'normal';
+const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(() => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: '#1a103d',
+    color: '#fff',
+    fontSize: 13,
+    border: '1px solid #8b5cf6',
+    borderRadius: 8,
+    padding: '8px 12px',
+    boxShadow: '0 0 15px rgba(139, 92, 246, 0.4)',
+    fontFamily: 'Sora, sans-serif',
+    maxWidth: 300,
+    lineHeight: 1.5,
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    color: '#1a103d',
+    '&::before': {
+      border: '1px solid #8b5cf6',
+      backgroundColor: '#1a103d',
+    },
+  },
+}));
 
-interface Token {
-  text: string;
-  type: TokenType;
-}
+const GlowSpan = styled('span')<{ active?: boolean; annotated?: boolean }>(({ active, annotated }) => ({
+  transition: 'all 200ms ease',
+  borderRadius: 4,
+  padding: '0 2px',
+  cursor: annotated ? 'help' : 'inherit',
+  '&:hover': annotated ? {
+    backgroundColor: 'rgba(139, 92, 246, 0.25)',
+    boxShadow: '0 0 8px rgba(139, 92, 246, 0.5)',
+    color: '#fff !important',
+  } : {},
+  ...(active && {
+    backgroundColor: 'rgba(125,211,252,0.12)',
+    boxShadow: '0 0 4px rgba(125,211,252,0.2)',
+  }),
+}));
 
-const keywordSet = new Set([
-  'from',
-  'import',
-  'if',
-  'elif',
-  'else',
-  'for',
-  'while',
-  'return',
-  'class',
-  'def',
-  'const',
-  'let',
-  'export',
-  'default',
-  'new',
-  'in',
-  'as',
-  'with',
-  'try',
-  'except',
-  'finally',
-  'raise',
-  'break',
-  'continue',
-  'True',
-  'False',
-  'None',
-  'pass',
-  'and',
-  'or',
-  'not',
-]);
-
-const builtinSet = new Set([
-  'print',
-  'range',
-  'len',
-  'enumerate',
-  'sum',
-  'float',
-  'int',
-  'max',
-  'min',
-  'round',
-  'list',
-  'map',
-  'Math',
-]);
-
-const tokenColorMap: Record<TokenType, string> = {
-  keyword: '#c4b5fd',
-  string: '#86efac',
-  comment: '#64748b',
-  number: '#fdba74',
-  function: '#7dd3fc',
-  builtin: '#f9a8d4',
-  decorator: '#facc15',
-  operator: '#93c5fd',
-  normal: '#e2e8f0',
-};
-
-function escapeHtml(text: string) {
-  return text
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;');
-}
-
-function tokenizeLine(line: string): Token[] {
-  const trimmed = line.trimStart();
-
-  if (trimmed.startsWith('#') || trimmed.startsWith('//')) {
-    return [{ text: line, type: 'comment' }];
+function renderAnnotatedContent(
+  line: string,
+  tokens: Token[],
+  lineAnnotations: CodeAnnotation[],
+  active: boolean,
+): ReactNode {
+  // If no annotations, just render tokens
+  if (lineAnnotations.length === 0) {
+    return (
+      <GlowSpan active={active}>
+        {tokens.map((token, i) => (
+          <Box
+            component="span"
+            key={i}
+            sx={{
+              color: tokenColorMap[token.type],
+              fontFamily: 'ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco, Consolas, Liberation Mono, monospace',
+            }}
+            dangerouslySetInnerHTML={{ __html: escapeHtml(token.text) }}
+          />
+        ))}
+      </GlowSpan>
+    );
   }
 
-  const parts = line.split(
-    /(\s+|#[^\n]*|\/\/[^\n]*|"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\b\d+(?:\.\d+)?\b|@[A-Za-z_][A-Za-z0-9_]*|==|!=|<=|>=|=>|\+\=|\-\=|\*\=|\/\=|\*\*|[()[\]{}:.,=+\-*/<>]|\b[A-Za-z_][A-Za-z0-9_]*\b)/g,
+  const fullLineAnno = lineAnnotations.find(a => !a.substring);
+  const substringAnnos = lineAnnotations.filter(a => a.substring);
+
+  // If there's a full line annotation, it takes precedence for the glow/tooltip
+  if (fullLineAnno) {
+    return (
+      <StyledTooltip title={fullLineAnno.explanation} arrow placement="top-start">
+        <GlowSpan active={active} annotated={true}>
+          {tokens.map((token, i) => (
+            <Box
+              component="span"
+              key={i}
+              sx={{
+                color: tokenColorMap[token.type],
+                fontFamily: 'ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco, Consolas, Liberation Mono, monospace',
+              }}
+              dangerouslySetInnerHTML={{ __html: escapeHtml(token.text) }}
+            />
+          ))}
+        </GlowSpan>
+      </StyledTooltip>
+    );
+  }
+
+  // Handle substring annotations
+  // For each token, we check if it matches or contains a substring from annotations
+  let charOffset = 0;
+  return (
+    <GlowSpan active={active}>
+      {tokens.map((token, tokenIdx) => {
+        const tokenStart = charOffset;
+        const tokenEnd = charOffset + token.text.length;
+        charOffset = tokenEnd;
+
+        // Check if any substring annotation overlaps with this token
+        const matchingAnno = substringAnnos.find(a => {
+          const sub = a.substring!;
+          const subIdx = line.indexOf(sub); // Simplification: first match
+          if (subIdx === -1) return false;
+          const subEnd = subIdx + sub.length;
+          return tokenStart < subEnd && tokenEnd > subIdx;
+        });
+
+        const tokenContent = (
+          <Box
+            component="span"
+            key={tokenIdx}
+            sx={{
+              color: tokenColorMap[token.type],
+              fontFamily: 'ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco, Consolas, Liberation Mono, monospace',
+            }}
+            dangerouslySetInnerHTML={{ __html: escapeHtml(token.text) }}
+          />
+        );
+
+        if (matchingAnno) {
+          return (
+            <StyledTooltip key={tokenIdx} title={matchingAnno.explanation} arrow placement="top">
+              <GlowSpan annotated={true} sx={{ display: 'inline-block' }}>
+                {tokenContent}
+              </GlowSpan>
+            </StyledTooltip>
+          );
+        }
+
+        return tokenContent;
+      })}
+    </GlowSpan>
   );
-
-  return parts
-    .filter((part) => part !== '')
-    .map((part, index, arr) => {
-      if (/^\s+$/.test(part)) return { text: part, type: 'normal' } satisfies Token;
-      if (/^#[^\n]*$|^\/\/[^\n]*$/.test(part)) return { text: part, type: 'comment' } satisfies Token;
-      if (/^"(?:\\.|[^"])*"$|^'(?:\\.|[^'])*'$/.test(part)) return { text: part, type: 'string' } satisfies Token;
-      if (/^\d+(?:\.\d+)?$/.test(part)) return { text: part, type: 'number' } satisfies Token;
-      if (/^@[A-Za-z_][A-Za-z0-9_]*$/.test(part)) return { text: part, type: 'decorator' } satisfies Token;
-      if (/^(==|!=|<=|>=|=>|\+\=|\-\=|\*\=|\/\=|\*\*|[()[\]{}:.,=+\-*/<>])$/.test(part)) {
-        return { text: part, type: 'operator' } satisfies Token;
-      }
-      if (keywordSet.has(part)) return { text: part, type: 'keyword' } satisfies Token;
-      if (builtinSet.has(part)) return { text: part, type: 'builtin' } satisfies Token;
-
-      const next = arr[index + 1];
-      if (/^[A-Za-z_][A-Za-z0-9_]*$/.test(part) && next === '(') {
-        return { text: part, type: 'function' } satisfies Token;
-      }
-
-      return { text: part, type: 'normal' } satisfies Token;
-    });
 }
 
 function renderLine(
   line: string,
   index: number,
   activeLines: Set<number>,
-  annotations?: Record<number, string>,
+  allAnnotations: CodeAnnotation[],
 ): ReactNode {
   const lineNo = index + 1;
   const active = activeLines.has(lineNo);
-  const annotation = annotations?.[lineNo];
+  
+  const lineAnnotations = allAnnotations.filter(a => {
+    if (a.line === lineNo) return true;
+    if (a.lines && lineNo >= a.lines[0] && lineNo <= a.lines[1]) return true;
+    return false;
+  });
+
   const isEmpty = line.trim() === '';
 
   if (isEmpty && !active) {
@@ -154,8 +180,8 @@ function renderLine(
         gap: 1,
         px: 1,
         py: 0.15,
-        borderLeft: active ? '2px solid rgba(125,211,252,0.9)' : '2px solid transparent',
-        backgroundColor: active ? 'rgba(125,211,252,0.08)' : 'transparent',
+        borderLeft: active ? '2px solid #7dd3fc' : '2px solid transparent',
+        backgroundColor: active ? 'rgba(125,211,252,0.05)' : 'transparent',
         transition: 'all 180ms ease',
       }}
     >
@@ -173,52 +199,36 @@ function renderLine(
       </Typography>
 
       <Box component="span" sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-        {tokens.map((token, tokenIndex) => (
-          <Box
-            component="span"
-            key={`${index}-${tokenIndex}-${token.text}`}
-            sx={{
-              color: tokenColorMap[token.type],
-              fontFamily:
-                'ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco, Consolas, Liberation Mono, monospace',
-              whiteSpace: 'pre-wrap',
-            }}
-            dangerouslySetInnerHTML={{ __html: escapeHtml(token.text) }}
-          />
-        ))}
-        {annotation ? (
-          <Box
-            component="span"
-            sx={{
-              ml: 1,
-              color: active ? 'rgba(250,204,21,0.9)' : 'rgba(250,204,21,0.45)',
-              fontFamily:
-                'ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco, Consolas, Liberation Mono, monospace',
-            }}
-          >
-            {annotation}
-          </Box>
-        ) : null}
+        {renderAnnotatedContent(line, tokens, lineAnnotations, active)}
       </Box>
     </Box>
   );
 }
 
-export function CodeBlock({ language, caption, code, activeLines = [], annotations }: CodeBlockProps) {
+export function CodeBlock({ language, caption, code, activeLines = [], annotations = [] }: CodeBlockProps) {
   const lines = code.split('\n');
   const activeLineSet = new Set(activeLines);
+
+  // Normalize annotations to CodeAnnotation[]
+  const normalizedAnnotations: CodeAnnotation[] = Array.isArray(annotations)
+    ? annotations
+    : Object.entries(annotations).map(([line, explanation]) => ({
+        line: Number(line),
+        explanation,
+      }));
 
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        bgcolor: '#08111f',
-        border: '1px solid rgba(255,255,255,0.08)',
+        bgcolor: '#0a051d', // Slightly darker synthwave background
+        border: '1px solid rgba(139, 92, 246, 0.2)',
         borderRadius: 2,
         overflow: 'hidden',
-        maxHeight: { xs: 320, md: 360, lg: 390 },
+        maxHeight: { xs: 320, md: 450, lg: 550 },
         color: '#e2e8f0',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
       }}
     >
       <Stack
@@ -227,16 +237,16 @@ export function CodeBlock({ language, caption, code, activeLines = [], annotatio
         alignItems="center"
         sx={{
           px: 2,
-          py: 0.85,
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
-          backgroundColor: 'rgba(255,255,255,0.02)',
+          py: 1,
+          borderBottom: '1px solid rgba(139, 92, 246, 0.2)',
+          backgroundColor: 'rgba(139, 92, 246, 0.05)',
           flexShrink: 0,
         }}
       >
-        <Typography variant="subtitle2" fontWeight={800}>
+        <Typography variant="subtitle2" fontWeight={800} sx={{ color: '#c4b5fd', letterSpacing: '0.02em' }}>
           {caption}
         </Typography>
-        <Typography variant="caption" sx={{ color: 'rgba(226,232,240,0.72)' }}>
+        <Typography variant="caption" sx={{ color: 'rgba(196, 181, 253, 0.6)', fontWeight: 600, textTransform: 'uppercase' }}>
           {language}
         </Typography>
       </Stack>
@@ -245,16 +255,24 @@ export function CodeBlock({ language, caption, code, activeLines = [], annotatio
         component="pre"
         sx={{
           m: 0,
-          p: 1,
+          p: 1.5,
           overflow: 'auto',
           minHeight: 0,
           flex: 1,
-          fontSize: 12,
-          lineHeight: 1.45,
+          fontSize: 13,
+          lineHeight: 1.6,
           scrollbarGutter: 'stable',
+          '&::-webkit-scrollbar': {
+            width: '8px',
+            height: '8px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(139, 92, 246, 0.3)',
+            borderRadius: '4px',
+          },
         }}
       >
-        {lines.map((line, index) => renderLine(line, index, activeLineSet, annotations))}
+        {lines.map((line, index) => renderLine(line, index, activeLineSet, normalizedAnnotations))}
       </Box>
     </Box>
   );

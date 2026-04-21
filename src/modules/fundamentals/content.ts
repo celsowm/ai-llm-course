@@ -414,6 +414,17 @@ z = neuron(x)
 y = activation(z)
 
 print(f"Neuron output: {y.item():.4f}")`,
+        annotations: isPt ? [
+          { line: 6, explanation: 'nn.Linear é o bloco que implementa a soma ponderada (W*x + b).' },
+          { substring: 'nn.Sigmoid()', explanation: 'A função Sigmoid comprime a saída entre 0 e 1, ideal para probabilidade.' },
+          { line: 12, explanation: 'Convertemos os dados de entrada em um Tensor, o formato padrão do PyTorch.' },
+          { line: 15, explanation: 'Aqui ocorre a multiplicação de matrizes e a soma do bias.' },
+        ] : [
+          { line: 6, explanation: 'nn.Linear is the block that implements the weighted sum (W*x + b).' },
+          { substring: 'nn.Sigmoid()', explanation: 'The Sigmoid function compresses the output between 0 and 1, ideal for probability.' },
+          { line: 12, explanation: 'We convert input data into a Tensor, PyTorch’s standard format.' },
+          { line: 15, explanation: 'This is where matrix multiplication and bias addition happen.' },
+        ],
         visual: {
           kicker: isPt ? 'Implementação' : 'Implementation',
           figureTitle: isPt ? 'Camada linear + ativação' : 'Linear layer + activation',
