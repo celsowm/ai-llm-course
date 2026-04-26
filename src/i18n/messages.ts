@@ -6,6 +6,8 @@ export const messages = {
     common: {
       language: 'Idioma',
       openNavigation: 'abrir navegação',
+      previous: 'Anterior',
+      next: 'Próximo',
       restart: 'Reiniciar',
       autoplay: 'Autoplay',
       pause: 'Pause',
@@ -208,6 +210,8 @@ export const messages = {
     common: {
       language: 'Language',
       openNavigation: 'open navigation',
+      previous: 'Previous',
+      next: 'Next',
       restart: 'Restart',
       autoplay: 'Autoplay',
       pause: 'Pause',
