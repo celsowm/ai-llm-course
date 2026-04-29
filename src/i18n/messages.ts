@@ -14,6 +14,10 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'aguardando…',
+      previous: 'Anterior',
+      next: 'Próximo',
+      expand: 'Expandir',
+      collapse: 'Recolher',
     },
     pdf: {
       downloadCurrent: 'Baixar PDF',
@@ -138,7 +142,7 @@ export const messages = {
       idleRead: 'A rede está pronta para o próximo exemplo. Clique em **>** ou use autoplay.',
       forwardRead: 'A amostra percorre os pesos, ativa $$H_1, H_2$$ e gera a predição $$\hat{y}$$.',
       backwardRead: 'O erro volta: $$\Delta_o$$ e $$\Delta_h$$ corrigem os pesos para reduzir a loss.',
-      error: 'Erro', deltaOutput: 'Δ saída', deltaHidden: 'Δ hidden', iteration: 'iteração', currentLoss: 'loss atual', smoothedLoss: 'loss suave', accuracy: 'acurácia', prediction: 'predição', ready: 'Pronto', forward: 'Forward', backward: 'Backward', sample: 'Amostra',
+      error: 'Erro', deltaOutput: 'Δ saída', deltaHidden: 'Δ hidden', iteration: 'iteração', currentLoss: 'loss atual', smoothedLoss: 'loss suave', accuracy: 'acurácia', prediction: 'predição', ready: 'Pronto', forward: 'Forward', backward: 'Backward', sample: 'Amostra', next: 'Próximo passo',
     },
     neuronComparison: {
       eyebrow: 'Ponte entre biologia e matemática',
@@ -216,6 +220,10 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'waiting…',
+      previous: 'Previous',
+      next: 'Next',
+      expand: 'Expand',
+      collapse: 'Collapse',
     },
     pdf: {
       downloadCurrent: 'Download PDF',
@@ -340,7 +348,7 @@ export const messages = {
       idleRead: 'The network is ready for the next example. Click **>** or use autoplay.',
       forwardRead: 'The sample travels through weights, activates $$H_1, H_2$$ and generates prediction $$\hat{y}$$.',
       backwardRead: 'Error flows back: $$\Delta_o$$ and $$\Delta_h$$ adjust weights to reduce loss.',
-      error: 'Error', deltaOutput: 'Δ output', deltaHidden: 'Δ hidden', iteration: 'iteration', currentLoss: 'current loss', smoothedLoss: 'smoothed loss', accuracy: 'accuracy', prediction: 'prediction', ready: 'Ready', forward: 'Forward', backward: 'Backward', sample: 'Sample',
+      error: 'Error', deltaOutput: 'Δ output', deltaHidden: 'Δ hidden', iteration: 'iteration', currentLoss: 'current loss', smoothedLoss: 'smoothed loss', accuracy: 'accuracy', prediction: 'prediction', ready: 'Ready', forward: 'Forward', backward: 'Backward', sample: 'Sample', next: 'Next step',
     },
     neuronComparison: {
       eyebrow: 'Bridge between biology and math',
