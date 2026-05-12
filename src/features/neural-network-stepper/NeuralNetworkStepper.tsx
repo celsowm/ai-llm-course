@@ -156,7 +156,11 @@ export function NeuralNetworkStepper() {
             </Stack>
 
             <Stack direction="row" spacing={1} alignItems="center">
-              <Chip color="secondary" label={`${stepIndex + 1} / ${steps.length}`} />
+              <Chip
+                color="secondary"
+                label={`${stepIndex + 1} / ${steps.length}`}
+                aria-label={`${t('common.step')} ${stepIndex + 1} / ${steps.length}`}
+              />
               <Button variant="outlined" startIcon={<PlayArrowRoundedIcon />} onClick={reset}>
                 {t('common.restart')}
               </Button>
@@ -262,11 +266,21 @@ export function NeuralNetworkStepper() {
               </Box>
 
               <Stack direction="row" spacing={1.2} justifyContent="space-between">
-                <Button variant="outlined" startIcon={<ChevronLeftRoundedIcon />} onClick={previousStep} disabled={stepIndex === 0}>
-                  {'<'}
+                <Button
+                  variant="outlined"
+                  startIcon={<ChevronLeftRoundedIcon />}
+                  onClick={previousStep}
+                  disabled={stepIndex === 0}
+                >
+                  {t('common.previous')}
                 </Button>
-                <Button variant="contained" endIcon={<ChevronRightRoundedIcon />} onClick={nextStep} disabled={stepIndex === steps.length - 1}>
-                  {'>'}
+                <Button
+                  variant="contained"
+                  endIcon={<ChevronRightRoundedIcon />}
+                  onClick={nextStep}
+                  disabled={stepIndex === steps.length - 1}
+                >
+                  {t('common.next')}
                 </Button>
               </Stack>
             </Stack>
