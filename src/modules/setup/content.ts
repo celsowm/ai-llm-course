@@ -142,6 +142,38 @@ export function getSetupModule(locale: Locale): Lesson {
         },
       },
       {
+        id: 'attention-backends',
+        type: 'list',
+        title: isPt ? 'Backends de Atenção: O motor por baixo' : 'Attention Backends: The engine underneath',
+        items: isPt
+          ? [
+              { text: '**O que são Backends de Atenção?** Bibliotecas como Transformers e vLLM não processam tudo da mesma forma. Elas usam diferentes "motores" (backends) otimizados para o hardware, definindo a velocidade real.' },
+              { text: '**1. Math (Eager):** A abordagem didática. Calcula a equação de atenção passo a passo com operações padrão do PyTorch. É ótima para entender e debugar, mas extremamente lenta e devora VRAM.' },
+              { text: '**2. SDPA (Scaled Dot-Product Attention):** O salto do PyTorch 2.0. Ele reconhece a fórmula e funde as operações matemáticas (*kernel fusion*), reduzindo viagens de dados na memória. É rápido e vem de fábrica.' },
+              { text: '**3. FlashAttention:** A revolução atual. Reescreve a matemática a nível de hardware (CUDA) para evitar ler/escrever na memória principal da GPU (HBM), operando direto nos registradores (SRAM). É o padrão-ouro de velocidade.', isEmphasis: true },
+            ]
+          : [
+              { text: '**What are Attention Backends?** Libraries like Transformers and vLLM don’t process everything the same way. They use different hardware-optimized "engines" (backends), which define the actual speed.' },
+              { text: '**1. Math (Eager):** The didactic approach. Computes the attention equation step-by-step using standard PyTorch operations. Great for understanding and debugging, but extremely slow and VRAM-hungry.' },
+              { text: '**2. SDPA (Scaled Dot-Product Attention):** The PyTorch 2.0 leap. It recognizes the formula and fuses the mathematical operations (*kernel fusion*), reducing memory data trips. It is fast and comes out-of-the-box.' },
+              { text: '**3. FlashAttention:** The current revolution. Rewrites the math at the hardware level (CUDA) to avoid reading/writing to the main GPU memory (HBM), operating directly on registers (SRAM). It is the gold standard of speed.', isEmphasis: true },
+            ],
+        visual: {
+          kicker: isPt ? 'Otimização' : 'Optimization',
+          figureTitle: isPt ? 'Evolução da Atenção' : 'Attention Evolution',
+          figureCaption: isPt ? 'A mesma matemática pode rodar muito mais rápido com a estratégia de memória correta.' : 'The exact same math can run much faster with the correct memory strategy.',
+          callouts: isPt ? ['eager vs flash', 'sram'] : ['eager vs flash', 'sram'],
+          figure: {
+            kind: 'vertical-steps',
+            steps: [
+              { label: 'Math (Eager)', icon: '🐢', active: false },
+              { label: 'SDPA', icon: '⚡', active: false },
+              { label: 'FlashAttention', icon: '🚀', active: true },
+            ],
+          },
+        },
+      },
+      {
         id: 'venv',
         type: 'code',
         title: isPt ? 'Criando o ambiente virtual' : 'Creating the virtual environment',
