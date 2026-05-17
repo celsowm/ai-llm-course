@@ -14,6 +14,11 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'aguardando…',
+      previous: 'Anterior',
+      next: 'Próximo',
+      expand: 'Expandir',
+      collapse: 'Recolher',
+      step: 'Passo',
     },
     pdf: {
       downloadCurrent: 'Baixar PDF',
@@ -90,7 +95,7 @@ export const messages = {
         {
           id: 'prompt', eyebrow: 'Etapa 1', title: 'O aluno escreve um prompt',
           description: 'A rede começa com linguagem humana. O papel do módulo é mostrar que a conversa nasce de um prompt claro, não de mágica abstrata.',
-          helper: 'Use o botão **>** para avançar junto com a explicação ao vivo.',
+          helper: 'Use o botão **Próximo** para avançar junto com a explicação ao vivo.',
         },
         {
           id: 'tokens', eyebrow: 'Etapa 2', title: 'O texto vira representação interna',
@@ -216,6 +221,11 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'waiting…',
+      previous: 'Previous',
+      next: 'Next',
+      expand: 'Expand',
+      collapse: 'Collapse',
+      step: 'Step',
     },
     pdf: {
       downloadCurrent: 'Download PDF',
@@ -292,7 +302,7 @@ export const messages = {
         {
           id: 'prompt', eyebrow: 'Step 1', title: 'The learner writes a prompt',
           description: 'The network begins with human language. The role of the module is to show that the conversation starts from a clear prompt, not abstract magic.',
-          helper: 'Use the **>** button to advance together with the live explanation.',
+          helper: 'Use the **Next** button to advance together with the live explanation.',
         },
         {
           id: 'tokens', eyebrow: 'Step 2', title: 'Text becomes internal representation',
