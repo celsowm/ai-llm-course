@@ -90,8 +90,13 @@ function StatCard({ label, value, tone = 'default' }: { label: string; value: st
 // ── component ─────────────────────────────────────────────────────────────────
 
 export function HeartRiskNeuralAnimation() {
-  const { locale, tm } = useI18n();
-  const labels = tm<Record<string, string>>('heartRisk');
+  const { locale, t, tm } = useI18n();
+  const labels = useMemo<Record<string, string>>(() => ({
+    ...(tm('heartRisk') as Record<string, string>),
+    undo: t('common.undo'),
+    reset: t('common.reset'),
+    step: t('common.step'),
+  }), [tm, t]);
   const nodeLabelMap: Record<string, string> = {
     'in-0': labels.age, 'in-1': labels.pressure, 'in-2': labels.cholesterol,
     'in-3': labels.smoking, 'h-0': 'H1', 'h-1': 'H2', 'out-0': labels.risk,
