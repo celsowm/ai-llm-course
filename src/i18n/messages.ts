@@ -14,6 +14,8 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'aguardando…',
+      copy: 'Copiar',
+      copied: 'Copiado!',
     },
     pdf: {
       downloadCurrent: 'Baixar PDF',
@@ -216,6 +218,8 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'waiting…',
+      copy: 'Copy',
+      copied: 'Copied!',
     },
     pdf: {
       downloadCurrent: 'Download PDF',
