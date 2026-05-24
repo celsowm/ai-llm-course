@@ -14,6 +14,10 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'aguardando…',
+      previous: 'Anterior',
+      next: 'Próximo',
+      collapse: 'Recolher',
+      expand: 'Expandir',
     },
     pdf: {
       downloadCurrent: 'Baixar PDF',
@@ -90,7 +94,7 @@ export const messages = {
         {
           id: 'prompt', eyebrow: 'Etapa 1', title: 'O aluno escreve um prompt',
           description: 'A rede começa com linguagem humana. O papel do módulo é mostrar que a conversa nasce de um prompt claro, não de mágica abstrata.',
-          helper: 'Use o botão **>** para avançar junto com a explicação ao vivo.',
+          helper: 'Use o botão **Próximo** para avançar junto com a explicação ao vivo.',
         },
         {
           id: 'tokens', eyebrow: 'Etapa 2', title: 'O texto vira representação interna',
@@ -134,8 +138,9 @@ export const messages = {
       inferenceBody: 'Depois do treino, ajuste os fatores do paciente e veja a saída mudar com os pesos aprendidos.',
       age: 'Idade', years: 'anos', pressure: 'Pressão', cholesterol: 'Colesterol', smoker: 'Fumante', smoking: 'Fumo', risk: 'Risco', no: 'Não', yes: 'Sim',
       estimatedProbability: 'Probabilidade estimada',
+      next: 'Próximo',
       didacticRead: 'Leitura didática do passo atual',
-      idleRead: 'A rede está pronta para o próximo exemplo. Clique em **>** ou use autoplay.',
+      idleRead: 'A rede está pronta para o próximo exemplo. Clique em **Próximo** ou use autoplay.',
       forwardRead: 'A amostra percorre os pesos, ativa $$H_1, H_2$$ e gera a predição $$\hat{y}$$.',
       backwardRead: 'O erro volta: $$\Delta_o$$ e $$\Delta_h$$ corrigem os pesos para reduzir a loss.',
       error: 'Erro', deltaOutput: 'Δ saída', deltaHidden: 'Δ hidden', iteration: 'iteração', currentLoss: 'loss atual', smoothedLoss: 'loss suave', accuracy: 'acurácia', prediction: 'predição', ready: 'Pronto', forward: 'Forward', backward: 'Backward', sample: 'Amostra',
@@ -216,6 +221,10 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'waiting…',
+      previous: 'Previous',
+      next: 'Next',
+      collapse: 'Collapse',
+      expand: 'Expand',
     },
     pdf: {
       downloadCurrent: 'Download PDF',
@@ -292,7 +301,7 @@ export const messages = {
         {
           id: 'prompt', eyebrow: 'Step 1', title: 'The learner writes a prompt',
           description: 'The network begins with human language. The role of the module is to show that the conversation starts from a clear prompt, not abstract magic.',
-          helper: 'Use the **>** button to advance together with the live explanation.',
+          helper: 'Use the **Next** button to advance together with the live explanation.',
         },
         {
           id: 'tokens', eyebrow: 'Step 2', title: 'Text becomes internal representation',
@@ -336,8 +345,9 @@ export const messages = {
       inferenceBody: 'After training, tweak the patient factors and watch the output change with the learned weights.',
       age: 'Age', years: 'years', pressure: 'Blood pressure', cholesterol: 'Cholesterol', smoker: 'Smoker', smoking: 'Smoking', risk: 'Risk', no: 'No', yes: 'Yes',
       estimatedProbability: 'Estimated probability',
+      next: 'Next',
       didacticRead: 'Didactic reading of the current step',
-      idleRead: 'The network is ready for the next example. Click **>** or use autoplay.',
+      idleRead: 'The network is ready for the next example. Click **Next** or use autoplay.',
       forwardRead: 'The sample travels through weights, activates $$H_1, H_2$$ and generates prediction $$\hat{y}$$.',
       backwardRead: 'Error flows back: $$\Delta_o$$ and $$\Delta_h$$ adjust weights to reduce loss.',
       error: 'Error', deltaOutput: 'Δ output', deltaHidden: 'Δ hidden', iteration: 'iteration', currentLoss: 'current loss', smoothedLoss: 'smoothed loss', accuracy: 'accuracy', prediction: 'prediction', ready: 'Ready', forward: 'Forward', backward: 'Backward', sample: 'Sample',
