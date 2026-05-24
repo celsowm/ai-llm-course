@@ -50,7 +50,7 @@ function NavigationPanel({ onCollapse }: { onCollapse: () => void }) {
                 {t('layout.sidebarTitle')}
               </Typography>
             </Stack>
-            <Tooltip title="Recolher">
+            <Tooltip title={t('common.collapse')}>
               <IconButton size="small" onClick={onCollapse} sx={{ color: 'text.secondary' }}>
                 <ChevronLeftRoundedIcon fontSize="small" />
               </IconButton>
@@ -122,6 +122,7 @@ const drawerPaperSx = {
 };
 
 export function CourseLayout() {
+  const { t } = useI18n();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const theme = useTheme();
@@ -151,7 +152,7 @@ export function CourseLayout() {
                 <MenuRoundedIcon fontSize="small" />
               </IconButton>
             ) : collapsed ? (
-              <Tooltip title="Expandir menu">
+              <Tooltip title={t('common.expand')}>
                 <IconButton size="small" color="inherit" onClick={() => setCollapsed(false)}>
                   <MenuRoundedIcon fontSize="small" />
                 </IconButton>
