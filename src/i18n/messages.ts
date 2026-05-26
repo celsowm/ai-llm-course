@@ -5,7 +5,7 @@ export const messages = {
   'pt-BR': {
     common: {
       language: 'Idioma',
-      openNavigation: 'abrir navegação',
+      openNavigation: 'Abrir navegação',
       restart: 'Reiniciar',
       autoplay: 'Autoplay',
       pause: 'Pause',
@@ -14,6 +14,10 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'aguardando…',
+      previous: 'Anterior',
+      next: 'Próximo',
+      collapse: 'Recolher',
+      expand: 'Expandir',
     },
     pdf: {
       downloadCurrent: 'Baixar PDF',
@@ -207,7 +211,7 @@ export const messages = {
   en: {
     common: {
       language: 'Language',
-      openNavigation: 'open navigation',
+      openNavigation: 'Open navigation',
       restart: 'Restart',
       autoplay: 'Autoplay',
       pause: 'Pause',
@@ -216,6 +220,10 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'waiting…',
+      previous: 'Previous',
+      next: 'Next',
+      collapse: 'Collapse',
+      expand: 'Expand',
     },
     pdf: {
       downloadCurrent: 'Download PDF',
