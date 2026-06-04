@@ -14,6 +14,11 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'aguardando…',
+      previous: 'Anterior',
+      next: 'Próximo',
+      collapse: 'Recolher',
+      expand: 'Expandir',
+      openNavigation: 'Abrir navegação',
     },
     pdf: {
       downloadCurrent: 'Baixar PDF',
@@ -216,6 +221,11 @@ export const messages = {
       undo: 'Undo',
       play: 'Play',
       waiting: 'waiting…',
+      previous: 'Previous',
+      next: 'Next',
+      collapse: 'Collapse',
+      expand: 'Expand',
+      openNavigation: 'Open navigation',
     },
     pdf: {
       downloadCurrent: 'Download PDF',
