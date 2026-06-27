@@ -1,0 +1,3 @@
+## 2025-05-15 - Improving UI Accessibility with Tooltips and ARIA Labels
+**Learning:** Icon-only buttons in MUI (like IconButton) require both a Tooltip for visual feedback and an aria-label for screen reader accessibility. When these buttons perform critical navigation (like Previous/Next), including localized keyboard shortcut hints in the Tooltip title (but not the aria-label) significantly improves discoverability for power users.
+**Action:** Always pair IconButton with Tooltip and aria-label. Use localized strings for both. If a keyboard listener exists, add the hint (e.g., "Previous (←)") to the Tooltip title.
