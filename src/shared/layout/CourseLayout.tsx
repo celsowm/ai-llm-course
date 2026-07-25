@@ -50,8 +50,13 @@ function NavigationPanel({ onCollapse }: { onCollapse: () => void }) {
                 {t('layout.sidebarTitle')}
               </Typography>
             </Stack>
-            <Tooltip title="Recolher">
-              <IconButton size="small" onClick={onCollapse} sx={{ color: 'text.secondary' }}>
+            <Tooltip title={t('common.collapseMenu')}>
+              <IconButton
+                size="small"
+                onClick={onCollapse}
+                sx={{ color: 'text.secondary' }}
+                aria-label={t('common.collapseMenu')}
+              >
                 <ChevronLeftRoundedIcon fontSize="small" />
               </IconButton>
             </Tooltip>
@@ -97,19 +102,46 @@ function NavigationPanel({ onCollapse }: { onCollapse: () => void }) {
 
 function SlideNavControls() {
   const { nav } = useSlideNav();
+  const { t } = useI18n();
   if (!nav) return null;
+
+  const prevDisabled = nav.activeStep === 0;
+  const nextDisabled = nav.activeStep === nav.maxSteps - 1;
+
+  const prevLabel = t('common.previous');
+  const nextLabel = t('common.next');
 
   return (
     <Stack direction="row" spacing={0.5} alignItems="center">
-      <IconButton size="small" onClick={nav.onPrev} disabled={nav.activeStep === 0} color="primary">
-        <KeyboardArrowLeftRoundedIcon fontSize="small" />
-      </IconButton>
+      <Tooltip title={`${prevLabel} (←)`}>
+        <span>
+          <IconButton
+            size="small"
+            onClick={nav.onPrev}
+            disabled={prevDisabled}
+            color="primary"
+            aria-label={prevLabel}
+          >
+            <KeyboardArrowLeftRoundedIcon fontSize="small" />
+          </IconButton>
+        </span>
+      </Tooltip>
       <Typography variant="body2" color="text.secondary" fontWeight={600} sx={{ minWidth: 48, textAlign: 'center' }}>
         {nav.activeStep + 1} / {nav.maxSteps}
       </Typography>
-      <IconButton size="small" onClick={nav.onNext} disabled={nav.activeStep === nav.maxSteps - 1} color="primary">
-        <KeyboardArrowRightRoundedIcon fontSize="small" />
-      </IconButton>
+      <Tooltip title={`${nextLabel} (→)`}>
+        <span>
+          <IconButton
+            size="small"
+            onClick={nav.onNext}
+            disabled={nextDisabled}
+            color="primary"
+            aria-label={nextLabel}
+          >
+            <KeyboardArrowRightRoundedIcon fontSize="small" />
+          </IconButton>
+        </span>
+      </Tooltip>
     </Stack>
   );
 }
@@ -122,6 +154,7 @@ const drawerPaperSx = {
 };
 
 export function CourseLayout() {
+  const { t } = useI18n();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const theme = useTheme();
@@ -147,12 +180,24 @@ export function CourseLayout() {
         <Toolbar sx={{ gap: 1, minHeight: '52px !important' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
             {!isDesktop ? (
-              <IconButton size="small" color="inherit" onClick={() => setMobileOpen(true)}>
-                <MenuRoundedIcon fontSize="small" />
-              </IconButton>
+              <Tooltip title={t('common.openNavigation')}>
+                <IconButton
+                  size="small"
+                  color="inherit"
+                  onClick={() => setMobileOpen(true)}
+                  aria-label={t('common.openNavigation')}
+                >
+                  <MenuRoundedIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
             ) : collapsed ? (
-              <Tooltip title="Expandir menu">
-                <IconButton size="small" color="inherit" onClick={() => setCollapsed(false)}>
+              <Tooltip title={t('common.expandMenu')}>
+                <IconButton
+                  size="small"
+                  color="inherit"
+                  onClick={() => setCollapsed(false)}
+                  aria-label={t('common.expandMenu')}
+                >
                   <MenuRoundedIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
