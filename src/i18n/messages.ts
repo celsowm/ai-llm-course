@@ -54,7 +54,9 @@ export const messages = {
       alert: 'Este card é propositalmente simulado. Ele deixa a navegação viva enquanto a integração real com LLM ainda não foi conectada.',
       inputLabel: 'Seu prompt',
       inputPlaceholder: 'Pergunte algo sobre transformers, Python ou CUDA.',
+      helperText: 'Pressione Ctrl+Enter (ou ⌘+Enter) para enviar',
       submit: 'Testar prompt',
+      submitting: 'Enviando...',
       responseTitle: 'Resposta simulada',
       initialPrompt: 'Explique o que é um transformer em uma frase simples.',
       responses: {
@@ -256,7 +258,9 @@ export const messages = {
       alert: 'This card is intentionally simulated. It keeps navigation lively while real LLM integration is not connected yet.',
       inputLabel: 'Your prompt',
       inputPlaceholder: 'Ask something about transformers, Python or CUDA.',
+      helperText: 'Press Ctrl+Enter (or ⌘+Enter) to submit',
       submit: 'Test prompt',
+      submitting: 'Sending...',
       responseTitle: 'Simulated response',
       initialPrompt: 'Explain what a transformer is in one simple sentence.',
       responses: {
