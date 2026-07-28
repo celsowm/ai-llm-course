@@ -1,7 +1,7 @@
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { Alert, Box, Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { Alert, Box, Button, Card, CardContent, CircularProgress, Stack, TextField, Typography } from '@mui/material';
+import { useMemo, useState, useTransition } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Trans } from '../../i18n/Trans';
 import { MarkdownRenderer } from '../../shared/components/MarkdownRenderer';
@@ -22,8 +22,26 @@ export function PromptPlayground() {
 
   const [prompt, setPrompt] = useState(initialPrompt);
   const [submittedPrompt, setSubmittedPrompt] = useState(initialPrompt);
+  const [isPending, startTransition] = useTransition();
 
   const response = useMemo(() => pickResponse(submittedPrompt, responses), [submittedPrompt, responses]);
+
+  const handleSubmit = () => {
+    startTransition(async () => {
+      // 600ms async delay
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      setSubmittedPrompt(prompt);
+    });
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+      if (!isPending) {
+        handleSubmit();
+      }
+    }
+  };
 
   return (
     <Card>
@@ -47,12 +65,20 @@ export function PromptPlayground() {
             minRows={3}
             value={prompt}
             onChange={(event) => setPrompt(event.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder={t('playground.inputPlaceholder')}
+            helperText={isPending ? t('playground.sendingText') : t('playground.helperText')}
+            disabled={isPending}
             fullWidth
           />
 
           <Stack direction="row" justifyContent="flex-end">
-            <Button variant="contained" endIcon={<SendRoundedIcon />} onClick={() => setSubmittedPrompt(prompt)}>
+            <Button
+              variant="contained"
+              endIcon={isPending ? <CircularProgress size={16} color="inherit" /> : <SendRoundedIcon />}
+              onClick={handleSubmit}
+              disabled={isPending}
+            >
               {t('playground.submit')}
             </Button>
           </Stack>
@@ -61,7 +87,7 @@ export function PromptPlayground() {
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
               {t('playground.responseTitle')}
             </Typography>
-            <MarkdownRenderer content={response} variant="body1" />
+            <MarkdownRenderer content={isPending ? t('common.waiting') : response} variant="body1" />
           </Box>
         </Stack>
       </CardContent>
