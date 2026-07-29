@@ -57,6 +57,7 @@ export const messages = {
       submit: 'Testar prompt',
       responseTitle: 'Resposta simulada',
       initialPrompt: 'Explique o que é um transformer em uma frase simples.',
+      helperText: 'Pressione Ctrl+Enter (ou ⌘+Enter) para enviar',
       responses: {
         transformer: 'Transformer é uma arquitetura que usa atenção para relacionar tokens e entender contexto em sequência.',
         python: 'Python é popular em IA generativa porque a sintaxe é simples e o ecossistema de bibliotecas é muito forte.',
@@ -259,6 +260,7 @@ export const messages = {
       submit: 'Test prompt',
       responseTitle: 'Simulated response',
       initialPrompt: 'Explain what a transformer is in one simple sentence.',
+      helperText: 'Press Ctrl+Enter (or ⌘+Enter) to submit',
       responses: {
         transformer: 'A transformer is an architecture that uses attention to connect tokens and understand context in sequence.',
         python: 'Python is popular in generative AI because the syntax is simple and the library ecosystem is very strong.',
