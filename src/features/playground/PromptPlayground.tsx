@@ -1,6 +1,6 @@
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { Alert, Box, Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, CircularProgress, Stack, TextField, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Trans } from '../../i18n/Trans';
@@ -22,8 +22,18 @@ export function PromptPlayground() {
 
   const [prompt, setPrompt] = useState(initialPrompt);
   const [submittedPrompt, setSubmittedPrompt] = useState(initialPrompt);
+  const [isLoading, setIsLoading] = useState(false);
 
   const response = useMemo(() => pickResponse(submittedPrompt, responses), [submittedPrompt, responses]);
+
+  const handleSubmit = () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    setTimeout(() => {
+      setSubmittedPrompt(prompt);
+      setIsLoading(false);
+    }, 600);
+  };
 
   return (
     <Card>
@@ -48,12 +58,25 @@ export function PromptPlayground() {
             value={prompt}
             onChange={(event) => setPrompt(event.target.value)}
             placeholder={t('playground.inputPlaceholder')}
+            helperText={t('playground.helperText')}
+            disabled={isLoading}
             fullWidth
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+                event.preventDefault();
+                handleSubmit();
+              }
+            }}
           />
 
           <Stack direction="row" justifyContent="flex-end">
-            <Button variant="contained" endIcon={<SendRoundedIcon />} onClick={() => setSubmittedPrompt(prompt)}>
-              {t('playground.submit')}
+            <Button
+              variant="contained"
+              endIcon={isLoading ? <CircularProgress size={16} color="inherit" /> : <SendRoundedIcon />}
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              {isLoading ? t('playground.submitting') : t('playground.submit')}
             </Button>
           </Stack>
 
