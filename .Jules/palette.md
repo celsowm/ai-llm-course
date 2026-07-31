@@ -1,0 +1,3 @@
+## 2025-07-31 - Tooltip triggers and keyboard focus boundaries in slide-decks
+**Learning:** MUI Tooltips do not trigger on disabled elements because disabled components do not fire pointer events. Furthermore, global keyboard event listeners (like ArrowLeft/ArrowRight) can intercept cursor movement inside input text fields if not scoped to ignore inputs, textareas, contenteditable elements, or MUI's .MuiInputBase-root components.
+**Action:** Always wrap disabled button components inside a `<span>` element when using Tooltips, and perform robust target checks (such as verifying e.target and checking for inputs/editable elements/Material UI input bases) in global keyboard event handlers.
