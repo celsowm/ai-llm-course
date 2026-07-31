@@ -97,19 +97,43 @@ function NavigationPanel({ onCollapse }: { onCollapse: () => void }) {
 
 function SlideNavControls() {
   const { nav } = useSlideNav();
+  const { t } = useI18n();
   if (!nav) return null;
+
+  const prevTitle = t('common.previous');
+  const nextTitle = t('common.next');
 
   return (
     <Stack direction="row" spacing={0.5} alignItems="center">
-      <IconButton size="small" onClick={nav.onPrev} disabled={nav.activeStep === 0} color="primary">
-        <KeyboardArrowLeftRoundedIcon fontSize="small" />
-      </IconButton>
+      <Tooltip title={`${prevTitle} (←)`}>
+        <span>
+          <IconButton
+            size="small"
+            onClick={nav.onPrev}
+            disabled={nav.activeStep === 0}
+            color="primary"
+            aria-label={prevTitle}
+          >
+            <KeyboardArrowLeftRoundedIcon fontSize="small" />
+          </IconButton>
+        </span>
+      </Tooltip>
       <Typography variant="body2" color="text.secondary" fontWeight={600} sx={{ minWidth: 48, textAlign: 'center' }}>
         {nav.activeStep + 1} / {nav.maxSteps}
       </Typography>
-      <IconButton size="small" onClick={nav.onNext} disabled={nav.activeStep === nav.maxSteps - 1} color="primary">
-        <KeyboardArrowRightRoundedIcon fontSize="small" />
-      </IconButton>
+      <Tooltip title={`${nextTitle} (→)`}>
+        <span>
+          <IconButton
+            size="small"
+            onClick={nav.onNext}
+            disabled={nav.activeStep === nav.maxSteps - 1}
+            color="primary"
+            aria-label={nextTitle}
+          >
+            <KeyboardArrowRightRoundedIcon fontSize="small" />
+          </IconButton>
+        </span>
+      </Tooltip>
     </Stack>
   );
 }

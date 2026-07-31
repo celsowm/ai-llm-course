@@ -44,6 +44,21 @@ export function SlideDeck({ children, activeStep: controlledActiveStep, onPrev, 
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target) {
+        const tagName = target.tagName;
+        const isEditable = target.isContentEditable || target.hasAttribute('contenteditable');
+        const isMuiInput = target.closest('.MuiInputBase-root') !== null;
+        if (
+          tagName === 'INPUT' ||
+          tagName === 'TEXTAREA' ||
+          isEditable ||
+          isMuiInput
+        ) {
+          return;
+        }
+      }
+
       if (e.key === 'ArrowLeft') handlePrev();
       if (e.key === 'ArrowRight') handleNext();
     };
