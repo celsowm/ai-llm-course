@@ -1,6 +1,6 @@
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { Alert, Box, Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, CircularProgress, Stack, TextField, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Trans } from '../../i18n/Trans';
@@ -16,14 +16,35 @@ function pickResponse(prompt: string, responses: Record<string, string>): string
 }
 
 export function PromptPlayground() {
-  const { t, tm } = useI18n();
+  const { t, tm, locale } = useI18n();
   const responses = tm<Record<string, string>>('playground.responses');
   const initialPrompt = t('playground.initialPrompt');
 
   const [prompt, setPrompt] = useState(initialPrompt);
   const [submittedPrompt, setSubmittedPrompt] = useState(initialPrompt);
+  const [loading, setLoading] = useState(false);
 
   const response = useMemo(() => pickResponse(submittedPrompt, responses), [submittedPrompt, responses]);
+
+  const handleSubmit = () => {
+    if (loading) return;
+    setLoading(true);
+    setTimeout(() => {
+      setSubmittedPrompt(prompt);
+      setLoading(false);
+    }, 600);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+      handleSubmit();
+    }
+  };
+
+  const helperText = locale === 'pt-BR'
+    ? 'Atalho: Pressione Ctrl + Enter para testar o prompt.'
+    : 'Shortcut: Press Ctrl + Enter to test prompt.';
 
   return (
     <Card>
@@ -47,12 +68,20 @@ export function PromptPlayground() {
             minRows={3}
             value={prompt}
             onChange={(event) => setPrompt(event.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder={t('playground.inputPlaceholder')}
             fullWidth
+            disabled={loading}
+            helperText={helperText}
           />
 
           <Stack direction="row" justifyContent="flex-end">
-            <Button variant="contained" endIcon={<SendRoundedIcon />} onClick={() => setSubmittedPrompt(prompt)}>
+            <Button
+              variant="contained"
+              endIcon={loading ? <CircularProgress size={16} color="inherit" /> : <SendRoundedIcon />}
+              onClick={handleSubmit}
+              disabled={loading}
+            >
               {t('playground.submit')}
             </Button>
           </Stack>
