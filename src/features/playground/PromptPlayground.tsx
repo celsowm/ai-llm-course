@@ -1,6 +1,6 @@
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { Alert, Box, Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, Stack, TextField, Typography, CircularProgress } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Trans } from '../../i18n/Trans';
@@ -22,8 +22,25 @@ export function PromptPlayground() {
 
   const [prompt, setPrompt] = useState(initialPrompt);
   const [submittedPrompt, setSubmittedPrompt] = useState(initialPrompt);
+  const [isPending, setIsPending] = useState(false);
 
   const response = useMemo(() => pickResponse(submittedPrompt, responses), [submittedPrompt, responses]);
+
+  const handleSubmit = () => {
+    if (isPending) return;
+    setIsPending(true);
+    setTimeout(() => {
+      setSubmittedPrompt(prompt);
+      setIsPending(false);
+    }, 600);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
 
   return (
     <Card>
@@ -47,12 +64,20 @@ export function PromptPlayground() {
             minRows={3}
             value={prompt}
             onChange={(event) => setPrompt(event.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder={t('playground.inputPlaceholder')}
             fullWidth
+            disabled={isPending}
+            helperText={isPending ? t('common.waiting') : t('playground.helperText')}
           />
 
           <Stack direction="row" justifyContent="flex-end">
-            <Button variant="contained" endIcon={<SendRoundedIcon />} onClick={() => setSubmittedPrompt(prompt)}>
+            <Button
+              variant="contained"
+              endIcon={isPending ? <CircularProgress size={16} color="inherit" /> : <SendRoundedIcon />}
+              onClick={handleSubmit}
+              disabled={isPending}
+            >
               {t('playground.submit')}
             </Button>
           </Stack>
