@@ -1,0 +1,3 @@
+## 2025-02-28 - Preventing Slide Navigation Key Interference during Text Input
+**Learning:** Global keyboard event listeners (such as arrow key listeners for slide deck navigation) will intercept text navigation keys when a user is typing inside interactive elements (like textfields, textareas, content-editable fields, or MUI input bases), which breaks standard cursor movement and severely degrades keyboard accessibility.
+**Action:** Always check the event target in global keydown event listeners. If the target is an INPUT, TEXTAREA, has isContentEditable, or contains the `.MuiInputBase-root` class, early-return to ignore the global listener and preserve default text input behavior.
