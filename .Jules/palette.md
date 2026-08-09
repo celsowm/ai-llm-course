@@ -1,0 +1,5 @@
+## 2025-03-03 - Scoping Global Key Listeners & Preserving Interactive Name During Loading
+
+**Learning:** Global event listeners (like slide deck arrow-key handlers) must check their event targets and ignore inputs, textareas, contenteditable fields, or framework-specific container classes (such as `.MuiInputBase-root` in Material UI) to prevent hijacking standard browser keyboard actions like text cursor movement. Furthermore, when adding a loading spinner to an interactive button, replacing the button text with a standalone progress spinner removes the button's accessible name, breaking screen reader utility and strict-mode element locator queries; keeping the text and rendering the spinner as a localized icon (e.g. `startIcon`) preserves the label and accessible name.
+
+**Action:** Always verify global keyboard handlers with target exclusions. Keep text labels visible alongside loading indicators in buttons using icon positions, or explicitly define an `aria-label` if an icon-only loading state is used.
