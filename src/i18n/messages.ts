@@ -55,6 +55,8 @@ export const messages = {
       inputLabel: 'Seu prompt',
       inputPlaceholder: 'Pergunte algo sobre transformers, Python ou CUDA.',
       submit: 'Testar prompt',
+      sending: 'Processando resposta simulada...',
+      keyboardHint: 'Pressione Ctrl + Enter para enviar',
       responseTitle: 'Resposta simulada',
       initialPrompt: 'Explique o que é um transformer em uma frase simples.',
       responses: {
@@ -257,6 +259,8 @@ export const messages = {
       inputLabel: 'Your prompt',
       inputPlaceholder: 'Ask something about transformers, Python or CUDA.',
       submit: 'Test prompt',
+      sending: 'Processing simulated response...',
+      keyboardHint: 'Press Ctrl + Enter to send',
       responseTitle: 'Simulated response',
       initialPrompt: 'Explain what a transformer is in one simple sentence.',
       responses: {
