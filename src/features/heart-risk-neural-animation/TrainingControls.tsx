@@ -4,6 +4,7 @@ import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded';
 import { Box, Button, Chip, IconButton, LinearProgress, Slider, Stack, Tooltip } from '@mui/material';
+import { useI18n } from '../../i18n/I18nProvider';
 import type { LabLabels } from './types';
 
 interface Props {
@@ -20,6 +21,8 @@ interface Props {
 }
 
 export function TrainingControls({ labels, isPlaying, speed, progressInEpoch, canUndo, onPlay, onStep, onUndo, onReset, onSpeedChange }: Props) {
+  const { t } = useI18n();
+
   return (
     <Box sx={{ p: 1.5, borderRadius: 2, border: '1px solid rgba(255,255,255,0.08)', bgcolor: 'rgba(2,6,23,0.4)' }}>
         <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
@@ -27,9 +30,21 @@ export function TrainingControls({ labels, isPlaying, speed, progressInEpoch, ca
           startIcon={isPlaying ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />} onClick={onPlay}>
           {isPlaying ? labels.pause : labels.autoplay}
         </Button>
-        <Tooltip title="Próximo passo"><IconButton size="small" onClick={onStep} disabled={isPlaying}><ChevronRightRoundedIcon fontSize="small" /></IconButton></Tooltip>
-        <Tooltip title={labels.undo}><IconButton size="small" onClick={onUndo} disabled={!canUndo || isPlaying}><ChevronLeftRoundedIcon fontSize="small" /></IconButton></Tooltip>
-        <Tooltip title={labels.reset}><IconButton size="small" onClick={onReset}><RestartAltRoundedIcon fontSize="small" /></IconButton></Tooltip>
+        <Tooltip title={`${t('common.next')} ${t('common.step')}`}>
+          <IconButton size="small" onClick={onStep} disabled={isPlaying} aria-label={`${t('common.next')} ${t('common.step')}`}>
+            <ChevronRightRoundedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={labels.undo}>
+          <IconButton size="small" onClick={onUndo} disabled={!canUndo || isPlaying} aria-label={labels.undo}>
+            <ChevronLeftRoundedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={labels.reset}>
+          <IconButton size="small" onClick={onReset} aria-label={labels.reset}>
+            <RestartAltRoundedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
 
         <Stack direction="row" spacing={1} alignItems="center" sx={{ width: 220, flexShrink: 0 }}>
           <Chip label={`${speed.toFixed(1)}x`} size="small" color="secondary" sx={{ minWidth: 44 }} />
