@@ -1,0 +1,3 @@
+## 2025-08-10 - Preserving Accessible Names on Loading Buttons
+**Learning:** Replacing button labels entirely with a loading spinner during asynchronous operations (e.g., submitting form/prompt) can break strict-mode visual regression/accessibility tests that look for the button's accessible text.
+**Action:** Render the `CircularProgress` inside Material-UI's `startIcon` or `endIcon` while changing the label text to a localized loading state (e.g. "Enviando..." / "Submitting..."). This preserves the interactive button's accessible name and ensures standard keyboard/screen-reader navigation continues to work seamlessly during states of transitional delay.

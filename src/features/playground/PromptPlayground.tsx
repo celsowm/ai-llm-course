@@ -1,6 +1,6 @@
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { Alert, Box, Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, CircularProgress, Stack, TextField, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Trans } from '../../i18n/Trans';
@@ -22,8 +22,18 @@ export function PromptPlayground() {
 
   const [prompt, setPrompt] = useState(initialPrompt);
   const [submittedPrompt, setSubmittedPrompt] = useState(initialPrompt);
+  const [loading, setLoading] = useState(false);
 
   const response = useMemo(() => pickResponse(submittedPrompt, responses), [submittedPrompt, responses]);
+
+  const handleSubmit = () => {
+    if (!prompt.trim()) return;
+    setLoading(true);
+    setTimeout(() => {
+      setSubmittedPrompt(prompt);
+      setLoading(false);
+    }, 600);
+  };
 
   return (
     <Card>
@@ -49,11 +59,27 @@ export function PromptPlayground() {
             onChange={(event) => setPrompt(event.target.value)}
             placeholder={t('playground.inputPlaceholder')}
             fullWidth
+            disabled={loading}
+            helperText={t('playground.helperText')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                if (!loading && prompt.trim()) {
+                  handleSubmit();
+                }
+              }
+            }}
           />
 
           <Stack direction="row" justifyContent="flex-end">
-            <Button variant="contained" endIcon={<SendRoundedIcon />} onClick={() => setSubmittedPrompt(prompt)}>
-              {t('playground.submit')}
+            <Button
+              variant="contained"
+              disabled={loading}
+              startIcon={loading ? <CircularProgress size={16} color="inherit" /> : null}
+              endIcon={!loading ? <SendRoundedIcon /> : null}
+              onClick={handleSubmit}
+            >
+              {loading ? t('playground.submitting') : t('playground.submit')}
             </Button>
           </Stack>
 
