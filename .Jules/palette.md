@@ -1,0 +1,3 @@
+## 2025-05-15 - Localized Accessible Navigation
+**Learning:** MUI Tooltips on disabled components require a wrapper element (like `<span>`) to correctly capture pointer events and display the tooltip. Additionally, global navigation elements like "Previous" and "Next" should always have localized `aria-label` attributes to ensure screen readers provide context in the user's preferred language.
+**Action:** Always wrap disabled MUI buttons in a `<span>` when using Tooltips, and ensure `aria-label` is used alongside tooltips for icon-only buttons to support both visual and non-visual users across all supported locales.
