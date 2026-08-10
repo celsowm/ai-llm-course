@@ -1,0 +1,3 @@
+## 2025-05-15 - Enhancing Navigation Accessibility and Localization
+**Learning:** Icon-only buttons in the navigation bar were missing ARIA labels and tooltips, making them inaccessible to screen readers and unclear for desktop users. Additionally, using literal symbols like '<' and '>' for primary interaction buttons is poor UX as they lack semantic meaning and descriptive labels. MUI Tooltips on disabled buttons require a '<span>' wrapper to capture hover events.
+**Action:** Always provide 'aria-label' and 'Tooltip' for icon-only buttons. Replace literal symbols with localized text labels for better clarity and accessibility. Use '<span>' wrappers for Tooltips on disabled elements.
