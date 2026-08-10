@@ -1,0 +1,3 @@
+## 2025-02-15 - Localized Navigation Tooltips & Disabled Interactive Elements
+**Learning:** Wrapping disabled buttons inside `<span>` tags is essential when using MUI `Tooltip` components, as disabled interactive elements do not fire pointer/hover events, preventing the tooltip from displaying. Additionally, visual hints such as `(←)` or `(→)` should be kept in the tooltip label but excluded from the `aria-label` to avoid screen reader clutter.
+**Action:** Always wrap disabled interactive elements in a `<span>` inside any tooltip component, and ensure `aria-label` text is kept strictly clean and semantic without visual/keyboard symbols.
