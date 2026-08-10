@@ -1,0 +1,3 @@
+## 2025-05-15 - Accessibility and Interaction Polish
+**Learning:** Interaction controls (like navigation arrows) without tooltips and ARIA labels hinder accessibility for screen readers and desktop users who expect shortcuts. Additionally, global keyboard listeners can interfere with form inputs if not properly scoped to ignore editable targets. MUI tooltips on disabled buttons require a wrapper element to capture events.
+**Action:** Always add ARIA labels and tooltips to icon-only buttons. Scoped keyboard listeners to exclude INPUT, TEXTAREA, and isContentEditable elements. Wrap disabled buttons in a span/div when using Tooltips.
