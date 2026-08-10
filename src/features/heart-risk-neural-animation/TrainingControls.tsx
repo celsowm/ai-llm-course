@@ -27,7 +27,7 @@ export function TrainingControls({ labels, isPlaying, speed, progressInEpoch, ca
           startIcon={isPlaying ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />} onClick={onPlay}>
           {isPlaying ? labels.pause : labels.autoplay}
         </Button>
-        <Tooltip title="Próximo passo"><IconButton size="small" onClick={onStep} disabled={isPlaying}><ChevronRightRoundedIcon fontSize="small" /></IconButton></Tooltip>
+        <Tooltip title={labels.next}><IconButton size="small" onClick={onStep} disabled={isPlaying}><ChevronRightRoundedIcon fontSize="small" /></IconButton></Tooltip>
         <Tooltip title={labels.undo}><IconButton size="small" onClick={onUndo} disabled={!canUndo || isPlaying}><ChevronLeftRoundedIcon fontSize="small" /></IconButton></Tooltip>
         <Tooltip title={labels.reset}><IconButton size="small" onClick={onReset}><RestartAltRoundedIcon fontSize="small" /></IconButton></Tooltip>
 
