@@ -50,7 +50,7 @@ function NavigationPanel({ onCollapse }: { onCollapse: () => void }) {
                 {t('layout.sidebarTitle')}
               </Typography>
             </Stack>
-            <Tooltip title="Recolher">
+            <Tooltip title={t('common.collapse')}>
               <IconButton size="small" onClick={onCollapse} sx={{ color: 'text.secondary' }}>
                 <ChevronLeftRoundedIcon fontSize="small" />
               </IconButton>
@@ -97,19 +97,28 @@ function NavigationPanel({ onCollapse }: { onCollapse: () => void }) {
 
 function SlideNavControls() {
   const { nav } = useSlideNav();
+  const { t } = useI18n();
   if (!nav) return null;
 
   return (
     <Stack direction="row" spacing={0.5} alignItems="center">
-      <IconButton size="small" onClick={nav.onPrev} disabled={nav.activeStep === 0} color="primary">
-        <KeyboardArrowLeftRoundedIcon fontSize="small" />
-      </IconButton>
+      <Tooltip title={`${t('common.previous')} (←)`}>
+        <span>
+          <IconButton size="small" onClick={nav.onPrev} disabled={nav.activeStep === 0} color="primary">
+            <KeyboardArrowLeftRoundedIcon fontSize="small" />
+          </IconButton>
+        </span>
+      </Tooltip>
       <Typography variant="body2" color="text.secondary" fontWeight={600} sx={{ minWidth: 48, textAlign: 'center' }}>
         {nav.activeStep + 1} / {nav.maxSteps}
       </Typography>
-      <IconButton size="small" onClick={nav.onNext} disabled={nav.activeStep === nav.maxSteps - 1} color="primary">
-        <KeyboardArrowRightRoundedIcon fontSize="small" />
-      </IconButton>
+      <Tooltip title={`${t('common.next')} (→)`}>
+        <span>
+          <IconButton size="small" onClick={nav.onNext} disabled={nav.activeStep === nav.maxSteps - 1} color="primary">
+            <KeyboardArrowRightRoundedIcon fontSize="small" />
+          </IconButton>
+        </span>
+      </Tooltip>
     </Stack>
   );
 }
@@ -124,6 +133,7 @@ const drawerPaperSx = {
 export function CourseLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const { t } = useI18n();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
@@ -151,7 +161,7 @@ export function CourseLayout() {
                 <MenuRoundedIcon fontSize="small" />
               </IconButton>
             ) : collapsed ? (
-              <Tooltip title="Expandir menu">
+              <Tooltip title={t('common.expand')}>
                 <IconButton size="small" color="inherit" onClick={() => setCollapsed(false)}>
                   <MenuRoundedIcon fontSize="small" />
                 </IconButton>
