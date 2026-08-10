@@ -27,9 +27,21 @@ export function TrainingControls({ labels, isPlaying, speed, progressInEpoch, ca
           startIcon={isPlaying ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />} onClick={onPlay}>
           {isPlaying ? labels.pause : labels.autoplay}
         </Button>
-        <Tooltip title="Próximo passo"><IconButton size="small" onClick={onStep} disabled={isPlaying}><ChevronRightRoundedIcon fontSize="small" /></IconButton></Tooltip>
-        <Tooltip title={labels.undo}><IconButton size="small" onClick={onUndo} disabled={!canUndo || isPlaying}><ChevronLeftRoundedIcon fontSize="small" /></IconButton></Tooltip>
-        <Tooltip title={labels.reset}><IconButton size="small" onClick={onReset}><RestartAltRoundedIcon fontSize="small" /></IconButton></Tooltip>
+        <Tooltip title={labels.step}>
+          <IconButton size="small" onClick={onStep} disabled={isPlaying} aria-label={labels.step}>
+            <ChevronRightRoundedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={labels.undo}>
+          <IconButton size="small" onClick={onUndo} disabled={!canUndo || isPlaying} aria-label={labels.undo}>
+            <ChevronLeftRoundedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={labels.reset}>
+          <IconButton size="small" onClick={onReset} aria-label={labels.reset}>
+            <RestartAltRoundedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
 
         <Stack direction="row" spacing={1} alignItems="center" sx={{ width: 220, flexShrink: 0 }}>
           <Chip label={`${speed.toFixed(1)}x`} size="small" color="secondary" sx={{ minWidth: 44 }} />
