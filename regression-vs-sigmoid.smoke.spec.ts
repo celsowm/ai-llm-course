@@ -5,9 +5,9 @@ test('regression vs sigmoid slide smoke', async ({ page }) => {
     window.localStorage.setItem('ai-llm-course.locale', 'pt-BR');
   });
 
-  await page.goto('/ai-llm-course/linear-vs-sigmoid');
+  await page.goto('/ai-llm-course/#/linear-vs-sigmoid');
 
-  await expect(page).toHaveURL(/linear-vs-sigmoid/);
+  await expect(page).toHaveURL(/#\/linear-vs-sigmoid/);
   await expect(page.getByTestId('linear-canvas')).toBeVisible();
   await expect(page.getByTestId('sigmoid-canvas')).toBeVisible();
 
