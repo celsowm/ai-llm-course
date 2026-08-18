@@ -1,6 +1,6 @@
 
 import PictureAsPdfRoundedIcon from '@mui/icons-material/PictureAsPdfRounded';
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -30,15 +30,20 @@ export function ExportPdfButton() {
     }
   }
 
+  const labelText = isExporting ? t('pdf.exporting') : t('pdf.downloadCurrent');
+
   return (
     <Button
       variant="outlined"
       color="inherit"
       onClick={handleExport}
       disabled={isExporting}
-      startIcon={<PictureAsPdfRoundedIcon />}
+      aria-label={labelText}
+      startIcon={
+        isExporting ? <CircularProgress size={18} color="inherit" /> : <PictureAsPdfRoundedIcon />
+      }
     >
-      {isExporting ? t('pdf.exporting') : t('pdf.downloadCurrent')}
+      {labelText}
     </Button>
   );
 }
