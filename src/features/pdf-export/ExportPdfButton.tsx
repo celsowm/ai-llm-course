@@ -1,6 +1,6 @@
 
 import PictureAsPdfRoundedIcon from '@mui/icons-material/PictureAsPdfRounded';
-import { Button } from '@mui/material';
+import { Button, Tooltip } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -30,15 +30,22 @@ export function ExportPdfButton() {
     }
   }
 
+  const buttonText = isExporting ? t('pdf.exporting') : t('pdf.downloadCurrent');
+  const tooltipText = isExporting ? t('pdf.exporting') : t('pdf.tooltipHint');
+
   return (
-    <Button
-      variant="outlined"
-      color="inherit"
-      onClick={handleExport}
-      disabled={isExporting}
-      startIcon={<PictureAsPdfRoundedIcon />}
-    >
-      {isExporting ? t('pdf.exporting') : t('pdf.downloadCurrent')}
-    </Button>
+    <Tooltip title={tooltipText} arrow>
+      <span>
+        <Button
+          variant="outlined"
+          color="inherit"
+          onClick={handleExport}
+          disabled={isExporting}
+          startIcon={<PictureAsPdfRoundedIcon />}
+        >
+          {buttonText}
+        </Button>
+      </span>
+    </Tooltip>
   );
 }
