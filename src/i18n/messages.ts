@@ -18,6 +18,7 @@ export const messages = {
     pdf: {
       downloadCurrent: 'Baixar PDF',
       exporting: 'Gerando PDF…',
+      tooltipHint: 'Exportar os slides do módulo atual em formato PDF',
       slides: {
         llmFlow: 'Fluxo da LLM',
         realBackprop: 'Backprop real',
@@ -220,6 +221,7 @@ export const messages = {
     pdf: {
       downloadCurrent: 'Download PDF',
       exporting: 'Generating PDF…',
+      tooltipHint: 'Export current module slides as a PDF document',
       slides: {
         llmFlow: 'LLM flow',
         realBackprop: 'Real backprop',
