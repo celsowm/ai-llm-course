@@ -1,6 +1,6 @@
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { Alert, Box, Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, CircularProgress, Stack, TextField, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Trans } from '../../i18n/Trans';
@@ -16,14 +16,31 @@ function pickResponse(prompt: string, responses: Record<string, string>): string
 }
 
 export function PromptPlayground() {
-  const { t, tm } = useI18n();
+  const { locale, t, tm } = useI18n();
   const responses = tm<Record<string, string>>('playground.responses');
   const initialPrompt = t('playground.initialPrompt');
 
   const [prompt, setPrompt] = useState(initialPrompt);
   const [submittedPrompt, setSubmittedPrompt] = useState(initialPrompt);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const response = useMemo(() => pickResponse(submittedPrompt, responses), [submittedPrompt, responses]);
+
+  const handleSubmit = () => {
+    if (isSubmitting || !prompt.trim()) return;
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setSubmittedPrompt(prompt);
+      setIsSubmitting(false);
+    }, 600);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+      event.preventDefault();
+      handleSubmit();
+    }
+  };
 
   return (
     <Card>
@@ -47,12 +64,25 @@ export function PromptPlayground() {
             minRows={3}
             value={prompt}
             onChange={(event) => setPrompt(event.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder={t('playground.inputPlaceholder')}
+            disabled={isSubmitting}
+            helperText={
+              locale === 'pt-BR'
+                ? 'Pressione Ctrl+Enter (ou ⌘+Enter) para enviar'
+                : 'Press Ctrl+Enter (or ⌘+Enter) to submit'
+            }
             fullWidth
           />
 
           <Stack direction="row" justifyContent="flex-end">
-            <Button variant="contained" endIcon={<SendRoundedIcon />} onClick={() => setSubmittedPrompt(prompt)}>
+            <Button
+              variant="contained"
+              startIcon={isSubmitting ? <CircularProgress size={16} color="inherit" /> : undefined}
+              endIcon={<SendRoundedIcon />}
+              onClick={handleSubmit}
+              disabled={isSubmitting || !prompt.trim()}
+            >
               {t('playground.submit')}
             </Button>
           </Stack>
