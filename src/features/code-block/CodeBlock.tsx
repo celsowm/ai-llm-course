@@ -1,7 +1,11 @@
-import { Box, Stack, Typography, Tooltip, tooltipClasses, TooltipProps } from '@mui/material';
+import { useState } from 'react';
+import { Box, Stack, Typography, Tooltip, tooltipClasses, TooltipProps, IconButton } from '@mui/material';
+import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { styled } from '@mui/material/styles';
 import type { ReactNode } from 'react';
 import type { CodeAnnotation } from '../../core/interfaces/Lesson';
+import { useI18n } from '../../i18n/I18nProvider';
 import { Token, tokenColorMap, escapeHtml, tokenizeLine } from './tokenizer';
 
 interface CodeBlockProps {
@@ -206,6 +210,27 @@ function renderLine(
 }
 
 export function CodeBlock({ language, caption, code, activeLines = [], annotations = [] }: CodeBlockProps) {
+  const { t } = useI18n();
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback if clipboard API is unavailable
+      const textarea = document.createElement('textarea');
+      textarea.value = code;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   const lines = code.split('\n');
   const activeLineSet = new Set(activeLines);
 
@@ -237,7 +262,7 @@ export function CodeBlock({ language, caption, code, activeLines = [], annotatio
         alignItems="center"
         sx={{
           px: 2,
-          py: 1,
+          py: 0.75,
           borderBottom: '1px solid rgba(139, 92, 246, 0.2)',
           backgroundColor: 'rgba(139, 92, 246, 0.05)',
           flexShrink: 0,
@@ -246,9 +271,30 @@ export function CodeBlock({ language, caption, code, activeLines = [], annotatio
         <Typography variant="subtitle2" fontWeight={800} sx={{ color: '#c4b5fd', letterSpacing: '0.02em' }}>
           {caption}
         </Typography>
-        <Typography variant="caption" sx={{ color: 'rgba(196, 181, 253, 0.6)', fontWeight: 600, textTransform: 'uppercase' }}>
-          {language}
-        </Typography>
+
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Typography variant="caption" sx={{ color: 'rgba(196, 181, 253, 0.6)', fontWeight: 600, textTransform: 'uppercase' }}>
+            {language}
+          </Typography>
+          <Tooltip title={copied ? t('common.copied') : t('common.copyCode')} arrow placement="top">
+            <IconButton
+              size="small"
+              onClick={handleCopy}
+              aria-label={t('common.copyCode')}
+              sx={{
+                color: copied ? '#4ade80' : 'rgba(196, 181, 253, 0.7)',
+                p: 0.5,
+                transition: 'all 200ms ease',
+                '&:hover': {
+                  color: '#fff',
+                  backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                },
+              }}
+            >
+              {copied ? <CheckRoundedIcon sx={{ fontSize: 16 }} /> : <ContentCopyRoundedIcon sx={{ fontSize: 16 }} />}
+            </IconButton>
+          </Tooltip>
+        </Stack>
       </Stack>
 
       <Box
